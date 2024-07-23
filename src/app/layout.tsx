@@ -41,18 +41,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className="bg-white dark:bg-stone-950" lang="en">
+    <html lang="en">
       <head>
         <title>Welcome to SeedGov</title>
         <meta name="description" content="Seed" />
       </head>
 
-      <body
-      // style={{
-      //   background: "url(/background.png)",
-      //   backgroundSize: "cover",
-      // }}
-      >
+      <body className="bg-white dark:bg-stone-800">
         <Providers>
           <NetworkProvider>
             <HeadBar />
@@ -65,11 +60,9 @@ export default function RootLayout({
             >
               {/* sidebar */}
               <div
-                // style={{
-                //   background: "url(/backSidebar.png)",
-                //   backgroundSize: "cover",
-                // }}
-                className="fixed left-0 top-16 bottom-0 z-30 flex w-44 
+                className="fixed left-0 top-16 bottom-0
+                 z-30 
+                flex w-44 
             flex-col border-rs bg-zinc-100 p-4
              dark:border-gray-800 dark:bg-gray-950"
               >
