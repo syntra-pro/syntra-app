@@ -6,7 +6,10 @@ export default function Home() {
       <div id="sector1" className="flex flex-col sm:flex-row  w-full gap-4">
         <a
           href="#"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors bg-stone-50 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          className="group rounded-lg border border-transparent px-5 py-4 transition-colors
+          bg-stone-50 dark:bg-stone-700
+          hover:bg-stone-100  hover:dark:bg-stone-600
+          text-stone-600 dark:text-stone-300"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -18,7 +21,10 @@ export default function Home() {
 
         <a
           href="#"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors bg-stone-50 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          className="group rounded-lg border border-transparent px-5 py-4 transition-colors
+          bg-stone-50 dark:bg-stone-700
+          hover:bg-stone-100  hover:dark:bg-stone-600
+          text-stone-600 dark:text-stone-300"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -30,7 +36,10 @@ export default function Home() {
 
         <a
           href="#"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors bg-stone-50 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          className="group rounded-lg border border-transparent px-5 py-4 transition-colors
+          bg-stone-50 dark:bg-stone-700
+          hover:bg-stone-100  hover:dark:bg-stone-600
+          text-stone-600 dark:text-stone-300"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -43,12 +52,20 @@ export default function Home() {
 
       {/* <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left"> */}
       <div id="sector2" className="flex  flex-col sm:flex-row w-full gap-8 ">
-        <div className="bg-transparent w-full border p-4 border-stone-300 rounded-md">
+        <div
+          className="bg-transparent w-full border p-4 rounded-md
+        text-stone-600 dark:text-stone-300
+        border-stone-300 dark:border-stone-700"
+        >
           <p className="text-2xl font-semibold">Subprojects</p>
           <h4>View and manage all active subprojects.</h4>
         </div>
 
-        <div className="bg-transparent w-full border p-4 border-stone-300 rounded-md">
+        <div
+          className="bg-transparent w-full border p-4  rounded-md
+        text-stone-600 dark:text-stone-300
+        border-stone-300 dark:border-stone-700"
+        >
           <p className="text-2xl font-semibold">Drafts</p>
           <h4> Access work on your draft proposals. New project</h4>
         </div>
