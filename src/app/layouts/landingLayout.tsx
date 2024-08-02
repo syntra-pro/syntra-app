@@ -22,7 +22,7 @@ export default function LandingLayout({
     <div className="min-h-screen">
       <header className="px-12 py-3">
         <div className="flex justify-between ">
-          <div className="text-2xl">SeedGov</div>
+          <div className="text-2xl font-semibold">SeedGov</div>
           <div className="flex gap-10 self-center">
             <Link href={"/platform"}>Explore now</Link>
             <Link href={"#"}>Get started</Link>
@@ -36,11 +36,22 @@ export default function LandingLayout({
         </div>
       </header>
       <main>{children}</main>
-      <footer className=" flex bg-black text-white gap-4">
-        <p className="">About</p>
-        <p className="">Features</p>
-        <p className="">Pricing</p>
-        <p className="">Contact</p>
+      <footer className="py-12 w-full text-white bg-stone-700">
+        <div className="w-8/12 mx-auto">
+          <div className="flex justify-between items-center">
+            <p className="text-4xl font-semibold">SeedGov</p>
+
+            <div className="flex gap-10">
+              <p className="text-lg font-semibold"> Services</p>
+              <p className="text-lg font-semibold"> About us</p>
+              <p className="text-lg font-semibold"> Terms</p>
+            </div>
+          </div>
+
+          <p className="font-mono text-xs mt-4">
+            (C) 2024 Seed. All rights reserved
+          </p>
+        </div>
       </footer>
     </div>
   );
