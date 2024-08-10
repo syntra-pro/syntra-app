@@ -1,0 +1,51 @@
+[
+  {
+    "organization": "arbitrum",
+    "type": "resource",
+    "name": "Governance docs",
+    "url": "https://docs.arbitrum.foundation/gentle-intro-dao-governance"
+  },
+  {
+    "organization": "arbitrum",
+    "type": "resource",
+    "name": "Constitution",
+    "url": "https://docs.arbitrum.foundation/dao-constitution"
+  },
+  {
+    "organization": "arbitrum",
+    "type": "resource",
+    "name": "Delegates",
+    "url": "https://arbitrum.karmahq.xyz/"
+  },
+  {
+    "organization": "arbitrum",
+    "type": "resource",
+    "name": "Forum",
+    "url": "https://forum.arbitrum.foundation/"
+  },
+  {
+    "organization": "arbitrum",
+    "type": "resource",
+    "name": "Tally | Arbitrum",
+    "url": "https://www.tally.xyz/gov/arbitrum"
+  },
+  {
+    "organization": "arbitrum",
+    "type": "resource",
+    "name": "Snapshot",
+    "url": "https://snapshot.org/#/arbitrumfoundation.eth"
+  },
+
+  {
+    "organization": "arbitrum",
+    "type": "template",
+    "name": "AIP Template",
+    "url": "https://docs.fileverse.io/0x2d9703443fe89eC852c9c4C44C6BB857f19DfBc6/0#key=JJ6n1ena4SYaRv6ps0j63NjBBBRjnu_MAd01qMbiUSSlH6CWCjy3tZr8cQpmPCZi"
+  },
+  {
+    "organization": "arbitrum",
+    "type": "template",
+    "name": "Delegate statement template",
+    "url": "https://docs.fileverse.io/0x2d9703443fe89eC852c9c4C44C6BB857f19DfBc6/2#key=jy7ZFvdaLkdYSqZBYymxaEjcKDmvnpcoZMAkBkcCEFkQF5NDyIpz9ZencoTuWUnO"
+  }
+]
