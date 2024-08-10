@@ -34,11 +34,11 @@ export const HeadBar = ({
 HeadBarProps) => {
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-30 flex h-16 w-full items-center 
+      className="fixed top-0 left-0 right-0 z-30 flex h-14 w-full items-center 
       bg-stone-100 
       dark:bg-stone-950
       shadow-md
-      shadow-stone-300
+      shadow-stone-200
       border-stone-300
       dark:shadow-black "
     >
@@ -47,7 +47,9 @@ HeadBarProps) => {
           {/* <MountainIcon className="h-6 w-6" /> */}
           {/* <StyledIcon Icon={Logo} /> */}
           <div className="flex items-start">
-            <span className="text-lg font-semibold">Seed</span>
+            <span className="text-lg font-light dark:text-amber-600">
+              SeedGov
+            </span>
             <span className="mt-1" style={{ fontSize: "10px" }}>
               ™
             </span>

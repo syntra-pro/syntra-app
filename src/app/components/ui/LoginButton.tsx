@@ -43,6 +43,7 @@ export const LoginButton = () => {
     hover:dark:bg-stone-600
     hover:dark:text-stone-100"
       variant="default"
+      size={"sm"}
       disabled={disableLogin}
       onClick={login}
     >
