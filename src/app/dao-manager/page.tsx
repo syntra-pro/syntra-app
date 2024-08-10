@@ -1,28 +1,101 @@
+import DaoCard from "../components/DaoCard";
 import Link from "next/link";
+import PlatformLayout from "../layouts/platformLayout";
 
 export default function DaoManager() {
   return (
-    <div className="py-24 mx-6 flex flex-wrap content-start justify-center min-h-screen gap-6 ">
-      <Link
-        className="flex items-center gap-2 mt-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-        href="/daos/arbitrum"
-      >
-        <div className="rounded-lg bg-stone-700 p-4 w-70 h-60">
-          <div className=" w-60 h-32 mb-2 rounded-lg bg-blue-600">
-            placeholder
-          </div>
-          <p className=" text-2xl font-semibold">Arbitrum</p>
-          <p className=" text-xs">10 Collaborators</p>
-          <p className=" text-xs">11 Projects</p>
-        </div>
-      </Link>
-
-      <div className="rounded-lg bg-stone-700 p-4 w-70 h-60">
-        <div className="w-60 h-32 mb-2 rounded-lg bg-red-600">placeholder</div>
-        <p className=" text-2xl font-semibold">Optimism</p>
-        <p className=" text-xs">10 Collaborators</p>
-        <p className=" text-xs">11 Projects</p>
+    <PlatformLayout>
+      <div className="py-16 m-6 gap-6 flex flex-wrap bg-gree content-start justify-right min-h-screen ">
+        <DaoCard
+          name={"Arbitrum"}
+          colour={"bg-blue-600"}
+          path={"/daos/arbitrum"}
+          collabs={11}
+          projects={10}
+          disabled={false}
+        />
+        <DaoCard
+          name={"Optimism"}
+          colour={"bg-red-500"}
+          path={"/daos/optimism"}
+          collabs={22}
+          projects={11}
+          disabled={false}
+        />
+        <DaoCard
+          name={"Web3 Dao"}
+          colour={"bg-stone-300"}
+          path={"/daos/web3"}
+          collabs={10}
+          projects={6}
+          disabled={false}
+        />
+        {/* new ones  */}
+        <DaoCard
+          name={"Maker Dao"}
+          colour={"bg-emerald-500"}
+          path={"/daos/maker"}
+          collabs={10}
+          projects={6}
+          disabled
+        />
+        <DaoCard
+          name={"Nouns"}
+          colour={"bg-orange-700"}
+          path={"/daos/nouns"}
+          collabs={10}
+          projects={6}
+          disabled
+        />
+        <DaoCard
+          name={"Aave"}
+          colour={"bg-pink-500"}
+          path={"/daos/aave"}
+          collabs={10}
+          projects={6}
+          disabled
+        />
+        <DaoCard
+          name={"ENS"}
+          colour={"bg-sky-600"}
+          path={"/daos/ens"}
+          collabs={10}
+          projects={6}
+          disabled
+        />
+        <DaoCard
+          name={"Gnosis"}
+          colour={"bg-green-600"}
+          path={"/daos/gnosis"}
+          collabs={10}
+          projects={6}
+          disabled
+        />
+        <DaoCard
+          name={"Lido"}
+          colour={"bg-sky-400"}
+          path={"/daos/lido"}
+          collabs={10}
+          projects={6}
+          disabled
+        />
+        <DaoCard
+          name={"Safe"}
+          colour={"bg-green-300"}
+          path={"/daos/safe"}
+          collabs={10}
+          projects={6}
+          disabled
+        />
+        <DaoCard
+          name={"Uniswap"}
+          colour={"bg-pink-600"}
+          path={"/daos/uniswap"}
+          collabs={10}
+          projects={6}
+          disabled
+        />
       </div>
-    </div>
+    </PlatformLayout>
   );
 }

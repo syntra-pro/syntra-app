@@ -24,7 +24,7 @@ export default function LandingLayout({
         <div className="flex justify-between ">
           <div className="text-2xl font-semibold">SeedGov</div>
           <div className="flex gap-10 self-center">
-            <Link href={"/platform"}>Explore now</Link>
+            <Link href={"/home"}>Explore now</Link>
             <Link href={"#"}>Get started</Link>
             <Link href={"#"}>Learn more</Link>
             <Link href={"#"}>Menu</Link>
