@@ -1,4 +1,12 @@
-import React, { ReactNode, createContext, useContext, useState } from "react";
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+
+import { usePrivy } from "@privy-io/react-auth";
 
 interface NetworkContextType {
   network: string;

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { FC, SVGProps } from "react";
 
 interface StyledIconProps {
