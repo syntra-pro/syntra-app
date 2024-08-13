@@ -9,12 +9,16 @@
 //   DropdownMenuTrigger,
 // } from "@/components/ui/dropdown-menu";
 
+import { useEffect, useState } from "react";
+
 import { Button } from "./Button";
 // import GroupButton from "./GroupButton";
 // import LayoutGridIcon from "@/components/ui/Icons/LayoutGridIcon.svg";
 // import LayoutListIcon from "@/components/ui/Icons/LayoutListIcon.svg";
 import Link from "next/link";
 import { LoginButton } from "./LoginButton";
+import { useAuth } from "../contexts/AuthContext";
+
 // import { LoginButton } from "./LoginButton";
 // import Logo from "@/components/ui/Icons/Logo.svg";
 // import NetworkSelector from "./NetworkSelector";
@@ -32,6 +36,17 @@ export const HeadBar = ({
 }: // , dropdownContent
 
 HeadBarProps) => {
+  const { authenticated, user } = useAuth();
+
+  const [address, setAddress] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    setAddress(authenticated);
+  }, [user]);
+
   return (
     <header
       className="fixed top-0 left-0 right-0 z-30 flex h-14 w-full items-center 
@@ -85,6 +100,11 @@ HeadBarProps) => {
 
           {/* <NetworkSelector /> */}
         </div>
+
+        {authenticated && (
+          <span className="text-amber-600 font-mono text-xs">🔑</span>
+        )}
+
         <LoginButton />
       </div>
     </header>
