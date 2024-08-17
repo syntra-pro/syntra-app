@@ -6,10 +6,13 @@ import "@fileverse-dev/ddoc/styles";
 import { useEffect, useState } from "react";
 
 import { Button } from "../../components/ui/Button";
+import { DaoLink } from "../../../types/DaoLink";
 import DaoLinks from "../../components/DaoLinks";
 import { DdocEditor } from "@fileverse-dev/ddoc";
 import Link from "next/link";
 import PlatformLayout from "../../layouts/platformLayout";
+import { getDocument } from "../../../lib/firestore";
+import { useAuth } from "../../components/contexts/AuthContext";
 import { useParams } from "next/navigation";
 
 // import "@fileverse-dev/ddoc/dist/style.css";
@@ -79,6 +82,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
   const [isTemplatesOpen, setIsTemplatesOpen] = useState(false);
+  const { authenticated, user, ready } = useAuth();
 
   // unset
   const [tokenB, setTokenB] = useState("No token");
@@ -91,20 +95,47 @@ export default function TokenPage({ params }: { params: { id: string } }) {
 
   const handleNewDraft = () => {
     setIsOpen(!isOpen);
+    // console.log("user ", user, authenticated);
   };
+
+  useEffect(() => {
+    console.log("Auth state in component:", { authenticated, user, ready });
+  }, [authenticated, ready, user]);
+
+  const [daoLinks, setDaoLinks] = useState<DaoLink[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchDocuments() {
+      try {
+        const docs = await getDocument("DAOS", id);
+        console.log("dao result ", docs);
+        setDaoLinks(docs as DaoLink[]);
+        setLoading(false);
+      } catch (err) {
+        console.log("err ", err);
+        setError("Error fetching documents ");
+        setLoading(false);
+      }
+    }
+    if (!id) return;
+    fetchDocuments();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <PlatformLayout>
-      <main className="flex flex-row  w-full  relative">
+      <div className="flex flex-row  w-full  relative">
         {/* dashboard  */}
-        <div className="flex flex-col pt-20 px-8">
-          <div className="dark:text-stone-100 flex  items-center gap-2">
+        <div className="flex flex-col pt-16 px-8">
+          {/* <div className="dark:text-stone-100 flex  items-center gap-2">
             <Link className="text-2xl" href={"/dao-manager"}>
               ←
             </Link>
-
-            {par.id.toString().charAt(0).toUpperCase() + par.id.slice(1)}
-          </div>
+          </div> */}
           <div
             id="sector1"
             className="flex my-6 flex-col sm:flex-row w-full gap-4"
@@ -142,7 +173,10 @@ export default function TokenPage({ params }: { params: { id: string } }) {
                 bg-stone-50 dark:bg-stone-700
                 text-stone-600 dark:text-stone-300"
               >
-                <h2 className="mb-3 text-xl font-semibold">DAO Resources</h2>
+                <h2 className="mb-3 text-xl font-semibold">
+                  {id.charAt(0).toUpperCase() + id.slice(1).toLowerCase()}{" "}
+                  resources
+                </h2>
                 <p className="m-0 max-w-[30ch] text-sm opacity-50">
                   Access important DAO resources and documents.
                 </p>
@@ -358,12 +392,14 @@ export default function TokenPage({ params }: { params: { id: string } }) {
               <Button variant={"ghost"} onClick={() => setIsOpen(false)}>
                 <span className="text-lg mt-2 font-thin">✕</span>
               </Button>
-              <span className="text-md mt-3 mr-6">New draft</span>
+              <span className="text-md mt-3 mr-6">Creating draft</span>
             </div>
 
             <DdocEditor
+              walletAddress={user?.wallet?.address}
               disableBottomToolbar={false}
               isPreviewMode={false}
+              showCommentButton={true}
             ></DdocEditor>
           </div>
         ) : (
@@ -376,7 +412,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
             opacity-0 pointer-events-none"
           ></div>
         )}
-      </main>
+      </div>
     </PlatformLayout>
   );
 }

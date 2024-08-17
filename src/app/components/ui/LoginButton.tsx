@@ -60,7 +60,7 @@
 import React, { useState } from "react";
 
 import { Button } from "./Button";
-import { shortAddress } from "../../lib/utils";
+import { shortAddress } from "../../../lib/utils";
 import { useAuth } from "../contexts/AuthContext";
 
 export const LoginButton: React.FC = () => {

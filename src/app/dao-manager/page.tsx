@@ -1,5 +1,4 @@
 import DaoCard from "../components/DaoCard";
-import Link from "next/link";
 import PlatformLayout from "../layouts/platformLayout";
 
 export default function DaoManager() {

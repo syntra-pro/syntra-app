@@ -18,6 +18,7 @@ import { Button } from "./Button";
 import Link from "next/link";
 import { LoginButton } from "./LoginButton";
 import { useAuth } from "../contexts/AuthContext";
+import { useParams } from "next/navigation";
 
 // import { LoginButton } from "./LoginButton";
 // import Logo from "@/components/ui/Icons/Logo.svg";
@@ -31,21 +32,19 @@ interface HeadBarProps {
   // dropdownContent?: ReactNode;
 }
 
-export const HeadBar = ({
-  showDropdown = false,
-}: // , dropdownContent
-
-HeadBarProps) => {
+export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
   const { authenticated, user } = useAuth();
 
   const [address, setAddress] = useState<boolean>(false);
+  const par = useParams();
+  const id = par.id as string;
 
   useEffect(() => {
     if (!user) {
       return;
     }
     setAddress(authenticated);
-  }, [user]);
+  }, [authenticated, user]);
 
   return (
     <header
@@ -62,7 +61,7 @@ HeadBarProps) => {
           {/* <MountainIcon className="h-6 w-6" /> */}
           {/* <StyledIcon Icon={Logo} /> */}
           <div className="flex items-start">
-            <span className="text-lg font-light dark:text-amber-600">
+            <span className="text-xl font-light dark:text-amber-600">
               SeedGov
             </span>
             <span className="mt-1" style={{ fontSize: "10px" }}>
@@ -70,6 +69,16 @@ HeadBarProps) => {
             </span>
           </div>
         </Link>
+
+        <span className="ml-10 flex gap-2 items-center">
+          <Link className="text-xl opacity-40" href={"/dao-manager"}>
+            ←
+          </Link>
+          <span className="text-xl">
+            {id?.length > 0 &&
+              id.charAt(0).toUpperCase() + id.slice(1).toLowerCase()}
+          </span>
+        </span>
         <div className="flex w-full items-right gap-4">
           {/* search bar */}
           {/* <SearchBar /> */}
