@@ -103,6 +103,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
   }, [authenticated, ready, user]);
 
   const [daoLinks, setDaoLinks] = useState<DaoLink[]>([]);
+  const [daoTemplates, setDaoTemplates] = useState<DaoLink[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -111,7 +112,9 @@ export default function TokenPage({ params }: { params: { id: string } }) {
       try {
         const docs = await getDocument("DAOS", id);
         console.log("dao result ", docs);
-        setDaoLinks(docs as DaoLink[]);
+
+        setDaoLinks(docs?.links as DaoLink[]);
+        setDaoTemplates(docs?.templates as DaoLink[]);
         setLoading(false);
       } catch (err) {
         console.log("err ", err);
@@ -130,7 +133,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
     <PlatformLayout>
       <div className="flex flex-row  w-full  relative">
         {/* dashboard  */}
-        <div className="flex flex-col pt-16 px-8">
+        <div className="flex flex-col w-full pt-16 px-8">
           {/* <div className="dark:text-stone-100 flex  items-center gap-2">
             <Link className="text-2xl" href={"/dao-manager"}>
               ←
@@ -140,34 +143,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
             id="sector1"
             className="flex my-6 flex-col sm:flex-row w-full gap-4"
           >
-            {/* <div className="">
-              <div
-                className="flex flex-col  rounded-t-lg border border-transparent px-5 py-4 transition-colors
-                bg-stone-50 dark:bg-stone-700
-                 text-stone-600 dark:text-stone-300"
-              >
-                <h2 className="mb-3 text-xl font-semibold">DAO Resources</h2>
-                <p className="m-0 max-w-[30ch] text-sm opacity-50">
-                  Access important DAO resources and documents.
-                </p>
-
-                <button
-                  onClick={() => setIsResourcesOpen(!isResourcesOpen)}
-                  className="justify-end self-end "
-                >
-                  {isResourcesOpen ? "↑" : "↓"}
-                </button>
-              </div>
-              {isResourcesOpen ? (
-                <div className="dark:bg-stone-600 bg-stone-100 rounded-b-lg p-4 text-xs">
-                  <DaoLinks filterBy={"resource"} arrayLinks={DUMMY} />
-                </div>
-              ) : (
-                ""
-              )}
-            </div> */}
-
-            <div className="">
+            <div className="w-full">
               <div
                 className="flex flex-col rounded-t-lg border border-transparent px-5 py-4 transition-colors
                 bg-stone-50 dark:bg-stone-700
@@ -193,38 +169,12 @@ export default function TokenPage({ params }: { params: { id: string } }) {
                   `}
               >
                 <div className="dark:bg-stone-600 bg-stone-100 rounded-b-lg p-4 text-xs">
-                  <DaoLinks filterBy={"resource"} arrayLinks={DUMMY} />
+                  <DaoLinks arrayLinks={daoLinks} />
                 </div>
               </div>
             </div>
 
-            {/* <div className="">
-              <div
-                className="flex flex-col  rounded-t-lg border border-transparent px-5 py-4 transition-colors
-                bg-stone-50 dark:bg-stone-700
-                 text-stone-600 dark:text-stone-300"
-              >
-                <h2 className="mb-3 text-xl font-semibold">Templates</h2>
-                <p className="m-0 max-w-[30ch] text-sm opacity-50">
-                  Use pre-built templates for common DAO tasks.
-                </p>
-
-                <button
-                  onClick={() => setIsTemplatesOpen(!isTemplatesOpen)}
-                  className="justify-end self-end "
-                >
-                  {isTemplatesOpen ? "↑" : "↓"}
-                </button>
-              </div>
-              {isTemplatesOpen ? (
-                <div className="dark:bg-stone-600 rounded-b-lg p-4 text-xs">
-                  <DaoLinks filterBy={"template"} arrayLinks={DUMMY} />
-                </div>
-              ) : (
-                ""
-              )}
-            </div> */}
-            <div className="">
+            <div className="w-full">
               <div
                 className="flex flex-col rounded-t-lg border border-transparent px-5 py-4 transition-colors
                 bg-stone-50 dark:bg-stone-700
@@ -248,16 +198,18 @@ export default function TokenPage({ params }: { params: { id: string } }) {
                 `}
               >
                 <div className="dark:bg-stone-600 bg-stone-100 rounded-b-lg p-4 text-xs">
-                  <DaoLinks filterBy={"template"} arrayLinks={DUMMY} />
+                  {/* <DaoLinks arrayLinks={daoTemplates} /> */}
                 </div>
               </div>
             </div>
+          </div>
 
+          <div className="w-full">
             <a
               href="#"
               className="group rounded-t-lg border border-transparent px-5 py-4 
-            transition-colors
-          text-stone-600 dark:text-stone-300"
+                transition-colors
+              text-stone-600 dark:text-stone-300"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -267,15 +219,14 @@ export default function TokenPage({ params }: { params: { id: string } }) {
               </p>
             </a>
           </div>
-
           <div
             id="sector2"
             className="flex  flex-col sm:flex-row w-full gap-8 "
           >
             <div
               className="bg-transparent w-full border p-4 rounded-md
-          text-stone-600 dark:text-stone-300
-          border-stone-300 dark:border-stone-700"
+            text-stone-600 dark:text-stone-300
+            border-stone-300 dark:border-stone-700"
             >
               <div className="flex justify-between">
                 <p className="text-xl font-semibold">Projects</p>

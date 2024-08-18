@@ -70,7 +70,7 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
           </div>
         </Link>
 
-        <span className="ml-10 flex gap-2 items-center">
+        <span className="ml-10 flex gap-2 dark:text-stone-300 items-center">
           <Link className="text-xl opacity-40" href={"/dao-manager"}>
             ←
           </Link>
