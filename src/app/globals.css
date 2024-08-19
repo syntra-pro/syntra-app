@@ -126,3 +126,17 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #545b67; /* Color más oscuro */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #e2e8f0; /* Color de la pista */
+}

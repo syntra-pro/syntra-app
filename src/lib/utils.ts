@@ -92,3 +92,18 @@ export function useDebounce<T extends (...args: any[]) => void>(
 
   return debouncedFunction;
 }
+
+export function localTime(dateTime: string, timeZone: string): string {
+  const date = new Date(dateTime);
+
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: timeZone,
+    hour12: true,
+  };
+
+  return new Intl.DateTimeFormat("en-US", options).format(date);
+}

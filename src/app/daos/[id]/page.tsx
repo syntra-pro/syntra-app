@@ -6,11 +6,13 @@ import "@fileverse-dev/ddoc/styles";
 import { useEffect, useState } from "react";
 
 import { Button } from "../../components/ui/Button";
+import DaoEvent from "../../components/DaoEvents";
 import { DaoLink } from "../../../types/DaoLink";
 import DaoLinks from "../../components/DaoLinks";
 import { DdocEditor } from "@fileverse-dev/ddoc";
 import Link from "next/link";
 import PlatformLayout from "../../layouts/platformLayout";
+import { getCalendar } from "../../../lib/calendar";
 import { getDocument } from "../../../lib/firestore";
 import { useAuth } from "../../components/contexts/AuthContext";
 import { useParams } from "next/navigation";
@@ -23,58 +25,6 @@ import { useParams } from "next/navigation";
 // import StyledIcon from "@/components/StyledIcon";
 // import { usePrivy } from "@privy-io/react-auth";
 
-const DUMMY = [
-  {
-    organization: "arbitrum",
-    type: "resource",
-    name: "Governance docs",
-    url: "https://docs.arbitrum.foundation/gentle-intro-dao-governance",
-  },
-  {
-    organization: "arbitrum",
-    type: "resource",
-    name: "Constitution",
-    url: "https://docs.arbitrum.foundation/dao-constitution",
-  },
-  {
-    organization: "arbitrum",
-    type: "resource",
-    name: "Delegates",
-    url: "https://arbitrum.karmahq.xyz/",
-  },
-  {
-    organization: "arbitrum",
-    type: "resource",
-    name: "Forum",
-    url: "https://forum.arbitrum.foundation/",
-  },
-  {
-    organization: "arbitrum",
-    type: "resource",
-    name: "Tally | Arbitrum",
-    url: "https://www.tally.xyz/gov/arbitrum",
-  },
-  {
-    organization: "arbitrum",
-    type: "resource",
-    name: "Snapshot",
-    url: "https://snapshot.org/#/arbitrumfoundation.eth",
-  },
-
-  {
-    organization: "arbitrum",
-    type: "template",
-    name: "AIP Template",
-    url: "https://docs.fileverse.io/0x2d9703443fe89eC852c9c4C44C6BB857f19DfBc6/0#key=JJ6n1ena4SYaRv6ps0j63NjBBBRjnu_MAd01qMbiUSSlH6CWCjy3tZr8cQpmPCZi",
-  },
-  {
-    organization: "arbitrum",
-    type: "template",
-    name: "Delegate statement template",
-    url: "https://docs.fileverse.io/0x2d9703443fe89eC852c9c4C44C6BB857f19DfBc6/2#key=jy7ZFvdaLkdYSqZBYymxaEjcKDmvnpcoZMAkBkcCEFkQF5NDyIpz9ZencoTuWUnO",
-  },
-];
-
 export default function TokenPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const par = useParams();
@@ -82,15 +32,22 @@ export default function TokenPage({ params }: { params: { id: string } }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
   const [isTemplatesOpen, setIsTemplatesOpen] = useState(false);
+  const [calendar, setCalendar] = useState([]);
   const { authenticated, user, ready } = useAuth();
 
-  // unset
   const [tokenB, setTokenB] = useState("No token");
 
   useEffect(() => {
+    async function exe() {
+      const events = await getCalendar();
+      setCalendar(events);
+    }
+
     if (!id) {
       return;
     }
+
+    exe();
   }, [id]);
 
   const handleNewDraft = () => {
@@ -111,7 +68,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
     async function fetchDocuments() {
       try {
         const docs = await getDocument("DAOS", id);
-        console.log("dao result ", docs);
+        console.log("-----++++dao result ", docs);
 
         setDaoLinks(docs?.links as DaoLink[]);
         setDaoTemplates(docs?.templates as DaoLink[]);
@@ -205,19 +162,43 @@ export default function TokenPage({ params }: { params: { id: string } }) {
           </div>
 
           <div className="w-full">
-            <a
-              href="#"
+            <div
               className="group rounded-t-lg border border-transparent px-5 py-4 
                 transition-colors
               text-stone-600 dark:text-stone-300"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               <h2 className="mb-3 text-xl font-semibold">Calendar</h2>
               <p className="m-0 max-w-[30ch] text-sm opacity-50">
                 View upcoming DAO events and meetings.
               </p>
-            </a>
+            </div>
+
+            {/* das kalender  */}
+            <div
+              className="flex gap-4 pb-3 mb-6 overflow-x-hidden hover:overflow-x-scroll
+           scrollbar-default"
+            >
+              {calendar.length > 0 ? (
+                calendar.map((item: any, key) => (
+                  <div key={key}>
+                    <DaoEvent
+                      id={item.id}
+                      updated={item.updated}
+                      summary={item.summary}
+                      creatorEmail={item.creatorEmail}
+                      htmlLink={item.htmlLink}
+                      start={item.start}
+                      startTimezone={item.startTimezone}
+                      end={item.end}
+                      endTimeZone={item.endTimeZone}
+                      hangoutLink={item.hangoutLink}
+                    />
+                  </div>
+                ))
+              ) : (
+                <>No events set for the next two weeks</>
+              )}
+            </div>
           </div>
           <div
             id="sector2"
@@ -239,7 +220,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
               </span>
 
               {/* the list  */}
-              <div className="flex flex-col mt-2 gap-1 ">
+              <div className="flex flex-col mt-2 gap-1 hidden">
                 <Link href={"#"}>
                   <div
                     className="hover:bg-amber-100 dark:hover:bg-amber-400 hover:dark:text-stone-800
