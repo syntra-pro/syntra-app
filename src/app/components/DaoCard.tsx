@@ -25,8 +25,8 @@ const DaoCard: React.FC<DaoCardProps> = ({
    bg-stone-100
    "
     >
-      <div className="rounded-lg p-4 w-70 h-60">
-        <div className={`w-60 h-32 mb-2 rounded-lg ${colour}`}></div>
+      <div className="rounded-lg p-4 w-64 h-60">
+        <div className={`w-56 h-32 mb-2 rounded-lg ${colour}`}></div>
         <p className="text-2xl font-semibold">{name}</p>
         <p className="text-xs">{collabs} Collaborators</p>
         <p className="text-xs">{projects} Projects</p>
@@ -38,8 +38,8 @@ const DaoCard: React.FC<DaoCardProps> = ({
    text-sm font-medium text-gray-500 transition-colors dark:text-gray-400"
       href={path}
     >
-      <div className="rounded-lg p-4 w-70 h-60">
-        <div className={`w-60 h-32 mb-2 rounded-lg ${colour}`}></div>
+      <div className="rounded-lg p-4 w-64 h-60">
+        <div className={`w-56 h-32 mb-2 rounded-lg ${colour}`}></div>
         <p className="text-2xl font-semibold">{name}</p>
         <p className="text-xs">{collabs} Collaborators</p>
         <p className="text-xs">{projects} Projects</p>

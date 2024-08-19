@@ -71,13 +71,17 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
         </Link>
 
         <span className="ml-10 flex gap-2 dark:text-stone-300 items-center">
-          <Link className="text-xl opacity-40" href={"/dao-manager"}>
-            ←
-          </Link>
-          <span className="text-xl">
-            {id?.length > 0 &&
-              id.charAt(0).toUpperCase() + id.slice(1).toLowerCase()}
-          </span>
+          {id?.length > 0 && (
+            <>
+              <Link className="text-xl opacity-40" href={"/dao-manager"}>
+                ←
+              </Link>
+              <span className="text-xl">
+                {id?.length > 0 &&
+                  id.charAt(0).toUpperCase() + id.slice(1).toLowerCase()}
+              </span>
+            </>
+          )}
         </span>
         <div className="flex w-full items-right gap-4">
           {/* search bar */}

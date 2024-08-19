@@ -5,6 +5,7 @@ import "@fileverse-dev/ddoc/styles";
 
 import { useEffect, useState } from "react";
 
+import ArbitrumAnn from "../../components/ArbitrumAnn";
 import { Button } from "../../components/ui/Button";
 import DaoEvent from "../../components/DaoEvents";
 import { DaoLink } from "../../../types/DaoLink";
@@ -32,6 +33,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
   const [isTemplatesOpen, setIsTemplatesOpen] = useState(false);
+  const [isActivityOpen, setIsActivityOpen] = useState(false);
   const [calendar, setCalendar] = useState([]);
   const { authenticated, user, ready } = useAuth();
 
@@ -62,6 +64,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
   const [daoLinks, setDaoLinks] = useState<DaoLink[]>([]);
   const [daoTemplates, setDaoTemplates] = useState<DaoLink[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -91,14 +94,9 @@ export default function TokenPage({ params }: { params: { id: string } }) {
       <div className="flex flex-row  w-full  relative">
         {/* dashboard  */}
         <div className="flex flex-col w-full pt-16 px-8">
-          {/* <div className="dark:text-stone-100 flex  items-center gap-2">
-            <Link className="text-2xl" href={"/dao-manager"}>
-              ←
-            </Link>
-          </div> */}
           <div
             id="sector1"
-            className="flex my-6 flex-col sm:flex-row w-full gap-4"
+            className="flex mt-6 flex-col sm:flex-row w-full gap-4"
           >
             <div className="w-full">
               <div
@@ -114,23 +112,38 @@ export default function TokenPage({ params }: { params: { id: string } }) {
                   Access important DAO resources and documents.
                 </p>
                 <button
-                  onClick={() => setIsResourcesOpen(!isResourcesOpen)}
+                  onClick={() => {
+                    setIsResourcesOpen(!isResourcesOpen);
+                    setShowCalendar(false);
+                  }}
                   className="justify-end self-end"
                 >
                   {isResourcesOpen ? "↑" : "↓"}
                 </button>
               </div>
               <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out
+                className={`overflow-hidden 
+                  transition-all duration-300 ease-in-out
                     ${isResourcesOpen ? "max-h-96" : "max-h-0"}
                   `}
               >
-                <div className="dark:bg-stone-600 bg-stone-100 rounded-b-lg p-4 text-xs">
+                <div className="dark:bg-stone-600 bg-stone-100 py-2 px-4 text-xs">
                   <DaoLinks arrayLinks={daoLinks} />
+                  <div className="flex items-center gap-2 text-xs text-gray-700 dark:text-gray-400">
+                    <button
+                      onClick={() => setShowCalendar(!showCalendar)}
+                      className="rounded-sm px-2 py-1 w-full flex font-bold justify-between
+                     hover:bg-amber-400 dark:hover:bg-amber-400 hover:dark:text-stone-800 "
+                    >
+                      <p>✦ Calendar</p>
+                      <p className="text-stone-600">↓</p>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
 
+            {/* templates  */}
             <div className="w-full">
               <div
                 className="flex flex-col rounded-t-lg border border-transparent px-5 py-4 transition-colors
@@ -154,60 +167,91 @@ export default function TokenPage({ params }: { params: { id: string } }) {
                   ${isTemplatesOpen ? "max-h-96" : "max-h-0"}
                 `}
               >
-                <div className="dark:bg-stone-600 bg-stone-100 rounded-b-lg p-4 text-xs">
+                <div className="dark:bg-stone-600 bg-stone-100 p-4 text-xs">
+                  Coming Soon™
+                </div>
+              </div>
+            </div>
+
+            {/* activity feed  */}
+            <div className="w-full">
+              <div
+                className="flex flex-col rounded-t-lg border border-transparent px-5 py-4 transition-colors
+                bg-stone-50 dark:bg-stone-700
+                text-stone-600 dark:text-stone-300"
+              >
+                <h2 className="mb-3 text-xl font-semibold">Activity feed</h2>
+                <p className="m-0 max-w-[30ch] text-sm opacity-50">
+                  The latest DAO tasks.
+                  <br /> &nbsp;
+                </p>
+                <button
+                  onClick={() => setIsActivityOpen(!isActivityOpen)}
+                  className="justify-end self-end"
+                >
+                  {isActivityOpen ? "↑" : "↓"}
+                </button>
+              </div>
+              <div
+                className={`
+                  overflow-hidden transition-all duration-300 ease-in-out
+                  ${isActivityOpen ? "max-h-96" : "max-h-0"}
+                `}
+              >
+                <div className="dark:bg-stone-600 bg-stone-100 p-4 text-xs">
                   {/* <DaoLinks arrayLinks={daoTemplates} /> */}
+                  Coming Soon™
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="w-full">
-            <div
-              className="group rounded-t-lg border border-transparent px-5 py-4 
-                transition-colors
-              text-stone-600 dark:text-stone-300"
-            >
-              <h2 className="mb-3 text-xl font-semibold">Calendar</h2>
-              <p className="m-0 max-w-[30ch] text-sm opacity-50">
-                View upcoming DAO events and meetings.
-              </p>
+          {showCalendar && (
+            <div className="w-full bg-stone-200 rounded-b-lg rounded-tr-lg">
+              {/* das kalender  */}
+              <div
+                className="flex gap-4 mx-3 mt-3 mb-2 overflow-x-hidden hover:overflow-x-scroll
+              scrollbar-default"
+              >
+                {calendar.length > 0 ? (
+                  calendar.map((item: any, key) => (
+                    <div className="mb-2" key={key}>
+                      <DaoEvent
+                        id={item.id}
+                        updated={item.updated}
+                        summary={item.summary}
+                        creatorEmail={item.creatorEmail}
+                        htmlLink={item.htmlLink}
+                        start={item.start}
+                        startTimezone={item.startTimezone}
+                        end={item.end}
+                        endTimeZone={item.endTimeZone}
+                        hangoutLink={item.hangoutLink}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <>No events set for the next two weeks</>
+                )}
+              </div>
             </div>
+          )}
 
-            {/* das kalender  */}
-            <div
-              className="flex gap-4 pb-3 mb-6 overflow-x-hidden hover:overflow-x-scroll
-           scrollbar-default"
-            >
-              {calendar.length > 0 ? (
-                calendar.map((item: any, key) => (
-                  <div key={key}>
-                    <DaoEvent
-                      id={item.id}
-                      updated={item.updated}
-                      summary={item.summary}
-                      creatorEmail={item.creatorEmail}
-                      htmlLink={item.htmlLink}
-                      start={item.start}
-                      startTimezone={item.startTimezone}
-                      end={item.end}
-                      endTimeZone={item.endTimeZone}
-                      hangoutLink={item.hangoutLink}
-                    />
-                  </div>
-                ))
-              ) : (
-                <>No events set for the next two weeks</>
-              )}
-            </div>
-          </div>
           <div
             id="sector2"
-            className="flex  flex-col sm:flex-row w-full gap-8 "
+            className="flex mt-3 flex-col sm:flex-row w-full gap-4 "
+          >
+            {id === "arbitrum" && <ArbitrumAnn />}
+          </div>
+
+          <div
+            id="sector2"
+            className="flex my-6 flex-col sm:flex-row w-full gap-4 "
           >
             <div
               className="bg-transparent w-full border p-4 rounded-md
-            text-stone-600 dark:text-stone-300
-            border-stone-300 dark:border-stone-700"
+            text-stone-600 dark:text-stone-300 shadow-md
+            border-stone-200 dark:border-stone-700"
             >
               <div className="flex justify-between">
                 <p className="text-xl font-semibold">Projects</p>
@@ -258,8 +302,8 @@ export default function TokenPage({ params }: { params: { id: string } }) {
 
             <div
               className="bg-transparent w-full border p-4 rounded-md
-              text-stone-600 dark:text-stone-300
-              border-stone-300 dark:border-stone-700"
+              text-stone-600 dark:text-stone-300 shadow-md
+              border-stone-200 dark:border-stone-700"
             >
               <div className="flex items-baseline justify-between">
                 <p className="text-xl font-semibold">Drafts</p>
