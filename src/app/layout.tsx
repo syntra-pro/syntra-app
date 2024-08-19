@@ -1,7 +1,7 @@
 import { AuthProvider } from "./components/contexts/AuthContext";
 import { NetworkProvider } from "./components/contexts/NetworkContext";
 import Providers from "./providers";
-import { useAuth } from "./components/contexts/AuthContext";
+// import { useAuth } from "./components/contexts/AuthContext";
 
 export const metadata = {
   title: "SeedGov",
