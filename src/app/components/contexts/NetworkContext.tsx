@@ -1,3 +1,5 @@
+"use client";
+
 import React, {
   ReactNode,
   createContext,
@@ -5,8 +7,6 @@ import React, {
   useEffect,
   useState,
 } from "react";
-
-import { usePrivy } from "@privy-io/react-auth";
 
 interface NetworkContextType {
   network: string;

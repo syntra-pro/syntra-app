@@ -1,4 +1,5 @@
 import PlatformLayout from "../layouts/platformLayout";
+
 export default function Home() {
   return (
     <PlatformLayout>
