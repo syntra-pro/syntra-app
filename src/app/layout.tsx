@@ -17,13 +17,13 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <Providers>
-        <NetworkProvider>
-          <AuthProvider>
-            <body>{children}</body>
-          </AuthProvider>
-        </NetworkProvider>
-      </Providers>
+      <body>
+        <Providers>
+          <NetworkProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </NetworkProvider>
+        </Providers>
+      </body>
     </html>
   );
 }

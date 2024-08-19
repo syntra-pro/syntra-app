@@ -19,7 +19,6 @@ export async function getCalendar() {
   )}/events?${params}`;
 
   try {
-    console.log("xxxxXXXXX ", API_KEY);
     const response = await fetch(url);
 
     if (!response.ok) {
