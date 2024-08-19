@@ -1,4 +1,3 @@
-import { DaoLink } from "../../types/DaoLink";
 import Link from "next/link";
 import React from "react";
 

@@ -34,47 +34,54 @@ const DaoEvent: React.FC<DaoEventProps> = ({
    bg-stone-100
    "
     >
-      empty
+      empty event
     </div>
   ) : (
-    <div className="bg-yellow-50 p-3 shadow-md w-60 rounded-lg">
-      <p className="text-xs text-stone-500 text-right w-full mb-3">
-        {localTime(start.toString(), startTimezone)}
-      </p>
+    <div className="bg-amber-50 p-2 shadow-md w-60 rounded-lg">
+      {/* upper titles  */}
+      <div className="flex items-baseline justify-between">
+        <span className="text-xs text-stone-500">
+          {localTime(start.toString(), startTimezone)}
+        </span>
 
-      <div className="w-full h-20 mb-3 font-mono leading-tight tracking-tight ">
-        {summary}
-      </div>
-      {/* text-sm text-gray-500 transition-colors dark:text-gray-400 */}
-
-      <div className="flex justify-betweens gap-2 justify-end mb-3">
-        <Link
-          href={hangoutLink}
-          target="_blank"
-          className="bg-amber-100 text-black px-2 py-1 rounded-md"
-          title="Link to conference"
-        >
-          🎥
-        </Link>
-
-        <Link
-          href={htmlLink}
-          target="_blank"
-          className="bg-amber-100 text-black px-2 py-1 rounded-md"
-          title="Link to original event"
-        >
-          🗓️
-        </Link>
+        <div className="flex gap-1 justify-end">
+          <Link
+            href={hangoutLink}
+            target="_blank"
+            className="bg-amber-100 text-black text-xs px-2 py-1 rounded-md"
+            title="Link to conference"
+          >
+            🎥
+          </Link>
+          <Link
+            href={htmlLink}
+            target="_blank"
+            className="bg-amber-100 text-black text-xs px-2 py-1 rounded-md"
+            title="Link to original event"
+          >
+            🗓️
+          </Link>
+        </div>
       </div>
 
-      <small
+      <div
+        className="w-full my-2 font-mono leading-tight tracking-tight 
+      overflow-hidden whitespace-nowrap"
+      >
+        <span title={summary} className="inline-block animate-scroll">
+          {summary}
+        </span>
+      </div>
+
+      <p
         title={creatorEmail}
+        style={{ fontSize: "8pt" }}
         className="text-stone-400 italic truncate block max-w-xs "
       >
         Created by:
         <br />
         {creatorEmail}
-      </small>
+      </p>
     </div>
   );
 };
