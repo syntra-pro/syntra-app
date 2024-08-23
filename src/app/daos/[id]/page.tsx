@@ -1,24 +1,21 @@
 "use client";
 
 // the dao home
-import "@fileverse-dev/ddoc/styles";
 
 import { useEffect, useState } from "react";
 
 import ArbitrumAnn from "../../components/ArbitrumAnn";
 import { Button } from "../../components/ui/Button";
+import CollaborativeEditor from "../../components/CollaborativeEditor";
 import DaoEvent from "../../components/DaoEvents";
 import { DaoLink } from "../../../types/DaoLink";
 import DaoLinks from "../../components/DaoLinks";
-import { DdocEditor } from "@fileverse-dev/ddoc";
 import Link from "next/link";
 import PlatformLayout from "../../layouts/platformLayout";
 import { getCalendar } from "../../../lib/calendar";
 import { getDocument } from "../../../lib/firestore";
 import { useAuth } from "../../components/contexts/AuthContext";
 import { useParams } from "next/navigation";
-
-// import "@fileverse-dev/ddoc/dist/style.css";
 
 // import { Breadcrumb } from "@/components/ui/Breadcrumb";
 // import Chip from "@/components/ui/Chip";
@@ -371,12 +368,10 @@ export default function TokenPage({ params }: { params: { id: string } }) {
               <span className="text-md mt-3 mr-6">Creating draft</span>
             </div>
 
-            <DdocEditor
-              walletAddress={user?.wallet?.address}
-              disableBottomToolbar={false}
-              isPreviewMode={false}
-              showCommentButton={true}
-            ></DdocEditor>
+            <h1>Collaborative Editor</h1>
+            <div className="w-full " style={{ height: "100vh" }}>
+              <CollaborativeEditor documentId="unique-document-id" />
+            </div>
           </div>
         ) : (
           <div

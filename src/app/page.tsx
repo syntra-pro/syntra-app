@@ -4,6 +4,7 @@ import { Button } from "./components/ui/Button";
 import { CubeIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import LandingLayout from "./layouts/landingLayout";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -24,192 +25,229 @@ export default function Home() {
         }
       `}</style>
 
-      <div className="py-32 text-white w-full bg-stone-600">
-        <div className="flex gap-8 justify-center items-center">
-          <div className="w-1/2 flex flex-col gap-y-8 ">
-            <p
-              className="text-7xl font-semibold   tracking-tight"
-              style={{
-                animation: "colorChange 6s ease-in-out infinite",
-              }}
-            >
-              Manage your DAO with <br />
-              ease and efficiency
-            </p>
-            <p className="text-xl pr-40 font-mono">
-              Streamline your decentralized autonomous organization with our
-              intuitive and feature-rich DAO Manager. <br />
-              Simplify project management, collaborate seamlessly, and gain
-              valuable insights.
-            </p>
-            <div className="flex gap-4">
-              <Button className="bg-stone-700">Get started</Button>
-              <Button>Learn more</Button>
-            </div>
-          </div>
-          <Image src="./index.svg" alt="" width={500} height={500} />
-        </div>
-      </div>
-
-      {/* titles streamline */}
-      <div className="py-12 w-full text-black bg-stone-100">
-        <div className="w-8/12 mx-auto">
-          <div id="titles" className="text-center mb-10">
-            <p className="text-4xl font-semibold  my-12">
-              Streamline your workflow with our powerful features
-            </p>
-
-            <p className="font-mono text-sm">
-              Our Notion-like DAO Manager provides a comprehensive set of tools
-              to help you manage your projects, collaborate with your team, and
-              stay organized. With a sidebar with alerts, projects manager,
-              drafts, and analytics collaboration, you can easily stay on top of
-              your work and achieve your goals efficiently.
-            </p>
-          </div>
-          <div className="grid grid-cols-3 gap-8">
-            <div className="py-4 text-center">
-              <div className="bg-stone-300 h-60 w-auto rounded-lg">item</div>
-
-              <p className="text-2xl font-semibold my-4">
-                Stay informed with real-time alerts
-              </p>
-              <p className="font-mono text-xs">
-                Receive instant alerts ad notifications about important updates
-                and changes in your projects and tasks.
-              </p>
-            </div>
-
-            <div className="py-4 text-center">
-              <div className="bg-stone-300 h-60 w-auto rounded-lg">item</div>
-
-              <p className="text-2xl font-semibold my-4">
-                Effortlessly manage your DAOs and projects
-              </p>
-              <p className="font-mono text-xs">
-                Our Projects Manager allows you to create, organize, and track
-                your projects with ease.
-              </p>
-            </div>
-
-            <div className="py-4 text-center">
-              <div className="bg-stone-300 h-60 w-auto rounded-lg">item</div>
-
-              <p className="text-2xl font-semibold my-4">
-                Capture ideas and collaborate in real-time
-              </p>
-              <p className="font-mono text-xs">
-                With our Drafts and Analytics collaboration features, you can
-                capture ideas, collaborate with your team, and make data-driven
-                decisions.
-              </p>
-            </div>
+      {/* hero section  */}
+      <div className="w-full  ">
+        <div className="w-10/12 flex gap-4 mx-auto   py-6 ">
+          <div className="w-7/12">
+            <Image
+              className="rounded-xl"
+              src="/hero1.png"
+              width={700}
+              height={700}
+              alt=""
+              priority={true}
+              loading={"eager"}
+              objectFit={"cover"}
+            />
           </div>
 
-          <div className="flex justify-center py-10 gap-4">
-            <Button className="bg-transparent text-black border border-black">
-              Learn more
-            </Button>
-            <Button className="bg-transparent text-black">Sign up {">"}</Button>
-          </div>
-        </div>
-      </div>
-
-      {/* efficient  */}
-      <div className="py-20 w-full text-black bg-stone-200">
-        <div className="w-8/12 mx-auto">
-          <div className="flex gap-8 justify-center items-center">
-            <div className="w-8/12 flex flex-col gap-y-8 ">
-              <p className="text-4xl font-semibold  my-8">
-                Efficient project management and collaboration with our DAO
-                Manager
-              </p>
-              <p className="text-sm pr-40 font-mono">
-                Our DAO Manager provides a Notion-like experience, empowering
-                teams to efficiently manage projects and collaborate seamlessly.
-              </p>
-
-              <div className="grid grid-cols-2">
-                <div>
-                  <p className="font-semibold text-xl mb-2">
-                    Streamlined Workflow
-                  </p>
-                  <p className="font-mono text-sm">
-                    Stay organized with a sidebar featuring alerts, projects
-                    manager, drafts, and analytics.
-                  </p>
-                </div>
-
-                <div>
-                  <p className="font-semibold text-xl mb-2">
-                    Enhanced Collaboration
-                  </p>
-                  <p className="font-mono text-sm">
-                    Collaborate effectively with real-time editing, commenting,
-                    and task assignment capabilities.
-                  </p>
-                </div>
+          <div className="w-5/12 flex flex-col justify-between">
+            <div className="w-full bg-rose-300 flex flex-col justify-between gap-y-8 rounded-xl p-10">
+              <div>
+                <span className="rounded-full bg-black px-3 py-1 text-xs text-white">
+                  Grow Fast
+                </span>
+              </div>
+              <div className="text-7xl tracking-tighter">
+                DAO
+                <br />
+                Management
+                <br />
+                for Everyone
+              </div>
+              <div className=" text-sm font-normal ">
+                All-in-one tool to optimize the way you
+                <br />
+                create and collaborate.
               </div>
             </div>
-
-            {/* picture  */}
-            <div className="w-4/12 h-96  bg-stone-400 rounded-lg">
-              DAO Manager
+            {/* <div className="rounded-full bg-rose-300 px-3 py-1 text-xs text-white">
+              Grow Fast
+            </div> */}
+            <div className="flex justify-between ">
+              <div className="rounded-full bg-rose-300 pl-4 pr-2 py-2 text-xs">
+                <Link href={"/home"}>
+                  Features
+                  <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
+                    →
+                  </span>
+                </Link>
+              </div>
+              <div className="text-xs text-right font-light">
+                Amplify your impact and unlock
+                <br />
+                insights with data-driven solutions.
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* get started  */}
-      <div className="py-12 w-full text-black bg-stone-300">
-        <div className="w-8/12 mx-auto">
-          <div className="flex flex-col gap-8 justify-center items-center">
-            <p className="text-4xl font-semibold my-12">
-              Get started with the DAO Manager in a few simple steps
-            </p>
+      {/* carousel  */}
+      <div className="w-full overflow-hidden py-2 border-stone-300 border-y my-10">
+        <div className="marquee whitespace-nowrap inline-block animate-scroll">
+          <div className="flex align-middle gap-3">
+            <span className="text-2xl mx-4">Your All-in-One Solution</span>
+            <Image
+              src="/seedLogo.png"
+              width={32}
+              height={32}
+              alt=""
+              priority={true}
+              loading={"eager"}
+              objectFit={"cover"}
+            />
+            <span className="text-2xl mx-4">Your All-in-One Solution</span>
+            <Image
+              src="/seedLogo.png"
+              width={32}
+              height={32}
+              alt=""
+              priority={true}
+              loading={"eager"}
+              objectFit={"cover"}
+            />
+            <span className="text-2xl mx-4">Your All-in-One Solution</span>
+            <Image
+              src="/seedLogo.png"
+              width={32}
+              height={32}
+              alt=""
+              priority={true}
+              loading={"eager"}
+              objectFit={"cover"}
+            />
+            <span className="text-2xl mx-4">Your All-in-One Solution</span>
+          </div>
+        </div>
+      </div>
 
-            <div className="grid grid-cols-3 gap-8 text-center">
-              <div className="flex flex-col items-center gap-4">
-                <CubeIcon width={64} height={64} />
-                <p className="font-semibold text-xl mb-4">
-                  Create your DAO and customize it to your needs
-                </p>
-                <p className="font-mono text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. At,
-                  incidunt vitae accusantium quidem ipsam inventore alias illo
-                  odio doloremque a laborum amet in deleniti, tempore optio ex
-                  corrupti. Magni, omnis.
-                </p>
+      {/* hero 2 section  */}
+      <div className="w-full  ">
+        <div className="w-10/12 flex gap-4 mx-auto   py-6 ">
+          <div className="w-5/12 flex flex-col justify-between">
+            <div className="w-full flex flex-col justify-between gap-y-8 p-10">
+              <div>
+                <span className="rounded-full bg-white border border-black px-3 py-1 text-xs text-black">
+                  The Vision
+                </span>
               </div>
-
-              <div className="flex flex-col items-center gap-4">
-                <CubeIcon width={64} height={64} />
-                <p className="font-semibold text-xl mb-4">
-                  Collaborate with your team and manage projects efficiently
-                </p>
-                <p className="font-mono text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. At,
-                  incidunt vitae accusantium quidem ipsam inventore alias illo
-                  odio doloremque a laborum amet in deleniti, tempore optio ex
-                  corrupti. Magni, omnis.
-                </p>
+              <div id="setting" className="text-7xl tracking-tighter">
+                Setting
+                <br />
+                A New
+                <br />
+                Standard
               </div>
-
-              <div className="flex flex-col items-center gap-4">
-                <CubeIcon width={64} height={64} />
-                <p className="font-semibold text-xl mb-4">
-                  Stay informed with real-time alerts and analytics
-                </p>
-                <p className="font-mono text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. At,
-                  incidunt vitae accusantium quidem ipsam inventore alias illo
-                  odio doloremque a laborum amet in deleniti, tempore optio ex
-                  corrupti. Magni, omnis.
-                </p>
+              <div className=" text-sm font-normal ">
+                Streamline your DAO operations with our platform. Whether you
+                are drafting proposals, coordinating community initiatives,
+                managing funding allocation, overseeing treasury activities, our
+                platform adapts to your unique processes, helping you achieve
+                your goals every day. Built for DAO participants who prioritize
+                efficient governance.
               </div>
             </div>
           </div>
+
+          <div className="w-7/12">
+            <Image
+              className="rounded-xl"
+              src="/hero2.png"
+              width={700}
+              height={500}
+              alt=""
+              priority={true}
+              loading={"eager"}
+              // objectFit={"cover"}
+            />
+          </div>
         </div>
+      </div>
+
+      {/* features section  */}
+      <div className="w-full flex mx-auto justify-center py-6 text-center gap-2 ">
+        <div className="bg-rose-300 rounded-xl items-center w-2/12 px-3 py-6 flex flex-col gap-6 justify-between">
+          <p className="text-xl font-light">Integrated Workflow</p>
+          <Image
+            className="rounded-xl"
+            src="/hero3.png"
+            width={200}
+            height={100}
+            alt=""
+            priority={true}
+            loading={"eager"}
+            objectFit={"cover"}
+          />
+          <p className="text-xs tracking-tight font-light">
+            Work together with your team in real-time or asyncronously, no
+            matter where they are.
+          </p>
+        </div>
+
+        <div className="bg-rose-300 rounded-xl items-center w-2/12 px-3 py-6 flex flex-col  gap-6 justify-between">
+          <p className="text-xl font-light">Collaboration</p>
+          <Image
+            className="rounded-xl"
+            src="/hero4.png"
+            width={200}
+            height={100}
+            alt=""
+            priority={true}
+            loading={"eager"}
+            // objectFit={"cover"}
+          />
+          <p className="text-xs tracking-tight font-light">
+            Explore and leverage best-in-class tools to create your unified DAO
+            operations hub.
+          </p>
+        </div>
+
+        <div className="bg-rose-300 rounded-xl items-center w-2/12 px-3 py-6 flex flex-col  gap-6 justify-between">
+          <p className="text-xl font-light">Ecosystem Integrations</p>
+          <Image
+            className="rounded-xl"
+            src="/hero5.png"
+            width={200}
+            height={100}
+            alt=""
+            priority={true}
+            loading={"eager"}
+            // objectFit={"cover"}
+          />
+          <p className="text-xs tracking-tight font-light">
+            Our platform keeps everything you need at your fingertips. Create,
+            organize, and track your projects with ease.
+          </p>
+        </div>
+      </div>
+
+      <div className="w-full flex flex-col mx-auto justify-center py-6 text-center gap-6 ">
+        <div className="text-7xl tracking-tighter">
+          Streamline Your Workflow with
+          <br />
+          Seamless Integration
+        </div>
+        Integrate our solution seamlessly
+        <br />
+        into your workflow for enhanced
+        <br />
+        efficiency and productivity.
+      </div>
+
+      <div className="flex justify-center gap-6 pb-10  border-b border-stone-400">
+        <Link href={"/home"}>
+          <div className="rounded-full bg-rose-300 pl-4 pr-2 py-2 text-sm">
+            Get started
+            <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
+              →
+            </span>
+          </div>
+        </Link>
+
+        <Link href={"/home"}>
+          <div className="  pl-4 pr-2 py-2 text-sm">● Learn more</div>
+        </Link>
       </div>
     </LandingLayout>
   );
