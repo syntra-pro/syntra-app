@@ -1,0 +1,76 @@
+@import "~prosemirror-view/style/prosemirror.css";
+@import "~prosemirror-menu/style/menu.css";
+
+.ProseMirror {
+  /* border: 1px solid #ccc; */
+  padding: 10px;
+  min-height: 100px;
+  outline: none;
+  width: 100%;
+  height: calc(100vh - 130px); /* Ajusta la altura para ocupar el espacio restante debajo de la barra de herramientas */
+  box-sizing: border-box;
+  overflow-y: auto; 
+}
+
+.ProseMirror:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+.ProseMirror-yjs-cursor {
+    position: relative;
+    margin-left: -1px;
+    margin-right: -1px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-color: orange;
+    word-break: normal;
+    pointer-events: none;
+  }
+  
+  .ProseMirror-yjs-cursor > div {
+    position: absolute;
+    top: -1.05em;
+    left: -1px;
+    font-size: 13px;
+    background-color: rgb(250, 129, 0);
+    font-family: serif;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    user-select: none;
+    color: white;
+    padding-left: 2px;
+    padding-right: 2px;
+    white-space: nowrap;
+  }
+
+  .ProseMirror-menubar {
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    position: relative;
+    min-height: 1em;
+    color: #666;
+    padding: 1px 6px;
+    top: 0; left: 0; right: 0;
+    border-bottom: 1px solid silver;
+    background: white;
+    z-index: 10;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: visible;
+    width: 100%;
+  }
+  
+  .ProseMirror-menubar-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%; /* Para que ocupe todo el ancho */
+    margin-bottom: 10px; /* Añade un margen para separar la barra del contenido */
+  }
+  
+  .ProseMirror-menuitem {
+    margin-right: 3px;
+  }
+ 
+ 
