@@ -42,13 +42,13 @@ export default function Home() {
           </div>
 
           <div className="w-5/12 flex flex-col justify-between">
-            <div className="w-full bg-rose-300 flex flex-col justify-between gap-y-8 rounded-xl p-10">
+            <div className="w-full bg-rose-300 flex flex-col justify-between gap-y-8 rounded-xl md:p-4 p-10">
               <div>
                 <span className="rounded-full bg-black px-3 py-1 text-xs text-white">
                   Grow Fast
                 </span>
               </div>
-              <div className="text-7xl tracking-tighter">
+              <div className="text-7xl md:text-5xl tracking-tighter">
                 DAO
                 <br />
                 Management
@@ -132,14 +132,17 @@ export default function Home() {
                   The Vision
                 </span>
               </div>
-              <div id="setting" className="text-7xl tracking-tighter">
+              <div
+                id="setting"
+                className="text-7xl  md:text-5xl tracking-tighter"
+              >
                 Setting
                 <br />
                 A New
                 <br />
                 Standard
               </div>
-              <div className=" text-sm font-normal ">
+              <div className=" text-sm  md:text-xs font-normal ">
                 Streamline your DAO operations with our platform. Whether you
                 are drafting proposals, coordinating community initiatives,
                 managing funding allocation, overseeing treasury activities, our
@@ -223,7 +226,7 @@ export default function Home() {
       </div>
 
       <div className="w-full flex flex-col mx-auto justify-center py-6 text-center gap-6 ">
-        <div className="text-7xl tracking-tighter">
+        <div className="text-7xl  md:text-5xl tracking-tighter">
           Streamline Your Workflow with
           <br />
           Seamless Integration

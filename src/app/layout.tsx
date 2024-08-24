@@ -4,7 +4,7 @@ import Providers from "./providers";
 // import { useAuth } from "./components/contexts/AuthContext";
 
 export const metadata = {
-  title: "SeedGov",
+  title: "Syntra",
   description: "",
 };
 

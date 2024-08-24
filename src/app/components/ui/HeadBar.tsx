@@ -57,12 +57,10 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
       dark:shadow-black "
     >
       <div className="containers flex items-center w-full justify-between px-4 md:px-6">
-        <Link className="w-44 flex items-center gap-2" href="#">
-          {/* <MountainIcon className="h-6 w-6" /> */}
-          {/* <StyledIcon Icon={Logo} /> */}
+        <Link className="w-44 flex items-center gap-2" href="/">
           <div className="flex items-start">
             <span className="text-xl font-light dark:text-amber-600">
-              SeedGov
+              Syntra
             </span>
             <span className="mt-1" style={{ fontSize: "10px" }}>
               ™

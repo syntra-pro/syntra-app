@@ -61,7 +61,7 @@ export default function PlatformLayout({
   return (
     <>
       <div>
-        <title>Welcome to SeedGov</title>
+        <title>Welcome to Syntra</title>
         <meta name="description" content="Seed" />
       </div>
 

@@ -51,7 +51,6 @@ export default function TokenPage({ params }: { params: { id: string } }) {
 
   const handleNewDraft = () => {
     setIsOpen(!isOpen);
-    // console.log("user ", user, authenticated);
   };
 
   useEffect(() => {
@@ -368,9 +367,16 @@ export default function TokenPage({ params }: { params: { id: string } }) {
               <span className="text-md mt-3 mr-6">Creating draft</span>
             </div>
 
-            <h1>Collaborative Editor</h1>
+            <span>Collaborative Editor</span>
             <div className="w-full " style={{ height: "100vh" }}>
-              <CollaborativeEditor documentId="unique-document-id" />
+              {user?.wallet?.address && id && (
+                <CollaborativeEditor
+                  // TODO next iteration
+                  // username={user?.wallet?.address}
+                  folder={`${id}/${user?.wallet?.address}`}
+                  documentId="unique-document-id"
+                />
+              )}
             </div>
           </div>
         ) : (
