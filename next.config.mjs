@@ -11,6 +11,10 @@ const nextConfig = {
     }
     return config;
   },
+  // Enable dynamic import of 'ws' package
+  experimental: {
+    esmExternals: "loose",
+  },
 };
 
 export default nextConfig;

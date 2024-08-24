@@ -27,8 +27,6 @@ export async function getCalendar() {
 
     const data = await response.json();
 
-    console.log("+++ events ", data);
-
     const events = data.items.map((item: any) => ({
       id: item.id,
       updated: item.updated,

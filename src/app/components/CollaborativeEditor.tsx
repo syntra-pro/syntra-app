@@ -1,86 +1,185 @@
-"use client";
-
 import "../../../src/app/editorStyles.css";
 
-import * as Y from "yjs";
-
+import { EditorState, Transaction } from "prosemirror-state";
 import React, { useEffect, useRef } from "react";
-import { getDatabase, onValue, ref, set } from "firebase/database";
-import { yCursorPlugin, ySyncPlugin, yUndoPlugin } from "y-prosemirror";
+import { buildMenuItems, exampleSetup } from "prosemirror-example-setup";
+import {
+  chainCommands,
+  createParagraphNear,
+  liftEmptyBlock,
+  newlineInCode,
+  splitBlock,
+} from "prosemirror-commands";
+import {
+  defaultMarkdownParser,
+  defaultMarkdownSerializer,
+  schema,
+} from "prosemirror-markdown";
+import { get, getDatabase, onValue, ref, set } from "firebase/database";
 
-import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { IndexeddbPersistence } from "y-indexeddb";
 import { Schema } from "prosemirror-model";
-import { WebrtcProvider } from "y-webrtc";
 import { addListNodes } from "prosemirror-schema-list";
-import { buildMenuItems } from "prosemirror-example-setup";
-import { exampleSetup } from "prosemirror-example-setup";
-// fbconfig
 import { firebaseConfig } from "../../lib/firebaseConfig";
 import { initializeApp } from "firebase/app";
-import { menuBar } from "prosemirror-menu";
-import { schema } from "prosemirror-schema-basic";
+import { keymap } from "prosemirror-keymap";
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
+
+const shiftEnterCommand = chainCommands(
+  newlineInCode,
+  createParagraphNear,
+  liftEmptyBlock,
+  splitBlock
+);
+
+const oldUpdateState = EditorView.prototype.updateState;
+
+EditorView.prototype.updateState = function (state) {
+  // This prevents the matchesNode error on hot reloads
+  // @ts-ignore
+  if (!this.docView) {
+    return;
+  }
+
+  oldUpdateState.call(this, state);
+};
 
 const mySchema = new Schema({
   nodes: addListNodes(schema.spec.nodes, "paragraph block*", "block"),
   marks: schema.spec.marks,
 });
 
-const CollaborativeEditor: React.FC<{ documentId: string }> = ({
-  documentId,
-}) => {
+const menu = buildMenuItems(mySchema);
+
+const MarkdownEditor: React.FC<{
+  folder: string;
+  documentId: string;
+}> = ({ folder, documentId }) => {
   const editorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!editorRef.current) return;
 
-    const ydoc = new Y.Doc();
-    const indexeddbProvider = new IndexeddbPersistence(documentId, ydoc);
-    const webrtcProvider = new WebrtcProvider(documentId, ydoc);
-    const type = ydoc.getXmlFragment("prosemirror");
+    let view: EditorView | null = null;
 
-    const editor = new EditorView(editorRef.current, {
-      state: EditorState.create({
-        schema: mySchema,
-        plugins: [
-          ySyncPlugin(type),
-          yCursorPlugin(webrtcProvider.awareness),
-          yUndoPlugin(),
-          //   menuBar({
-          //     floating: false,
-          //     content: buildMenuItems(mySchema).fullMenu,
-          //   }),
-          ...exampleSetup({ schema: mySchema }),
-        ],
-      }),
+    const state = EditorState.create({
+      schema: mySchema,
+      plugins: [
+        keymap({
+          "Shift-Enter": shiftEnterCommand,
+        }),
+        ...exampleSetup({
+          schema: mySchema,
+          menuContent: [...menu.fullMenu.slice(0, 1), menu.fullMenu[1]],
+        }),
+      ],
     });
 
-    // Sincronizar con Firebase Realtime Database
+    view = new EditorView(editorRef.current, { state });
+
+    const updateFirebase = (content: string) => {
+      set(ref(database, `documents/${folder}/${documentId}`), {
+        content,
+      });
+    };
+
+    view.setProps({
+      dispatchTransaction: (transaction: Transaction) => {
+        if (view && view.state) {
+          const newState = view.state.apply(transaction);
+          console.log("new state  ", newState);
+          view.updateState(newState);
+          if (transaction.docChanged) {
+            const content = defaultMarkdownSerializer.serialize(newState.doc);
+            updateFirebase(content);
+          }
+        }
+      },
+    });
+
     const docRef = ref(database, `documents/${documentId}`);
 
-    ydoc.on("update", (update) => {
-      set(docRef, Y.encodeStateAsUpdate(ydoc));
-    });
+    let updating = false;
 
     onValue(docRef, (snapshot) => {
-      const remoteState = snapshot.val();
-      if (remoteState) {
-        Y.applyUpdate(ydoc, new Uint8Array(Object.values(remoteState)));
+      if (updating) return;
+      const data = snapshot.val();
+      if (data && data.content && view) {
+        try {
+          updating = true;
+          const remoteContent = data.content;
+          console.log("Received remote content:", remoteContent);
+
+          if (remoteContent) {
+            const newDoc = defaultMarkdownParser.parse(remoteContent);
+            const newState = EditorState.create({
+              doc: newDoc,
+              schema: mySchema,
+              plugins: [
+                keymap({
+                  "Shift-Enter": shiftEnterCommand,
+                }),
+                // ...view.state.plugins,
+                ...exampleSetup({
+                  schema: mySchema,
+                  menuContent: [...menu.fullMenu.slice(0, 1), menu.fullMenu[1]],
+                }),
+              ],
+            });
+
+            view.updateState(newState);
+          }
+        } catch (error) {
+          console.error("Error applying remote update:", error);
+          console.error("Problematic content:", data.content);
+        } finally {
+          updating = false;
+        }
       }
     });
 
-    return () => {
-      editor.destroy();
-      webrtcProvider.destroy();
-      indexeddbProvider.destroy();
-    };
-  }, [documentId]);
+    // initial sync!
+    get(ref(database, `documents/${folder}/${documentId}`)).then((snapshot) => {
+      const data = snapshot.val();
+      if (data && data.content) {
+        const initialDoc = defaultMarkdownParser.parse(data.content);
+        const initialState = EditorState.create({
+          doc: initialDoc,
+          schema: mySchema,
+          plugins: [
+            keymap({
+              "Shift-Enter": shiftEnterCommand,
+            }),
+            ...exampleSetup({
+              schema: mySchema,
+              menuContent: [...menu.fullMenu.slice(0, 1), menu.fullMenu[1]],
+            }),
+          ],
+        });
 
-  return <div ref={editorRef} />;
+        console.log("XXXX ", initialState);
+        view.updateState(initialState);
+      }
+    });
+    //   .catch((error) => {
+    //     console.error("Error fetching initial content:", error);
+    //   });
+
+    return () => {
+      if (view) view.destroy();
+    };
+  }, [documentId, folder]);
+
+  return (
+    <div className="">
+      <p className="text-xs font-mono">
+        Filename: {folder}/{documentId}
+      </p>
+      <div ref={editorRef} />
+    </div>
+  );
 };
 
-export default CollaborativeEditor;
+export default MarkdownEditor;
