@@ -50,6 +50,9 @@ export default function TokenPage({ params }: { params: { id: string } }) {
   }, [id]);
 
   const handleNewDraft = () => {
+    // assign new file name
+    // create folder?
+    //
     setIsOpen(!isOpen);
   };
 
@@ -67,22 +70,25 @@ export default function TokenPage({ params }: { params: { id: string } }) {
     async function fetchDocuments() {
       try {
         const docs = await getDocument("DAOS", id);
-        console.log("-----++++dao result ", docs);
 
         setDaoLinks(docs?.links as DaoLink[]);
         setDaoTemplates(docs?.templates as DaoLink[]);
         setLoading(false);
       } catch (err) {
-        console.log("err ", err);
         setError("Error fetching documents ");
         setLoading(false);
       }
     }
-    if (!id) return;
+    if (!id || !user) return;
     fetchDocuments();
-  }, []);
+  }, [id, user]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-transparent">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-4 border-rose-500"></div>
+      </div>
+    );
   if (error) return <div>Error: {error}</div>;
 
   return (

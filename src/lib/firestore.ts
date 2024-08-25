@@ -35,7 +35,6 @@ export async function getDocument(
         ...doc.data(),
       }));
     }
-    console.log("rrrr ", result);
     return result;
   } catch (error) {
     console.error("Error fetching document:", error);
