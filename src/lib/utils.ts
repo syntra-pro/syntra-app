@@ -107,3 +107,43 @@ export function localTime(dateTime: string, timeZone: string): string {
 
   return new Intl.DateTimeFormat("en-US", options).format(date);
 }
+
+export async function upsertDocument(
+  operation: "update" | "fetch",
+  content: string | null,
+  pathName: string
+) {
+  try {
+    if (operation === "update") {
+      if (!content) throw new Error("Content is required for update operation");
+      await fetch(`/api/storage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content, pathName }),
+      });
+    } else if (operation === "fetch") {
+      const response = await fetch(
+        `/api/storage?folder=${pathName.split("/")[1]}&documentId=${
+          pathName.split("/")[2]
+        }`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to fetch document");
+      const data = await response.json();
+      const { content } = data;
+      return content;
+    } else {
+      throw new Error("Invalid operation");
+    }
+  } catch (error) {
+    console.error(`Error during ${operation} operation:`, error);
+  }
+}

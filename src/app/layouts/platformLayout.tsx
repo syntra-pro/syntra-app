@@ -29,7 +29,7 @@ function MainContent({ children }: { children: React.ReactNode }) {
     <>
       {!ready ? (
         <div className="flex h-screen w-full items-center justify-center bg-transparent">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-4 border-amber-500"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-4 border-rose-500"></div>
         </div>
       ) : authenticated ? (
         <>{children}</>
