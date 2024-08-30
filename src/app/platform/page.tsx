@@ -67,7 +67,7 @@ export default function Home() {
         border-stone-300 dark:border-stone-700"
           >
             <p className="text-2xl font-semibold">Drafts</p>
-            <h4> Access work on your draft proposals. New project</h4>
+            <h4> Access to your draft proposals. </h4>
           </div>
         </div>
       </main>

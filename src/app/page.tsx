@@ -1,7 +1,5 @@
 "use client";
 
-import { Button } from "./components/ui/Button";
-import { CubeIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import LandingLayout from "./layouts/landingLayout";
 import Link from "next/link";
@@ -30,7 +28,7 @@ export default function Home() {
         <div className="w-10/12 flex gap-4 mx-auto   py-6 ">
           <div className="w-7/12">
             <Image
-              className="rounded-xl"
+              className="rounded-xl h-full my-0"
               src="/hero1.png"
               width={700}
               height={700}
@@ -67,7 +65,7 @@ export default function Home() {
             <div className="flex justify-between ">
               <div className="rounded-full bg-rose-300 pl-4 pr-2 py-2 text-xs">
                 <Link href={"/home"}>
-                  Features
+                  Get Started
                   <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
                     →
                   </span>
@@ -87,7 +85,9 @@ export default function Home() {
       <div className="w-full overflow-hidden py-2 border-stone-300 border-y my-10">
         <div className="marquee whitespace-nowrap inline-block animate-scroll">
           <div className="flex align-middle gap-3">
-            <span className="text-2xl mx-4">Your All-in-One Solution</span>
+            <div className="text-2xl my-auto mx-4 ">
+              Your All-in-One Solution
+            </div>
             <Image
               src="/seedLogo.png"
               width={32}
@@ -97,7 +97,9 @@ export default function Home() {
               loading={"eager"}
               objectFit={"cover"}
             />
-            <span className="text-2xl mx-4">Your All-in-One Solution</span>
+            <div className="text-2xl my-auto mx-4 ">
+              Your All-in-One Solution
+            </div>{" "}
             <Image
               src="/seedLogo.png"
               width={32}
@@ -107,7 +109,10 @@ export default function Home() {
               loading={"eager"}
               objectFit={"cover"}
             />
-            <span className="text-2xl mx-4">Your All-in-One Solution</span>
+            <div className="text-2xl my-auto mx-4 ">
+              Your All-in-One Solution
+            </div>
+            {"   "}
             <Image
               src="/seedLogo.png"
               width={32}
@@ -117,7 +122,9 @@ export default function Home() {
               loading={"eager"}
               objectFit={"cover"}
             />
-            <span className="text-2xl mx-4">Your All-in-One Solution</span>
+            <div className="text-2xl my-auto mx-4 ">
+              Your All-in-One Solution
+            </div>{" "}
           </div>
         </div>
       </div>

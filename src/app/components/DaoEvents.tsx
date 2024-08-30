@@ -37,7 +37,7 @@ const DaoEvent: React.FC<DaoEventProps> = ({
       empty event
     </div>
   ) : (
-    <div className="bg-amber-50 p-2 shadow-md w-60 rounded-lg">
+    <div className="bg-rose-50 p-2 shadow-md w-60 rounded-lg">
       {/* upper titles  */}
       <div className="flex items-baseline justify-between">
         <span className="text-xs text-stone-500">
@@ -48,7 +48,7 @@ const DaoEvent: React.FC<DaoEventProps> = ({
           <Link
             href={hangoutLink}
             target="_blank"
-            className="bg-amber-100 text-black text-xs px-2 py-1 rounded-md"
+            className="bg-rose-200 text-black text-xs px-2 py-1 rounded-md"
             title="Link to conference"
           >
             🎥
@@ -56,7 +56,7 @@ const DaoEvent: React.FC<DaoEventProps> = ({
           <Link
             href={htmlLink}
             target="_blank"
-            className="bg-amber-100 text-black text-xs px-2 py-1 rounded-md"
+            className="bg-rose-200 text-black text-xs px-2 py-1 rounded-md"
             title="Link to original event"
           >
             🗓️

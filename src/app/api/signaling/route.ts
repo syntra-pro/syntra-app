@@ -80,7 +80,7 @@ const websocketServer = new WebSocketServer({ noServer: true });
 const clients = new Map<string, Set<WebSocket>>();
 
 websocketServer.on("connection", (socket: WebSocket, req: IncomingMessage) => {
-  const id = req.url?.slice(1); // Extrae el ID de la URL
+  const id = req.url?.slice(1);
   if (id) {
     if (!clients.has(id)) {
       clients.set(id, new Set());
