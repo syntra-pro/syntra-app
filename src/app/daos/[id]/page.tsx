@@ -36,19 +36,6 @@ export default function TokenPage({ params }: { params: { id: string } }) {
 
   const [tokenB, setTokenB] = useState("No token");
 
-  useEffect(() => {
-    async function exe() {
-      const events = await getCalendar();
-      setCalendar(events);
-    }
-
-    if (!id) {
-      return;
-    }
-
-    exe();
-  }, [id]);
-
   const handleNewDraft = () => {
     // assign new file name
     // create folder?
@@ -61,7 +48,9 @@ export default function TokenPage({ params }: { params: { id: string } }) {
   }, [authenticated, ready, user]);
 
   const [daoLinks, setDaoLinks] = useState<DaoLink[]>([]);
+  const [daoSettings, setDaoSettings] = useState<DaoLink[]>([]);
   const [daoTemplates, setDaoTemplates] = useState<DaoLink[]>([]);
+  const [calendarId, setCalendarId] = useState("");
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState<any[]>([]);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -74,6 +63,8 @@ export default function TokenPage({ params }: { params: { id: string } }) {
         const docs = await getDocument("DAOS", id);
 
         setDaoLinks(docs?.links as DaoLink[]);
+        setDaoSettings(docs?.settings as DaoLink[]);
+        setCalendarId(docs?.settings[0].google_calendar_id);
         setDaoTemplates(docs?.templates as DaoLink[]);
         setLoading(false);
       } catch (err) {
@@ -102,6 +93,20 @@ export default function TokenPage({ params }: { params: { id: string } }) {
     fetchDAOLinks();
     // fetchLHUploads();
   }, [id, user]);
+
+  useEffect(() => {
+    async function exe(id: string) {
+      const events = await getCalendar(id);
+      setCalendar(events);
+      console.log("ee ", events);
+    }
+
+    if (!id) {
+      return;
+    }
+    if (!calendarId || calendarId === "") return;
+    exe(calendarId);
+  }, [id, calendarId]);
 
   if (loading)
     return (

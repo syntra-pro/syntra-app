@@ -23,7 +23,7 @@ export async function getDocument(
     }
 
     const data = docSnap.data();
-    const subcollections = ["links", "templates"];
+    const subcollections = ["links", "templates", "settings"];
     const result: DocumentData = { ...data };
 
     for (const subcollectionName of subcollections) {
