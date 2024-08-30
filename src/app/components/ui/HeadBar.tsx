@@ -41,7 +41,11 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
   const par = useParams();
   const id = par.id as string;
   const { logo, color } = useDAO();
+  const tw = `fixed top-0 left-0 right-0 z-30 flex h-12 w-full items-center bg-${color}-100
+      shadow-stone-200
+      dark:bg-${color}-900 border-${color}-300 dark:bg-opacity-50`;
 
+  console.log("sss ", tw);
   useEffect(() => {
     if (!user) {
       return;
@@ -50,14 +54,7 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
   }, [authenticated, user]);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-30 flex h-12 w-full items-center 
-      bg-${color}-100 
-      dark:bg-${color}-900
-      shadow-stone-200
-      border-${color}-300
-       dark:bg-opacity-50`}
-    >
+    <header className={tw}>
       <div className="containers flex items-center w-full justify-between px-4 md:px-6">
         <>
           <Link className="w-44 flex items-center gap-2" href="/">
