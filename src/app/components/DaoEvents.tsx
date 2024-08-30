@@ -41,26 +41,31 @@ const DaoEvent: React.FC<DaoEventProps> = ({
       {/* upper titles  */}
       <div className="flex items-baseline justify-between">
         <span className="text-xs text-stone-500">
-          {localTime(start.toString(), startTimezone)}
+          {start && localTime(start.toString(), startTimezone)}
         </span>
 
         <div className="flex gap-1 justify-end">
-          <Link
-            href={hangoutLink}
-            target="_blank"
-            className="bg-rose-200 text-black text-xs px-2 py-1 rounded-md"
-            title="Link to conference"
-          >
-            🎥
-          </Link>
-          <Link
-            href={htmlLink}
-            target="_blank"
-            className="bg-rose-200 text-black text-xs px-2 py-1 rounded-md"
-            title="Link to original event"
-          >
-            🗓️
-          </Link>
+          {hangoutLink && (
+            <Link
+              href={hangoutLink}
+              target="_blank"
+              className="bg-rose-200 text-black text-xs px-2 py-1 rounded-md"
+              title="Link to conference"
+            >
+              🎥
+            </Link>
+          )}
+
+          {htmlLink && (
+            <Link
+              href={htmlLink}
+              target="_blank"
+              className="bg-rose-200 text-black text-xs px-2 py-1 rounded-md"
+              title="Link to original event"
+            >
+              🗓️
+            </Link>
+          )}
         </div>
       </div>
 
