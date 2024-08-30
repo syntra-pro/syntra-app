@@ -5,17 +5,13 @@ const ArbitrumAnn = () => {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   return (
-    <div className="px-s3 py-2 borders  rounded-lg shadow-mds">
-      <h2
-        className=" text-stone-600 text-center 
-      mt-2 mb-4 text-xl font-semibold
-      "
-      >
+    <div className="px-4 pb-4">
+      <div className=" text-stone-600 text-centers  mb-4 border-t pt-3 text-sm ">
         Weekly Calendar
-      </h2>
+      </div>
       <div className="grid grid-cols-7 gap-2">
         {days.map((day, index) => (
-          <div key={day} className="bg-stone-100 p-2 rounded shadow-md">
+          <div key={day} className="bg-stone-50 p-2 rounded shadow-md">
             <h3 className="text-xs font-mono text-stone-500 text-center mb-2">
               {day}
             </h3>
@@ -49,11 +45,11 @@ const ArbitrumAnn = () => {
         ))}
       </div>
       <div className="mt-4 text-xs text-stone-600">
-        <p>* Votes are encouraged to start before Thursday at 12 pm UTC.</p>
-        <p>
+        <div>* Votes are encouraged to start before Thursday at 12 pm UTC.</div>
+        <div>
           * Holiday break: December 20 - January 6th (No new proposals,
           emergency votes only)
-        </p>
+        </div>
       </div>
     </div>
   );
