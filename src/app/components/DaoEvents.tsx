@@ -65,23 +65,13 @@ const DaoEvent: React.FC<DaoEventProps> = ({
       </div>
 
       <div
-        className="w-full my-2 font-mono leading-tight tracking-tight 
-      overflow-hidden whitespace-nowrap"
+        className="w-full h-14 my-2 font-mono text-sm leading-tight tracking-tight 
+      overflow-hidden whitespace-nowraps"
       >
         <span title={summary} className="inline-block animate-scroll">
           {summary}
         </span>
       </div>
-
-      <p
-        title={creatorEmail}
-        style={{ fontSize: "8pt" }}
-        className="text-stone-400 italic truncate block max-w-xs "
-      >
-        Created by:
-        <br />
-        {creatorEmail}
-      </p>
     </div>
   );
 };

@@ -115,74 +115,52 @@ export default function TokenPage({ params }: { params: { id: string } }) {
     <PlatformLayout>
       <div className="flex flex-row  w-full  relative">
         {/* dashboard  */}
-        <div className="flex flex-col w-full pt-16 px-8">
+        <div className="flex flex-col w-full pt-14 px-6">
           <div
             id="sector1"
             className="flex mt-6 flex-col sm:flex-row w-full gap-4"
           >
             <div className="w-full">
+              {/* resources  */}
               <div
-                className="flex flex-col rounded-t-lg border border-transparent px-5 py-4 transition-colors
-                bg-stone-50 dark:bg-stone-700
+                className="flex flex-col rounded-t-lg px-3 py-2 transition-colors
+                bg-stone-100 dark:bg-stone-700
                 text-stone-600 dark:text-stone-300"
               >
-                <h2 className="mb-3 text-xl font-semibold">
-                  {id.charAt(0).toUpperCase() + id.slice(1).toLowerCase()}{" "}
-                  resources
-                </h2>
-                <p className="m-0 max-w-[30ch] text-sm opacity-50">
-                  Access important DAO resources and documents.
-                </p>
                 <button
                   onClick={() => {
                     setIsResourcesOpen(!isResourcesOpen);
+                    setIsTemplatesOpen(false);
+                    setIsActivityOpen(false);
                     setShowCalendar(false);
                   }}
-                  className="justify-end self-end"
+                  className="self-start text-sm"
                 >
-                  {isResourcesOpen ? "↑" : "↓"}
+                  {isResourcesOpen ? "↑ " : "↓ "} DAO resources
                 </button>
-              </div>
-              <div
-                className={`overflow-hidden 
-                  transition-all duration-300 ease-in-out
-                    ${isResourcesOpen ? "max-h-96" : "max-h-0"}
-                  `}
-              >
-                <div className="dark:bg-stone-600 bg-stone-100 py-2 px-4 text-xs">
-                  <DaoLinks arrayLinks={daoLinks} />
-                  <div className="flex items-center gap-2 text-xs text-gray-700 dark:text-gray-400">
-                    <button
-                      onClick={() => setShowCalendar(!showCalendar)}
-                      className="rounded-sm px-2 py-1 w-full flex font-bold justify-between
-                     hover:bg-rose-400 dark:hover:bg-rose-400 hover:dark:text-stone-800 "
-                    >
-                      <p>✦ Calendar</p>
-                      <p className="text-stone-600">↓</p>
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
 
             {/* templates  */}
             <div className="w-full">
               <div
-                className="flex flex-col rounded-t-lg border border-transparent px-5 py-4 transition-colors
-                bg-stone-50 dark:bg-stone-700
+                className="flex flex-col rounded-t-lg px-3 py-2 transition-colors
+                bg-stone-100 dark:bg-stone-700
                 text-stone-600 dark:text-stone-300"
               >
-                <h2 className="mb-3 text-xl font-semibold">Templates</h2>
-                <p className="m-0 max-w-[30ch] text-sm opacity-50">
-                  Use pre-built templates for common DAO tasks.
-                </p>
                 <button
-                  onClick={() => setIsTemplatesOpen(!isTemplatesOpen)}
-                  className="justify-end self-end"
+                  onClick={() => {
+                    setIsTemplatesOpen(!isTemplatesOpen);
+                    setShowCalendar(false);
+                    setIsResourcesOpen(false);
+                    setIsActivityOpen(false);
+                  }}
+                  className="self-start text-sm"
                 >
-                  {isTemplatesOpen ? "↑" : "↓"}
+                  {isTemplatesOpen ? "↑ " : "↓ "} Templates
                 </button>
               </div>
+
               <div
                 className={`
                   overflow-hidden transition-all duration-300 ease-in-out
@@ -198,22 +176,23 @@ export default function TokenPage({ params }: { params: { id: string } }) {
             {/* activity feed  */}
             <div className="w-full">
               <div
-                className="flex flex-col rounded-t-lg border border-transparent px-5 py-4 transition-colors
-                bg-stone-50 dark:bg-stone-700
+                className="flex flex-col rounded-t-lg px-3 py-2 transition-colors
+                bg-stone-100 dark:bg-stone-700
                 text-stone-600 dark:text-stone-300"
               >
-                <h2 className="mb-3 text-xl font-semibold">Activity feed</h2>
-                <p className="m-0 max-w-[30ch] text-sm opacity-50">
-                  The latest DAO tasks.
-                  <br /> &nbsp;
-                </p>
                 <button
-                  onClick={() => setIsActivityOpen(!isActivityOpen)}
-                  className="justify-end self-end"
+                  onClick={() => {
+                    setIsActivityOpen(!isActivityOpen);
+                    setShowCalendar(false);
+                    setIsResourcesOpen(false);
+                    setIsTemplatesOpen(false);
+                  }}
+                  className="self-start text-sm"
                 >
-                  {isActivityOpen ? "↑" : "↓"}
+                  {isActivityOpen ? "↑ " : "↓ "} Activity feed
                 </button>
               </div>
+
               <div
                 className={`
                   overflow-hidden transition-all duration-300 ease-in-out
@@ -228,42 +207,71 @@ export default function TokenPage({ params }: { params: { id: string } }) {
             </div>
           </div>
 
-          {showCalendar && (
-            <div className="w-full bg-stone-200 rounded-b-lg rounded-tr-lg">
-              {/* das kalender  */}
-              <div
-                className="flex gap-4 mx-3 mt-3 mb-2 overflow-x-hidden hover:overflow-x-scroll
-              scrollbar-default"
-              >
-                {calendar.length > 0 ? (
-                  calendar.map((item: any, key) => (
-                    <div className="mb-2" key={key}>
-                      <DaoEvent
-                        id={item.id}
-                        updated={item.updated}
-                        summary={item.summary}
-                        creatorEmail={item.creatorEmail}
-                        htmlLink={item.htmlLink}
-                        start={item.start}
-                        startTimezone={item.startTimezone}
-                        end={item.end}
-                        endTimeZone={item.endTimeZone}
-                        hangoutLink={item.hangoutLink}
-                      />
-                    </div>
-                  ))
-                ) : (
-                  <>No events set for the next two weeks</>
-                )}
+          <div
+            className={`overflow-hidden 
+                  transition-all duration-300 ease-in-out
+                    ${isResourcesOpen ? "max-h-96" : "max-h-0"}
+                  `}
+          >
+            <div className="flex justify-between dark:bg-stone-600 bg-stone-100 py-2 px-4 text-xs">
+              <DaoLinks arrayLinks={daoLinks} />
+              <div className="flex items-center gap-2 text-xs text-gray-700 dark:text-gray-400">
+                <button
+                  onClick={() => setShowCalendar(!showCalendar)}
+                  className="rounded-sm p-2 w-full flex font-bold justify-between
+                     hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800 "
+                >
+                  <div>✦ Calendar</div>
+                  <div className="text-stone-600">↓</div>
+                </button>
               </div>
             </div>
-          )}
+          </div>
 
           <div
-            id="sector2"
-            className="flex mt-3 flex-col sm:flex-row w-full gap-4 "
+            className={`
+          overflow-hidden transition-all duration-300 ease-in-out 
+          ${showCalendar ? "max-h-full" : "max-h-0"}
+        `}
           >
-            {id === "arbitrum" && <ArbitrumAnn />}
+            {showCalendar && (
+              <div className="w-full bg-gradient-to-b from-stone-100 to-gray-200 rounded-b-lg rounded-tr-lg">
+                <div id="sector2" className="flex  flex-col sm:flex-row w-full">
+                  {id === "arbitrum" && <ArbitrumAnn />}
+                </div>
+
+                {/* das kalender  */}
+                <div className="mx-4 mt-4 text-stone-600 text-centers  mb-4 border-t pt-3 text-sm ">
+                  Upcoming Events
+                </div>
+                <div
+                  //   className="flex gap-4 mx-3 mt-3 mb-2 overflow-x-hidden hover:overflow-x-scroll
+                  // scrollbar-default"
+                  className="flex flex-wrap justify-center pb-6 gap-4 "
+                >
+                  {calendar.length > 0 ? (
+                    calendar.map((item: any, key) => (
+                      <div key={key}>
+                        <DaoEvent
+                          id={item.id}
+                          updated={item.updated}
+                          summary={item.summary}
+                          creatorEmail={item.creatorEmail}
+                          htmlLink={item.htmlLink}
+                          start={item.start}
+                          startTimezone={item.startTimezone}
+                          end={item.end}
+                          endTimeZone={item.endTimeZone}
+                          hangoutLink={item.hangoutLink}
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <>No events set for the next two weeks</>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           <div
