@@ -28,21 +28,24 @@ const commentTypeConfigs: Record<CommentType, CommentTypeConfig> = {
     description:
       "What is the issue? If you are reporting a bug, what are the steps you took so we can reproduce the behaviour?",
     placeholder: "Something seems wrong...",
-    buttonColor: "bg-red-500 hover:bg-red-600",
+    buttonColor:
+      "bg-red-500 hover:bg-red-600 dark:bg-red-500 dark:hover:bg-red-600 ",
   },
   Question: {
     icon: <HelpCircle className="h-4 w-4" />,
     description:
       "How can we help? Please share any relevant information we may need to answer your question.",
     placeholder: "How do I...",
-    buttonColor: "bg-blue-500 hover:bg-blue-600",
+    buttonColor:
+      "bg-blue-500 hover:bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600",
   },
   Feedback: {
     icon: <MessageSquare className="h-4 w-4" />,
     description:
       "How can we improve Syntra? If you have a feature request, can you also share how you would use it and why it is important to you?",
     placeholder: "What if...",
-    buttonColor: "bg-green-500 hover:bg-green-600",
+    buttonColor:
+      "bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600",
   },
 };
 
@@ -86,18 +89,20 @@ export default function FeedbackPopup({
         exit={{ y: "100%", opacity: 0 }} // Animación de salida: se desliza hacia abajo
         transition={{ duration: 0.3 }} // Duración de la animación
       >
-        <Card>
+        <Card className="dark:bg-stone-600 border-transparent shadow-xl">
           <button
             onClick={onClose}
-            className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+            className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
           >
-            X
+            ✕
           </button>
           <CardHeader>
-            <CardTitle>Leave a Comment</CardTitle>
+            <CardTitle className="dark:text-stone-300">
+              Leave a Comment
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex space-x-2">
+            <div className="flex text-stone-500 space-x-2">
               {(Object.keys(commentTypeConfigs) as CommentType[]).map(
                 (type) => (
                   <Button
@@ -116,7 +121,7 @@ export default function FeedbackPopup({
                 )
               )}
             </div>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-stone-300">
               {commentTypeConfigs[selectedType].description}
             </p>
             <textarea
@@ -124,13 +129,17 @@ export default function FeedbackPopup({
               value={comment}
               onChange={handleCommentChange}
               rows={5}
-              className="w-full p-2 border rounded"
+              className="w-full p-2   rounded-lg outline-none dark:text-stone-300 bg-stone-100 dark:bg-stone-700"
             />
           </CardContent>
           <CardFooter>
-            <Button onClick={handleSubmit} disabled={!comment.trim()}>
+            <button
+              className="bg-rose-300 px-3 py-2 rounded-md"
+              onClick={handleSubmit}
+              disabled={!comment.trim()}
+            >
               Submit {selectedType}
-            </Button>
+            </button>
           </CardFooter>
         </Card>
       </motion.div>
