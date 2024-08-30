@@ -1,4 +1,5 @@
 import { AuthProvider } from "./components/contexts/AuthContext";
+import { DAOProvider } from "./components/contexts/DAOContext";
 import { NetworkProvider } from "./components/contexts/NetworkContext";
 import Providers from "./providers";
 import { VerificationProvider } from "./components/contexts/VerificationContext";
@@ -22,7 +23,9 @@ export default function RootLayout({
         <Providers>
           <NetworkProvider>
             <VerificationProvider>
-              <AuthProvider>{children}</AuthProvider>
+              <AuthProvider>
+                <DAOProvider>{children}</DAOProvider>
+              </AuthProvider>
             </VerificationProvider>
           </NetworkProvider>
         </Providers>

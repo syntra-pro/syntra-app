@@ -16,6 +16,7 @@ import { getCalendar } from "../../../lib/calendar";
 import { getDocument } from "../../../lib/firestore";
 import { localTime } from "../../../lib/utils";
 import { useAuth } from "../../components/contexts/AuthContext";
+import { useDAO } from "../../components/contexts/DAOContext";
 import { useParams } from "next/navigation";
 import { useWallets } from "@privy-io/react-auth";
 
@@ -51,6 +52,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
   const [daoSettings, setDaoSettings] = useState<DaoLink[]>([]);
   const [daoTemplates, setDaoTemplates] = useState<DaoLink[]>([]);
   const [calendarId, setCalendarId] = useState("");
+  const { logo, setLogo, color, setColor } = useDAO();
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState<any[]>([]);
   const [showCalendar, setShowCalendar] = useState(false);
@@ -64,8 +66,12 @@ export default function TokenPage({ params }: { params: { id: string } }) {
 
         setDaoLinks(docs?.links as DaoLink[]);
         setDaoSettings(docs?.settings as DaoLink[]);
-        setCalendarId(docs?.settings[0].google_calendar_id);
         setDaoTemplates(docs?.templates as DaoLink[]);
+        setCalendarId(docs?.settings[0].google_calendar_id);
+
+        setLogo(docs?.settings[0].logoSVG || "");
+        setColor(docs?.settings[0].tailwindColor || "stone");
+
         setLoading(false);
       } catch (err) {
         setError("Error fetching documents ");

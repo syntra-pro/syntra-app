@@ -19,6 +19,7 @@ import Link from "next/link";
 import { LoginButton } from "./LoginButton";
 // import WorldIDVerifier from "../WorldBadge";
 import { useAuth } from "../contexts/AuthContext";
+import { useDAO } from "../contexts/DAOContext";
 import { useParams } from "next/navigation";
 
 // import { LoginButton } from "./LoginButton";
@@ -39,6 +40,7 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
   const [address, setAddress] = useState<boolean>(false);
   const par = useParams();
   const id = par.id as string;
+  const { logo, color } = useDAO();
 
   useEffect(() => {
     if (!user) {
@@ -49,18 +51,17 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-30 flex h-14 w-full items-center 
-      bg-stone-100 
-      dark:bg-stone-950
-      shadow-md
+      className={`fixed top-0 left-0 right-0 z-30 flex h-12 w-full items-center 
+      bg-${color}-100 
+      dark:bg-${color}-900
       shadow-stone-200
-      border-stone-300
-      dark:shadow-black "
+      border-${color}-300
+       dark:bg-opacity-50`}
     >
       <div className="containers flex items-center w-full justify-between px-4 md:px-6">
         <>
           <Link className="w-44 flex items-center gap-2" href="/">
-            <div className="flex items-start">
+            <div className="flex items-start dark:invert ">
               <svg
                 width="98.88"
                 height="32"
@@ -116,9 +117,13 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
             )}
           </span>
         </>
-        <div className="w-full text-center text-lg">
-          {id?.length > 0 &&
-            id.charAt(0).toUpperCase() + id.slice(1).toLowerCase()}
+        <div className="w-full text-center flex justify-center text-lg">
+          {logo === "" ? (
+            id?.length > 0 &&
+            id.charAt(0).toUpperCase() + id.slice(1).toLowerCase()
+          ) : (
+            <div dangerouslySetInnerHTML={{ __html: logo }} />
+          )}
         </div>
 
         {/* <WorldIDVerifier /> */}
