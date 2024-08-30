@@ -42,7 +42,7 @@ function MainContent({ children }: { children: React.ReactNode }) {
             <p className="text-stone-600 mb-6">
               Please log in to continue using our platform
             </p>
-            {/* <button className="px-6 py-2 bg-stone-500 text-white font-medium rounded-md hover:bg-amber-400 transition duration-200">
+            {/* <button className="px-6 py-2 bg-stone-500 text-white font-medium rounded-md hover:bg-rose-400 transition duration-200">
               Login
             </button> */}
             <LoginButton />
@@ -82,7 +82,7 @@ export default function PlatformLayout({
             <nav className="flex-1 space-y-2">
               <div>
                 <Link
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-amber-100 hover:text-gray-900 focus:bg-amber-100 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="/home"
                 >
                   <HomeIcon />
@@ -90,7 +90,7 @@ export default function PlatformLayout({
                 </Link>
 
                 <Link
-                  className="flex items-center gap-2 mb-4 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-amber-100 hover:text-gray-900 focus:bg-amber-100 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                  className="flex items-center gap-2 mb-4 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="#"
                 >
                   <BellIcon />
@@ -102,20 +102,20 @@ export default function PlatformLayout({
                 </span>
 
                 <Link
-                  className="flex items-center gap-2 mt-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-amber-100 hover:text-gray-900 focus:bg-amber-100 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                  className="flex items-center gap-2 mt-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="/dao-manager"
                 >
                   <CubeIcon /> DAO Manager
                 </Link>
                 <Link
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-amber-100 hover:text-gray-900 focus:bg-amber-100 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="#"
                 >
                   <FileIcon />
                   Drafts
                 </Link>
                 <Link
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-amber-100 hover:text-gray-900 focus:bg-amber-100 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="#"
                 >
                   <BarChartIcon />

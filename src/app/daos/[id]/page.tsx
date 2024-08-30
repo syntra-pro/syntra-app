@@ -1,7 +1,7 @@
 "use client";
-
 // the dao home
 
+// import { getLHUploads, getLHkey } from "../../../lib/storageLighthouse";
 import { useEffect, useState } from "react";
 
 import ArbitrumAnn from "../../components/ArbitrumAnn";
@@ -14,13 +14,13 @@ import Link from "next/link";
 import PlatformLayout from "../../layouts/platformLayout";
 import { getCalendar } from "../../../lib/calendar";
 import { getDocument } from "../../../lib/firestore";
+import { localTime } from "../../../lib/utils";
 import { useAuth } from "../../components/contexts/AuthContext";
 import { useParams } from "next/navigation";
+import { useWallets } from "@privy-io/react-auth";
 
 // import { Breadcrumb } from "@/components/ui/Breadcrumb";
 // import Chip from "@/components/ui/Chip";
-
-// import StyledIcon from "@/components/StyledIcon";
 // import { usePrivy } from "@privy-io/react-auth";
 
 export default function TokenPage({ params }: { params: { id: string } }) {
@@ -63,11 +63,13 @@ export default function TokenPage({ params }: { params: { id: string } }) {
   const [daoLinks, setDaoLinks] = useState<DaoLink[]>([]);
   const [daoTemplates, setDaoTemplates] = useState<DaoLink[]>([]);
   const [loading, setLoading] = useState(true);
+  const [list, setList] = useState<any[]>([]);
   const [showCalendar, setShowCalendar] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { wallets } = useWallets();
 
   useEffect(() => {
-    async function fetchDocuments() {
+    async function fetchDAOLinks() {
       try {
         const docs = await getDocument("DAOS", id);
 
@@ -79,8 +81,26 @@ export default function TokenPage({ params }: { params: { id: string } }) {
         setLoading(false);
       }
     }
+
+    // DEPRECATED
+    // async function fetchLHUploads() {
+    //   const wallet = wallets[0];
+    //   if (!wallet) return;
+    //   const provider = await wallet.getEthereumProvider();
+    //   const address = wallet.address;
+    //   if (!address) return;
+    //   const data = await getLHkey(address, provider);
+
+    //   if (!data) return;
+
+    //   const response = await getLHUploads(data.key.data.apiKey);
+    //   if (!response) return;
+    //   setList(response?.data?.fileList);
+    // }
+
     if (!id || !user) return;
-    fetchDocuments();
+    fetchDAOLinks();
+    // fetchLHUploads();
   }, [id, user]);
 
   if (loading)
@@ -135,7 +155,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
                     <button
                       onClick={() => setShowCalendar(!showCalendar)}
                       className="rounded-sm px-2 py-1 w-full flex font-bold justify-between
-                     hover:bg-amber-400 dark:hover:bg-amber-400 hover:dark:text-stone-800 "
+                     hover:bg-rose-400 dark:hover:bg-rose-400 hover:dark:text-stone-800 "
                     >
                       <p>✦ Calendar</p>
                       <p className="text-stone-600">↓</p>
@@ -269,7 +289,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
               <div className="flex flex-col mt-2 gap-1 hidden">
                 <Link href={"#"}>
                   <div
-                    className="hover:bg-amber-100 dark:hover:bg-amber-400 hover:dark:text-stone-800
+                    className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
               px-2 py-1 rounded-md
               text-xs font-mono grid grid-cols-2"
                   >
@@ -280,7 +300,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
 
                 <Link href={"#"}>
                   <div
-                    className="hover:bg-amber-100 dark:hover:bg-amber-400 hover:dark:text-stone-800
+                    className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
               px-2 py-1 rounded-md
               text-xs font-mono grid grid-cols-2"
                   >
@@ -291,7 +311,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
 
                 <Link href={"#"}>
                   <div
-                    className="hover:bg-amber-100 dark:hover:bg-amber-400 hover:dark:text-stone-800
+                    className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
               px-2 py-1 rounded-md
               text-xs font-mono grid grid-cols-2"
                   >
@@ -309,48 +329,52 @@ export default function TokenPage({ params }: { params: { id: string } }) {
             >
               <div className="flex items-baseline justify-between">
                 <p className="text-xl font-semibold">Drafts</p>
-                <Button onClick={handleNewDraft} variant={"ghost"} size={"sm"}>
+                <button
+                  className="bg-rose-300 rounded-md px-3 py-2 text-xs text-black"
+                  onClick={handleNewDraft}
+                  // variant={"ghost"}
+                  // size={"sm"}
+                >
                   + New draft
-                </Button>
+                </button>
               </div>
-              <span className="text-xs">
-                Access work on your draft proposals. New project
-              </span>
+              <span className="text-xs">Access to your draft proposals.</span>
 
               {/* the list  */}
-              <div className="flex flex-col mt-2 gap-1 ">
-                <Link href={"#"}>
-                  <div
-                    className="hover:bg-amber-100 dark:hover:bg-amber-400 hover:dark:text-stone-800
-              px-2 py-1 rounded-md
-              text-xs font-mono grid grid-cols-2"
-                  >
-                    <div>Proposal 1</div>
-                    <div className="text-right">11 Collaborators</div>
-                  </div>
-                </Link>
-
-                <Link href={"#"}>
-                  <div
-                    className="hover:bg-amber-100 dark:hover:bg-amber-400 hover:dark:text-stone-800
-              px-2 py-1 rounded-md
-              text-xs font-mono grid grid-cols-2"
-                  >
-                    <div>Proposal 1</div>
-                    <div className="text-right">11 Collaborators</div>
-                  </div>
-                </Link>
-
-                <Link href={"#"}>
-                  <div
-                    className="hover:bg-amber-100 dark:hover:bg-amber-400 hover:dark:text-stone-800
-              px-2 py-1 rounded-md
-              text-xs font-mono grid grid-cols-2"
-                  >
-                    <div>Proposal 1</div>
-                    <div className="text-right">11 Collaborators</div>
-                  </div>
-                </Link>
+              <div className="flex flex-col mt-2 gap-1">
+                {/* {
+              publicKey: '0x4e6d5be93ab7c1f75e30dd5a7f574f42f675eed3',
+              fileName: 'sample.txt',
+              mimeType: 'text/plain',
+              txHash: '',
+              status: 'queued',
+              createdAt: 1691087810426,
+              fileSizeInBytes: '14',
+              cid: 'QmQK9V46b4vpNUd7pe7EcCqihBEmcSLH4NVNWukLJhGzgN',
+              id: '1b2623bd-64ca-4434-8619-24c9a1eca840',
+              lastUpdate: 1691087810426,
+              encryption: false
+            }
+             */}
+                {list.map((i) => (
+                  <>
+                    <Link
+                      target="_blank"
+                      href={`https://ipfs.io/ipfs/${i.cid}`}
+                    >
+                      <div
+                        className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
+                          px-2 py-1 rounded-md
+                          text-xs font-mono grid grid-cols-2"
+                      >
+                        <div>{i.Filename || i.cid}</div>
+                        <div className="text-right">
+                          {localTime(i.lastUpdate, "America/Montevideo")}
+                        </div>
+                      </div>
+                    </Link>
+                  </>
+                ))}
               </div>
             </div>
           </div>
@@ -359,7 +383,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
         {/* sliding editor  */}
         {isOpen ? (
           <div
-            className="
+            className=" px-3
             bg-slate-200 dark:bg-stone-700 dark:text-stone-400
             bg-opacity-90 backdrop-blur-sm rounded-xl
             absolute z-50 w-2/3 h-screen right-0 shadow-lg 
@@ -367,20 +391,22 @@ export default function TokenPage({ params }: { params: { id: string } }) {
             opacity-100"
           >
             <div className="flex pb-4 justify-between">
-              <Button variant={"ghost"} onClick={() => setIsOpen(false)}>
-                <span className="text-lg mt-2 font-thin">✕</span>
-              </Button>
-              <span className="text-md mt-3 mr-6">Creating draft</span>
+              <span className="text-md mt-3 ">Create draft</span>
+              <button
+                className="text-lg mt-3 font-thin"
+                onClick={() => setIsOpen(false)}
+              >
+                ✕
+              </button>
             </div>
 
-            <span>Collaborative Editor</span>
             <div className="w-full " style={{ height: "100vh" }}>
               {user?.wallet?.address && id && (
                 <CollaborativeEditor
                   // TODO next iteration
                   // username={user?.wallet?.address}
                   folder={`${id}/${user?.wallet?.address}`}
-                  documentId="unique-document-id"
+                  documentId={`doc-${user?.wallet?.address}`}
                 />
               )}
             </div>

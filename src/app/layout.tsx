@@ -1,6 +1,7 @@
 import { AuthProvider } from "./components/contexts/AuthContext";
 import { NetworkProvider } from "./components/contexts/NetworkContext";
 import Providers from "./providers";
+import { VerificationProvider } from "./components/contexts/VerificationContext";
 // import { useAuth } from "./components/contexts/AuthContext";
 
 export const metadata = {
@@ -20,7 +21,9 @@ export default function RootLayout({
       <body>
         <Providers>
           <NetworkProvider>
-            <AuthProvider>{children}</AuthProvider>
+            <VerificationProvider>
+              <AuthProvider>{children}</AuthProvider>
+            </VerificationProvider>
           </NetworkProvider>
         </Providers>
       </body>
