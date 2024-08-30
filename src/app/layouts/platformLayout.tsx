@@ -9,6 +9,8 @@ import {
   DiscordLogoIcon,
   FileIcon,
   HomeIcon,
+  QuestionMarkCircledIcon,
+  QuestionMarkIcon,
   TwitterLogoIcon,
 } from "@radix-ui/react-icons";
 
@@ -135,8 +137,10 @@ export default function PlatformLayout({
             <div className="flex flex-col text-center gap-3 mb-3">
               <button
                 onClick={() => setFeedback(true)}
-                className="text-xs  px-2 py-1 rounded-md bg-stone-200"
+                // className="text-sm text-stone-500 px-3 py-2 rounded-md hover:bg-rose-200 bg-transparent"
+                className="rounded-md flex gap-2 items-center px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
               >
+                <QuestionMarkCircledIcon />
                 Send feedback
               </button>
 
