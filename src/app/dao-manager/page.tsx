@@ -9,7 +9,7 @@ export default function DaoManager() {
           name={"Arbitrum"}
           colour={"bg-blue-600"}
           path={"/daos/arbitrum"}
-          collabs={11}
+          drafts={11}
           projects={10}
           disabled={false}
         />
@@ -17,7 +17,7 @@ export default function DaoManager() {
           name={"Optimism"}
           colour={"bg-red-500"}
           path={"/daos/optimism"}
-          collabs={22}
+          drafts={22}
           projects={11}
           disabled={false}
         />
@@ -25,7 +25,7 @@ export default function DaoManager() {
           name={"Web3 Dao"}
           colour={"bg-stone-300"}
           path={"/daos/web3"}
-          collabs={10}
+          drafts={10}
           projects={6}
           disabled={false}
         />
@@ -34,7 +34,7 @@ export default function DaoManager() {
           name={"Maker Dao"}
           colour={"bg-emerald-500"}
           path={"/daos/maker"}
-          collabs={10}
+          drafts={10}
           projects={6}
           disabled
         />
@@ -42,7 +42,7 @@ export default function DaoManager() {
           name={"Nouns"}
           colour={"bg-orange-700"}
           path={"/daos/nouns"}
-          collabs={10}
+          drafts={10}
           projects={6}
           disabled
         />
@@ -50,7 +50,7 @@ export default function DaoManager() {
           name={"Aave"}
           colour={"bg-pink-500"}
           path={"/daos/aave"}
-          collabs={10}
+          drafts={10}
           projects={6}
           disabled
         />
@@ -58,7 +58,7 @@ export default function DaoManager() {
           name={"ENS"}
           colour={"bg-sky-600"}
           path={"/daos/ens"}
-          collabs={10}
+          drafts={10}
           projects={6}
           disabled
         />
@@ -66,7 +66,7 @@ export default function DaoManager() {
           name={"Gnosis"}
           colour={"bg-green-600"}
           path={"/daos/gnosis"}
-          collabs={10}
+          drafts={10}
           projects={6}
           disabled
         />
@@ -74,7 +74,7 @@ export default function DaoManager() {
           name={"Lido"}
           colour={"bg-sky-400"}
           path={"/daos/lido"}
-          collabs={10}
+          drafts={10}
           projects={6}
           disabled
         />
@@ -82,7 +82,7 @@ export default function DaoManager() {
           name={"Safe"}
           colour={"bg-green-300"}
           path={"/daos/safe"}
-          collabs={10}
+          drafts={10}
           projects={6}
           disabled
         />
@@ -90,7 +90,7 @@ export default function DaoManager() {
           name={"Uniswap"}
           colour={"bg-pink-600"}
           path={"/daos/uniswap"}
-          collabs={10}
+          drafts={10}
           projects={6}
           disabled
         />
