@@ -133,12 +133,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #545b67; /* Color más oscuro */
-  border-radius: 4px;
+  background-color: #03081192; /* Color más oscuro */
+  border-radius: 0px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #e2e8f0; /* Color de la pista */
+  background-color: #e2e8f07b; /* Color de la pista */
 }
 
 @keyframes scroll {

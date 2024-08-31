@@ -4,7 +4,7 @@ import PlatformLayout from "../layouts/platformLayout";
 export default function Home() {
   return (
     <PlatformLayout>
-      <main className="flex flex-col w-full gap-8 pt-24 px-8">
+      <main className="flex flex-col w-full gap-8 p-8">
         <div id="sector1" className="flex flex-col sm:flex-row  w-full gap-4">
           <div
             className="rounded-lg border  border-stone-200 

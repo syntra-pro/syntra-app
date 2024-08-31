@@ -33,7 +33,7 @@ const DaoCard: React.FC<DaoCardProps> = ({
     </div>
   ) : (
     <Link
-      className="flex items-center gap-2 border border-stone-200 rounded-lg shadow-md
+      className="flex items-center gap-2 border border-stone-200 dark:border-stone-700 rounded-lg shadow-md
    text-sm font-medium text-gray-500 transition-colors dark:text-gray-400"
       href={path}
     >

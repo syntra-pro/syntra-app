@@ -1,10 +1,13 @@
+"use client";
+
 import DaoCard from "../components/DaoCard";
 import PlatformLayout from "../layouts/platformLayout";
 
 export default function DaoManager() {
   return (
     <PlatformLayout>
-      <div className="py-16 m-6 gap-6 flex flex-wrap bg-gree content-start justify-right min-h-screen ">
+      {/* <div className=" p-8 gap-6 flex flex-wrap content-start justify-right"> */}
+      <div className=" p-8 gap-6 flex flex-wrap content-center justify-center">
         <DaoCard
           name={"Arbitrum"}
           colour={"bg-blue-600"}

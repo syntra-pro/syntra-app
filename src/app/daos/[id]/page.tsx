@@ -17,8 +17,9 @@ import { getDocument } from "../../../lib/firestore";
 import { localTime } from "../../../lib/utils";
 import { useAuth } from "../../components/contexts/AuthContext";
 import { useDAO } from "../../components/contexts/DAOContext";
-import { useParams } from "next/navigation";
-import { useWallets } from "@privy-io/react-auth";
+
+// import { useParams } from "next/navigation";
+// import { useWallets } from "@privy-io/react-auth";
 
 // import { Breadcrumb } from "@/components/ui/Breadcrumb";
 // import Chip from "@/components/ui/Chip";
@@ -26,7 +27,7 @@ import { useWallets } from "@privy-io/react-auth";
 
 export default function TokenPage({ params }: { params: { id: string } }) {
   const { id } = params;
-  const par = useParams();
+  // const par = useParams();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
@@ -44,24 +45,25 @@ export default function TokenPage({ params }: { params: { id: string } }) {
     setIsOpen(!isOpen);
   };
 
-  useEffect(() => {
-    console.log("Auth state in component:", { authenticated, user, ready });
-  }, [authenticated, ready, user]);
+  // useEffect(() => {
+  //   console.log("Auth state in component:", { authenticated, user, ready });
+  // }, [authenticated, ready, user]);
 
   const [daoLinks, setDaoLinks] = useState<DaoLink[]>([]);
   const [daoSettings, setDaoSettings] = useState<DaoLink[]>([]);
   const [daoTemplates, setDaoTemplates] = useState<DaoLink[]>([]);
   const [calendarId, setCalendarId] = useState("");
-  const { logo, setLogo, color, setColor } = useDAO();
+  const { logo, setLogo, color, setColor, colorDark, setColorDark } = useDAO();
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState<any[]>([]);
   const [showCalendar, setShowCalendar] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { wallets } = useWallets();
+  // const { wallets } = useWallets();
 
   useEffect(() => {
     async function fetchDAOLinks() {
       try {
+        console.log("loading docs...");
         const docs = await getDocument("DAOS", id);
 
         setDaoLinks(docs?.links as DaoLink[]);
@@ -70,8 +72,10 @@ export default function TokenPage({ params }: { params: { id: string } }) {
         setCalendarId(docs?.settings[0].google_calendar_id);
 
         setLogo(docs?.settings[0].logoSVG || "");
-        setColor(docs?.settings[0].tailwindColor || "stone");
-
+        // console.log("acaaa ", docs?.settings[0].tailwindColor || "stone");
+        setColor(docs?.settings[0].color || "stone-100");
+        setColorDark(docs?.settings[0].colorDark || "stone-900");
+        console.log("loaded.");
         setLoading(false);
       } catch (err) {
         setError("Error fetching documents ");
@@ -102,6 +106,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     async function exe(id: string) {
+      console.log("loading calendar...");
       const events = await getCalendar(id);
       setCalendar(events);
       console.log("ee ", events);
@@ -116,9 +121,11 @@ export default function TokenPage({ params }: { params: { id: string } }) {
 
   if (loading)
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-transparent">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-4 border-rose-500"></div>
-      </div>
+      <PlatformLayout>
+        <div className="flex h-screen w-full items-center justify-center bg-transparent">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-4 border-rose-500"></div>
+        </div>
+      </PlatformLayout>
     );
   if (error) return <div>Error: {error}</div>;
 
@@ -126,7 +133,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
     <PlatformLayout>
       <div className="flex flex-row  w-full  relative">
         {/* dashboard  */}
-        <div className="flex flex-col w-full pt-14 px-6">
+        <div className="flex flex-col w-full pt-14s px-6">
           <div
             id="sector1"
             className="flex mt-6 flex-col sm:flex-row w-full gap-4"
