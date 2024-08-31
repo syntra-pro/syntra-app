@@ -348,14 +348,14 @@ export default function TokenPage({ params }: { params: { id: string } }) {
             >
               <div className="flex items-baseline justify-between">
                 <div className="text-xl font-semibold">Drafts</div>
-                <button
-                  className="bg-rose-300 rounded-md px-3 py-2 text-xs text-black"
+                <Button
+                  // className="bg-rose-300 rounded-md px-3 py-2 text-xs text-black"
                   onClick={handleNewDraft}
-                  // variant={"ghost"}
-                  // size={"sm"}
+                  variant={"ghost"}
+                  size={"sm"}
                 >
                   + New draft
-                </button>
+                </Button>
               </div>
               <span className="text-xs">Access to your draft proposals.</span>
 
