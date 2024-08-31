@@ -4,6 +4,7 @@
 // import { getLHUploads, getLHkey } from "../../../lib/storageLighthouse";
 import { useEffect, useState } from "react";
 
+import ActivityFeed from "../../components/ActivityFeed";
 import ArbitrumAnn from "../../components/ArbitrumAnn";
 import { Button } from "../../components/ui/Button";
 import CollaborativeEditor from "../../components/CollaborativeEditor";
@@ -188,13 +189,13 @@ export default function TokenPage({ params }: { params: { id: string } }) {
           <div
             className={` rounded-lg
                   overflow-hidden transition-all duration-300 ease-in-out
-                  ${isActivityOpen ? "max-h-96" : "max-h-0"}
+                  ${isActivityOpen ? "max-h-full" : "max-h-0"}
                 `}
           >
-            <div className="dark:bg-stone-700 bg-stone-100 p-4 text-xs">
-              {/* <DaoLinks arrayLinks={daoTemplates} /> */}
-              Coming Soon™
-            </div>
+            <ActivityFeed />
+
+            {/* <div className="dark:bg-stone-700 bg-stone-100 p-4 text-xs">
+            </div> */}
           </div>
 
           <div
