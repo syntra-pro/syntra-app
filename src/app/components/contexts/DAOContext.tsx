@@ -7,6 +7,8 @@ interface DAOContextProps {
   setLogo: (logo: string) => void;
   color: string;
   setColor: (color: string) => void;
+  colorDark: string;
+  setColorDark: (color: string) => void;
 }
 
 const DAOContext = createContext<DAOContextProps | undefined>(undefined);
@@ -21,10 +23,13 @@ export const useDAO = () => {
 
 export const DAOProvider = ({ children }: { children: ReactNode }) => {
   const [logo, setLogo] = useState<string>("");
-  const [color, setColor] = useState<string>("");
+  const [color, setColor] = useState<any>();
+  const [colorDark, setColorDark] = useState<any>();
 
   return (
-    <DAOContext.Provider value={{ logo, setLogo, color, setColor }}>
+    <DAOContext.Provider
+      value={{ logo, setLogo, color, setColor, colorDark, setColorDark }}
+    >
       {children}
     </DAOContext.Provider>
   );
