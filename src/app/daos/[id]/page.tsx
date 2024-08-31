@@ -30,7 +30,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
   // const par = useParams();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isResourcesOpen, setIsResourcesOpen] = useState(false);
+  const [isResourcesOpen, setIsResourcesOpen] = useState(true);
   const [isTemplatesOpen, setIsTemplatesOpen] = useState(false);
   const [isActivityOpen, setIsActivityOpen] = useState(false);
   const [calendar, setCalendar] = useState([]);
@@ -136,113 +136,101 @@ export default function TokenPage({ params }: { params: { id: string } }) {
         <div className="flex flex-col w-full pt-14s px-6">
           <div
             id="sector1"
-            className="flex mt-6 flex-col sm:flex-row w-full gap-4"
+            className="flex mb-3 mt-6 flex-col sm:flex-row w-full gap-4"
           >
-            <div className="w-full">
-              {/* resources  */}
-              <div
-                className="flex flex-col rounded-t-lg px-3 py-2 transition-colors
-                bg-stone-100 dark:bg-stone-700
-                text-stone-600 dark:text-stone-300"
-              >
-                <button
-                  onClick={() => {
-                    setIsResourcesOpen(!isResourcesOpen);
-                    setIsTemplatesOpen(false);
-                    setIsActivityOpen(false);
-                    setShowCalendar(false);
-                  }}
-                  className="self-start text-sm"
-                >
-                  {isResourcesOpen ? "↑ " : "↓ "} DAO resources
-                </button>
-              </div>
-            </div>
+            {/* resources  */}
+            <button
+              onClick={() => {
+                setIsResourcesOpen(!isResourcesOpen);
+                setIsTemplatesOpen(false);
+                setIsActivityOpen(false);
+                setShowCalendar(false);
+              }}
+              className={`  rounded-lg px-3 py-2  
+                  ${isResourcesOpen && " bg-stone-100 dark:bg-stone-700 "}
+                text-stone-600 dark:text-stone-300 text-sm`}
+            >
+              DAO resources
+            </button>
 
             {/* templates  */}
-            <div className="w-full">
-              <div
-                className="flex flex-col rounded-t-lg px-3 py-2 transition-colors
-                bg-stone-100 dark:bg-stone-700
-                text-stone-600 dark:text-stone-300"
-              >
-                <button
-                  onClick={() => {
-                    setIsTemplatesOpen(!isTemplatesOpen);
-                    setShowCalendar(false);
-                    setIsResourcesOpen(false);
-                    setIsActivityOpen(false);
-                  }}
-                  className="self-start text-sm"
-                >
-                  {isTemplatesOpen ? "↑ " : "↓ "} Templates
-                </button>
-              </div>
-
-              <div
-                className={`
-                  overflow-hidden transition-all duration-300 ease-in-out
-                  ${isTemplatesOpen ? "max-h-96" : "max-h-0"}
-                `}
-              >
-                <div className="dark:bg-stone-600 bg-stone-100 p-4 text-xs">
-                  Coming Soon™
-                </div>
-              </div>
-            </div>
+            <button
+              onClick={() => {
+                setIsTemplatesOpen(!isTemplatesOpen);
+                setShowCalendar(false);
+                setIsResourcesOpen(false);
+                setIsActivityOpen(false);
+              }}
+              className={`  rounded-lg px-3 py-2  
+                      ${isTemplatesOpen && " bg-stone-100 dark:bg-stone-700 "}
+                    text-stone-600 dark:text-stone-300 text-sm`}
+            >
+              Templates
+            </button>
 
             {/* activity feed  */}
-            <div className="w-full">
-              <div
-                className="flex flex-col rounded-t-lg px-3 py-2 transition-colors
-                bg-stone-100 dark:bg-stone-700
-                text-stone-600 dark:text-stone-300"
-              >
-                <button
-                  onClick={() => {
-                    setIsActivityOpen(!isActivityOpen);
-                    setShowCalendar(false);
-                    setIsResourcesOpen(false);
-                    setIsTemplatesOpen(false);
-                  }}
-                  className="self-start text-sm"
-                >
-                  {isActivityOpen ? "↑ " : "↓ "} Activity feed
-                </button>
-              </div>
+            <button
+              onClick={() => {
+                setIsActivityOpen(!isActivityOpen);
+                setShowCalendar(false);
+                setIsResourcesOpen(false);
+                setIsTemplatesOpen(false);
+              }}
+              className={`flex flex-col rounded-lg px-3 py-2  
+                    ${isActivityOpen && " bg-stone-100 dark:bg-stone-700 "}
+                  text-stone-600 dark:text-stone-300 text-sm`}
+            >
+              Activity feed
+            </button>
+          </div>
 
-              <div
-                className={`
+          {/* tab contents  */}
+          <div
+            className={` rounded-lg
                   overflow-hidden transition-all duration-300 ease-in-out
                   ${isActivityOpen ? "max-h-96" : "max-h-0"}
                 `}
-              >
-                <div className="dark:bg-stone-600 bg-stone-100 p-4 text-xs">
-                  {/* <DaoLinks arrayLinks={daoTemplates} /> */}
-                  Coming Soon™
-                </div>
-              </div>
+          >
+            <div className="dark:bg-stone-700 bg-stone-100 p-4 text-xs">
+              {/* <DaoLinks arrayLinks={daoTemplates} /> */}
+              Coming Soon™
             </div>
           </div>
 
           <div
-            className={`overflow-hidden 
+            className={` rounded-lg
+                  overflow-hidden transition-all duration-300 ease-in-out
+                  ${isTemplatesOpen ? "max-h-96" : "max-h-0"}
+                `}
+          >
+            <div className="dark:bg-stone-700 bg-stone-100 p-4 text-xs">
+              Coming Soon™
+            </div>
+          </div>
+
+          <div
+            className={`overflow-hidden  rounded-lg
                   transition-all duration-300 ease-in-out
                     ${isResourcesOpen ? "max-h-96" : "max-h-0"}
                   `}
           >
-            <div className="flex justify-between dark:bg-stone-600 bg-stone-100 py-2 px-4 text-xs">
-              <DaoLinks arrayLinks={daoLinks} />
+            <div className="flex flex-wrap justify-centers  justify-between dark:bg-zinc-700 bg-stone-50 p-4 text-xs">
               <div className="flex items-center gap-2 text-xs text-gray-700 dark:text-gray-400">
                 <button
                   onClick={() => setShowCalendar(!showCalendar)}
-                  className="rounded-sm p-2 w-full flex font-bold justify-between
-                     hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800 "
+                  // className="rounded-sm p-2 w-full flex font-bold justify-between
+                  //    hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800 "
+                  className="
+                  border rounded-lg dark:border-stone-600 border-stone-200
+                   w-36 h-16 items-center  p-2 sw-full flex justify-between 
+             hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800 "
                 >
-                  <div>✦ Calendar</div>
+                  <div>Calendar</div>
                   <div className="text-stone-600">↓</div>
                 </button>
               </div>
+
+              <DaoLinks arrayLinks={daoLinks} />
             </div>
           </div>
 
@@ -253,13 +241,18 @@ export default function TokenPage({ params }: { params: { id: string } }) {
         `}
           >
             {showCalendar && (
-              <div className="w-full bg-gradient-to-b from-stone-100 to-gray-200 rounded-b-lg rounded-tr-lg">
+              <div
+                className="w-full rounded-lg mt-4
+                bg-gradient-to-b from-stone-100 to-gray-200 
+                dark:bg-gradient-to-b dark:from-stone-700 dark:to-stone-800 
+              "
+              >
                 <div id="sector2" className="flex  flex-col sm:flex-row w-full">
                   {id === "arbitrum" && <ArbitrumAnn />}
                 </div>
 
                 {/* das kalender  */}
-                <div className="mx-4 mt-4 text-stone-600 text-centers  mb-4 border-t pt-3 text-sm ">
+                <div className="mx-4 mt-4 text-stone-600 dark:text-stone-200 text-centers  mb-4 pt-3 text-sm ">
                   Upcoming Events
                 </div>
                 <div
@@ -302,7 +295,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
             border-stone-200 dark:border-stone-700"
             >
               <div className="flex justify-between">
-                <p className="text-xl font-semibold">Projects</p>
+                <div className="text-xl font-semibold">Projects</div>
                 <Button variant={"ghost"} size={"sm"}>
                   + New project
                 </Button>
@@ -354,15 +347,15 @@ export default function TokenPage({ params }: { params: { id: string } }) {
               border-stone-200 dark:border-stone-700"
             >
               <div className="flex items-baseline justify-between">
-                <p className="text-xl font-semibold">Drafts</p>
-                <button
-                  className="bg-rose-300 rounded-md px-3 py-2 text-xs text-black"
+                <div className="text-xl font-semibold">Drafts</div>
+                <Button
+                  // className="bg-rose-300 rounded-md px-3 py-2 text-xs text-black"
                   onClick={handleNewDraft}
-                  // variant={"ghost"}
-                  // size={"sm"}
+                  variant={"ghost"}
+                  size={"sm"}
                 >
                   + New draft
-                </button>
+                </Button>
               </div>
               <span className="text-xs">Access to your draft proposals.</span>
 
