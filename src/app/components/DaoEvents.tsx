@@ -37,10 +37,10 @@ const DaoEvent: React.FC<DaoEventProps> = ({
       empty event
     </div>
   ) : (
-    <div className="bg-rose-50 p-2 shadow-md w-60 rounded-lg">
+    <div className="bg-rose-50 dark:bg-stone-700 p-2 shadow-md w-60 rounded-lg">
       {/* upper titles  */}
       <div className="flex items-baseline justify-between">
-        <span className="text-xs text-stone-500">
+        <span className="text-xs text-stone-500 dark:text-stone-400">
           {start && localTime(start.toString(), startTimezone)}
         </span>
 
@@ -49,7 +49,7 @@ const DaoEvent: React.FC<DaoEventProps> = ({
             <Link
               href={hangoutLink}
               target="_blank"
-              className="bg-rose-200 text-black text-xs px-2 py-1 rounded-md"
+              className="bg-rose-200 dark:bg-stone-400 text-black  text-xs px-2 py-1 rounded-md"
               title="Link to conference"
             >
               🎥
@@ -60,7 +60,7 @@ const DaoEvent: React.FC<DaoEventProps> = ({
             <Link
               href={htmlLink}
               target="_blank"
-              className="bg-rose-200 text-black text-xs px-2 py-1 rounded-md"
+              className="bg-rose-200 dark:bg-stone-400 text-black text-xs px-2 py-1 rounded-md"
               title="Link to original event"
             >
               🗓️
@@ -73,7 +73,10 @@ const DaoEvent: React.FC<DaoEventProps> = ({
         className="w-full h-14 my-2 font-mono text-sm leading-tight tracking-tight 
       overflow-hidden whitespace-nowraps"
       >
-        <span title={summary} className="inline-block animate-scroll">
+        <span
+          title={summary}
+          className="inline-block animate-scroll dark:text-stone-300"
+        >
           {summary}
         </span>
       </div>
