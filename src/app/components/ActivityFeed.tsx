@@ -236,9 +236,9 @@ import React from "react";
 
 export default function ActivityFeed() {
   return (
-    <div className="w-1/2 max-w-4xl mx-auto  p-4">
-      <Tabs defaultValue="votes" className="space-y-4 ">
-        <TabsList className="w-full grid  grid-cols-2 gap-4">
+    <div className="w-full max-w-4xl mx-auto ">
+      <Tabs defaultValue="votes" className="space-y-4">
+        <TabsList className="w-full grid bg-stone-200 grid-cols-2 gap-4">
           <TabsTrigger value="votes" className="w-full">
             Votes
           </TabsTrigger>
@@ -256,6 +256,12 @@ export default function ActivityFeed() {
           />
           <FeedItem
             avatar="JD"
+            title="[Non-Constitutional AIP] Front-end interface to force transaction inclusion during sequencer downtime"
+            likes={24}
+            comments={8}
+          />
+          <FeedItem
+            avatar="XD"
             title="[Non-Constitutional AIP] Front-end interface to force transaction inclusion during sequencer downtime"
             likes={24}
             comments={8}
@@ -283,7 +289,7 @@ export default function ActivityFeed() {
 
 function FeedItem({ avatar, title, likes, comments }: any) {
   return (
-    <Card className="w-full">
+    <Card className="w-full shadow-sm">
       <CardContent className="p-4">
         <div className="flex items-start gap-4">
           <Avatar className="h-10 w-10">
@@ -303,6 +309,7 @@ function FeedItem({ avatar, title, likes, comments }: any) {
               </Button>
             </div>
           </div>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="rounded-full">
@@ -314,9 +321,12 @@ function FeedItem({ avatar, title, likes, comments }: any) {
               <DropdownMenuItem>Report</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <Button variant="ghost" size="sm">
+            <ShareIcon className="h-4 w-4 mr-2" />
+          </Button>
         </div>
       </CardContent>
-      <CardFooter className="px-4 py-3 border-t flex justify-between">
+      {/* <CardFooter className="px-4 py-3 border-t flex justify-between">
         <Button variant="ghost" size="sm">
           <HeartIcon className="h-4 w-4 mr-2" />
           Like
@@ -329,7 +339,7 @@ function FeedItem({ avatar, title, likes, comments }: any) {
           <ShareIcon className="h-4 w-4 mr-2" />
           Share
         </Button>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }
