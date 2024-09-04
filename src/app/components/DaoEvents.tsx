@@ -37,7 +37,7 @@ const DaoEvent: React.FC<DaoEventProps> = ({
       empty event
     </div>
   ) : (
-    <div className="bg-rose-50 dark:bg-stone-700 p-2 shadow-md w-60 rounded-lg">
+    <div className="bg-stone-100 dark:bg-stone-700 p-2 shadow-md w-60 rounded-lg">
       {/* upper titles  */}
       <div className="flex items-baseline justify-between">
         <span className="text-xs text-stone-500 dark:text-stone-400">

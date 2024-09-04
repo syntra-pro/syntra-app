@@ -6,7 +6,10 @@ const ArbitrumAnn = () => {
 
   return (
     <div className="px-4 pb-4 dark:text-stone-200">
-      <div className=" text-stone-600 dark:text-stone-200 text-centers  mb-4  pt-3 text-sm ">
+      <div
+        className=" text-stone-600 dark:text-stone-200 text-centers text-lg 
+      font-semibold  mb-4  pt-3  "
+      >
         Weekly Calendar
       </div>
       <div className="grid grid-cols-7 gap-2">

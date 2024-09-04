@@ -2,6 +2,12 @@
 // the dao home
 
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
+import {
   fetchAllDocuments,
   localTime,
   toLocalShortDateTime,
@@ -29,8 +35,9 @@ export default function DaoPage({ params }: { params: { id: string } }) {
   // const par = useParams();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isResourcesOpen, setIsResourcesOpen] = useState(true);
-  const [isTemplatesOpen, setIsTemplatesOpen] = useState(false);
+  const [isDraftsOpen, setIsDraftsOpen] = useState(true);
+  const [isResourcesOpen, setIsResourcesOpen] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isActivityOpen, setIsActivityOpen] = useState(false);
   const [calendar, setCalendar] = useState([]);
   const { authenticated, user, ready } = useAuth();
@@ -40,7 +47,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
   const [calendarId, setCalendarId] = useState("");
   const { logo, setLogo, color, setColor, colorDark, setColorDark } = useDAO();
   const [loading, setLoading] = useState(true);
-  const [showCalendar, setShowCalendar] = useState(false);
+
   const [error, setError] = useState<string | null>(null);
   const [documents, setDocuments] = useState<any[]>([]);
   const [documentId, setDocumentId] = useState<any>();
@@ -152,13 +159,28 @@ export default function DaoPage({ params }: { params: { id: string } }) {
             id="sector1"
             className="flex mb-3 mt-6 flex-col sm:flex-row w-full gap-4"
           >
+            {/* drafts  */}
+            <button
+              onClick={() => {
+                setIsDraftsOpen(!isDraftsOpen);
+                setIsResourcesOpen(false);
+                setIsCalendarOpen(false);
+                setIsActivityOpen(false);
+              }}
+              className={`  rounded-lg px-3 py-2  
+                  ${isDraftsOpen && " bg-stone-100 dark:bg-stone-700 "}
+                text-stone-600 dark:text-stone-300 text-sm`}
+            >
+              Drafts
+            </button>
+
             {/* resources  */}
             <button
               onClick={() => {
                 setIsResourcesOpen(!isResourcesOpen);
-                setIsTemplatesOpen(false);
+                setIsCalendarOpen(false);
                 setIsActivityOpen(false);
-                setShowCalendar(false);
+                setIsDraftsOpen(false);
               }}
               className={`  rounded-lg px-3 py-2  
                   ${isResourcesOpen && " bg-stone-100 dark:bg-stone-700 "}
@@ -167,28 +189,28 @@ export default function DaoPage({ params }: { params: { id: string } }) {
               DAO resources
             </button>
 
-            {/* templates  */}
+            {/* calendar  */}
             <button
               onClick={() => {
-                setIsTemplatesOpen(!isTemplatesOpen);
-                setShowCalendar(false);
+                setIsCalendarOpen(!isCalendarOpen);
+                setIsDraftsOpen(false);
                 setIsResourcesOpen(false);
                 setIsActivityOpen(false);
               }}
               className={`  rounded-lg px-3 py-2  
-                      ${isTemplatesOpen && " bg-stone-100 dark:bg-stone-700 "}
+                      ${isCalendarOpen && " bg-stone-100 dark:bg-stone-700 "}
                     text-stone-600 dark:text-stone-300 text-sm`}
             >
-              Templates
+              Calendar
             </button>
 
             {/* activity feed  */}
             <button
               onClick={() => {
                 setIsActivityOpen(!isActivityOpen);
-                setShowCalendar(false);
+                setIsCalendarOpen(false);
                 setIsResourcesOpen(false);
-                setIsTemplatesOpen(false);
+                setIsDraftsOpen(false);
               }}
               className={`flex flex-col rounded-lg px-3 py-2  
                     ${isActivityOpen && " bg-stone-100 dark:bg-stone-700 "}
@@ -206,190 +228,192 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                 `}
           >
             <ActivityFeed />
+          </div>
+          <div
+            className={` rounded-lg
+                  overflow-hidden transition-all duration-300 ease-in-out
+                  ${isCalendarOpen ? "max-h-full" : "max-h-0"}
+                `}
+          >
+            <>
+              <div
+                className={`
+              overflow-hidden transition-all duration-300 ease-in-out 
+              ${isCalendarOpen ? "max-h-full" : "max-h-0"}
+            `}
+              >
+                {isCalendarOpen && (
+                  <div
+                    className="w-full rounded-lg 
+               border shadow
+              "
+                  >
+                    <div
+                      id="sector2"
+                      className="flex  flex-col sm:flex-row w-full"
+                    >
+                      {idDao === "arbitrum" && <ArbitrumAnn />}
+                    </div>
 
-            {/* <div className="dark:bg-stone-700 bg-stone-100 p-4 text-xs">
-            </div> */}
+                    {/* das kalender  */}
+                    <div
+                      className="mx-4 mt-4 text-stone-600
+                 dark:text-stone-200 text-centers  mb-4 pt-3  text-lg font-semibold "
+                    >
+                      Upcoming Events
+                    </div>
+                    <div
+                      //   className="flex gap-4 mx-3 mt-3 mb-2 overflow-x-hidden hover:overflow-x-scroll
+                      // scrollbar-default"
+                      className="flex flex-wrap justify-center pb-6 gap-4 "
+                    >
+                      {calendar.length > 0 ? (
+                        calendar.map((item: any, key) => (
+                          <div key={key}>
+                            <DaoEvent
+                              id={item.id}
+                              updated={item.updated}
+                              summary={item.summary}
+                              creatorEmail={item.creatorEmail}
+                              htmlLink={item.htmlLink}
+                              start={item.start}
+                              startTimezone={item.startTimezone}
+                              end={item.end}
+                              endTimeZone={item.endTimeZone}
+                              hangoutLink={item.hangoutLink}
+                            />
+                          </div>
+                        ))
+                      ) : (
+                        <>No events set for the next two weeks</>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </>
           </div>
 
           <div
             className={` rounded-lg
                   overflow-hidden transition-all duration-300 ease-in-out
-                  ${isTemplatesOpen ? "max-h-96" : "max-h-0"}
+                  ${isDraftsOpen ? "max-h-96" : "max-h-0"}
                 `}
           >
-            <div className="dark:bg-stone-700 bg-stone-100 p-4 text-xs">
-              Coming Soon™
-            </div>
-          </div>
-
-          <div
-            className={`overflow-hidden  rounded-lg
-                  transition-all duration-300 ease-in-out
-                    ${isResourcesOpen ? "max-h-96" : "max-h-0"}
-                  `}
-          >
-            <div className="flex flex-wrap justify-centers  justify-between dark:bg-zinc-700 bg-stone-50 p-4 text-xs">
-              <div className="flex items-center gap-2 text-xs text-gray-700 dark:text-gray-400">
-                <button
-                  onClick={() => setShowCalendar(!showCalendar)}
-                  // className="rounded-sm p-2 w-full flex font-bold justify-between
-                  //    hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800 "
-                  className="
-                  border rounded-lg dark:border-stone-600 border-stone-200
-                   w-36 h-16 items-center  p-2 sw-full flex justify-between 
-             hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800 "
-                >
-                  <div>Calendar</div>
-                  <div className="text-stone-600">↓</div>
-                </button>
-              </div>
-
-              <DaoLinks arrayLinks={daoLinks} />
-            </div>
-          </div>
-
-          <div
-            className={`
-          overflow-hidden transition-all duration-300 ease-in-out 
-          ${showCalendar ? "max-h-full" : "max-h-0"}
-        `}
-          >
-            {showCalendar && (
-              <div
-                className="w-full rounded-lg mt-4
-                bg-gradient-to-b from-stone-100 to-gray-200 
-                dark:bg-gradient-to-b dark:from-stone-700 dark:to-stone-800 
-              "
-              >
-                <div id="sector2" className="flex  flex-col sm:flex-row w-full">
-                  {idDao === "arbitrum" && <ArbitrumAnn />}
-                </div>
-
-                {/* das kalender  */}
-                <div className="mx-4 mt-4 text-stone-600 dark:text-stone-200 text-centers  mb-4 pt-3 text-sm ">
-                  Upcoming Events
-                </div>
-                <div
-                  //   className="flex gap-4 mx-3 mt-3 mb-2 overflow-x-hidden hover:overflow-x-scroll
-                  // scrollbar-default"
-                  className="flex flex-wrap justify-center pb-6 gap-4 "
-                >
-                  {calendar.length > 0 ? (
-                    calendar.map((item: any, key) => (
-                      <div key={key}>
-                        <DaoEvent
-                          id={item.id}
-                          updated={item.updated}
-                          summary={item.summary}
-                          creatorEmail={item.creatorEmail}
-                          htmlLink={item.htmlLink}
-                          start={item.start}
-                          startTimezone={item.startTimezone}
-                          end={item.end}
-                          endTimeZone={item.endTimeZone}
-                          hangoutLink={item.hangoutLink}
-                        />
-                      </div>
-                    ))
-                  ) : (
-                    <>No events set for the next two weeks</>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div
-            id="sector2"
-            className="flex my-6 flex-col sm:flex-row w-full gap-4 "
-          >
             <div
-              className="bg-transparent w-full border p-4 rounded-md
+              id="sector2"
+              className="flex flex-col sm:flex-row w-full gap-4 "
+            >
+              <div
+                className="bg-transparent w-full border p-4 rounded-md
             text-stone-600 dark:text-stone-300 shadow-md
             border-stone-200 dark:border-stone-700"
-            >
-              <div className="flex justify-between">
-                <div className="text-xl font-semibold">Projects</div>
-                <Button
-                  className="rounded-md px-2 py-1 text-xs text-black"
-                  variant={"ghost"}
-                  size={"sm"}
-                >
-                  + New project
-                </Button>
-              </div>
-              <span className="text-xs">
-                View and manage all active subprojects.
-              </span>
-
-              {/* the list  */}
-              <div className="flex flex-col mt-2 gap-1 hidden">
-                <Link href={"#"}>
-                  <div
-                    className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
-                  px-2 py-1 rounded-md
-                  text-xs font-mono grid grid-cols-2"
-                  >
-                    <div>Project 1</div>
-                    <div className="text-right">11 Collaborators</div>
-                  </div>
-                </Link>
-
-                <Link href={"#"}>
-                  <div
-                    className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
-                px-2 py-1 rounded-md
-                text-xs font-mono grid grid-cols-2"
-                  >
-                    <div>Project 2</div>
-                    <div className="text-right">11 Collaborators</div>
-                  </div>
-                </Link>
-
-                <Link href={"#"}>
-                  <div
-                    className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
-              px-2 py-1 rounded-md
-              text-xs font-mono grid grid-cols-2"
-                  >
-                    <div>Project 3</div>
-                    <div className="text-right">11 Collaborators</div>
-                  </div>
-                </Link>
-              </div>
-            </div>
-
-            <div
-              className="bg-transparent w-full h-full border p-4 rounded-md
-              text-stone-600 dark:text-stone-300 shadow-md
-              border-stone-200 dark:border-stone-700"
-            >
-              <div className="flex items-baseline justify-between">
-                <div className="text-xl font-semibold">Drafts</div>
-                <div className="flex gap-1">
+              >
+                <div className="flex justify-between">
+                  <div className="text-lg font-semibold">Projects</div>
                   <Button
                     className="rounded-md px-2 py-1 text-xs text-black"
-                    onClick={handleNewDraft}
                     variant={"ghost"}
                     size={"sm"}
                   >
-                    + New draft
-                  </Button>
-                  <Button
-                    className="rounded-md px-2 py-1 text-xs text-black"
-                    onClick={handleNewDraft}
-                    variant={"ghost"}
-                    size={"sm"}
-                  >
-                    + Use template
+                    + New project
                   </Button>
                 </div>
-              </div>
-              <span className="text-xs">Access to your draft proposals.</span>
+                <span className="text-xs">
+                  View and manage all active subprojects.
+                </span>
 
-              {/* the list  */}
-              <div className="flex flex-col mt-2 gap-1">
-                {/* { DEPRECATED
+                {/* the list  */}
+                <div className="flex flex-col mt-2 gap-1 hidden">
+                  <Link href={"#"}>
+                    <div
+                      className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
+                  px-2 py-1 rounded-md
+                  text-xs font-mono grid grid-cols-2"
+                    >
+                      <div>Project 1</div>
+                      <div className="text-right">11 Collaborators</div>
+                    </div>
+                  </Link>
+
+                  <Link href={"#"}>
+                    <div
+                      className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
+                px-2 py-1 rounded-md
+                text-xs font-mono grid grid-cols-2"
+                    >
+                      <div>Project 2</div>
+                      <div className="text-right">11 Collaborators</div>
+                    </div>
+                  </Link>
+
+                  <Link href={"#"}>
+                    <div
+                      className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
+              px-2 py-1 rounded-md
+              text-xs font-mono grid grid-cols-2"
+                    >
+                      <div>Project 3</div>
+                      <div className="text-right">11 Collaborators</div>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+
+              <div
+                className="bg-transparent w-full h-full border p-4 rounded-md
+              text-stone-600 dark:text-stone-300 shadow-md
+              border-stone-200 dark:border-stone-700"
+              >
+                <div className="flex items-baseline justify-between">
+                  <div className="text-lg font-semibold">Drafts</div>
+                  <div className="flex gap-1">
+                    <Button
+                      className="rounded-md px-2 py-1 text-xs text-black"
+                      onClick={handleNewDraft}
+                      variant={"ghost"}
+                      size={"sm"}
+                    >
+                      + New draft
+                    </Button>
+                    {/* <Button
+                      className="rounded-md px-2 py-1 text-xs text-black"
+                      onClick={handleNewDraft}
+                      variant={"ghost"}
+                      size={"sm"}
+                    >
+                      + Use template
+                    </Button> */}
+
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="outline"
+                          size={"sm"}
+                          className="text-xs hover:bg-stone-100 border-0 text-black"
+                        >
+                          Use Template
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        className="text-xs bg-stone-100 p-3 shadow rounded-md"
+                        align="end"
+                      >
+                        <DropdownMenuItem className="hover:bg-stone-200 rounded-md px-3 py-2">
+                          AIP Template
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="hover:bg-stone-200 rounded-md px-3 py-2">
+                          Delegate Statement
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+                <span className="text-xs">Access to your draft proposals.</span>
+
+                {/* the list  */}
+                <div className="flex flex-col mt-2 gap-1">
+                  {/* { DEPRECATED
               publicKey: '0x4e6d5be93ab7c1f75e30dd5a7f574f42f675eed3',
               fileName: 'sample.txt',
               mimeType: 'text/plain',
@@ -404,52 +428,65 @@ export default function DaoPage({ params }: { params: { id: string } }) {
             }
              */}
 
-                {loading ? (
-                  <Loader />
-                ) : (
-                  documents.map((i, k) => (
-                    <div key={k}>
-                      <div
-                        className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
+                  {loading ? (
+                    <Loader />
+                  ) : (
+                    documents.map((i, k) => (
+                      <div key={k}>
+                        <div
+                          className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
                           px-2 py-1 rounded-md  items-baseline
-                          text-xs font-mono flex justify-between"
-                      >
-                        <div>
-                          <button
-                            className="w-60 text-left "
-                            style={{ fontSize: "7pt" }}
-                            onClick={() => handleOpenDraft(i.id)}
-                          >
-                            {i.title || `#${i.id}`}
-                          </button>
-                        </div>
-
-                        <div className=" flex gap-4">
-                          <div className=" items-baseline">
-                            <div
+                          text-xs   flex justify-between"
+                        >
+                          <div>
+                            <button
+                              className="w-60 text-left "
                               style={{ fontSize: "7pt" }}
-                              className=" whitespace-nowrap  w-20 text-center px-1 py-1 rounded-sm font-thin font-mono  "
+                              onClick={() => handleOpenDraft(i.id)}
                             >
-                              {toLocalShortDateTime(parseInt(i.id))}
-                            </div>
+                              {i.title || `#${i.id}`}
+                            </button>
                           </div>
 
-                          <div className=" items-baseline">
-                            <div
-                              style={{ fontSize: "7pt" }}
-                              className="dark:bg-stone-600 bg-stone-300 w-14 text-center px-1 py-1 rounded-sm font-thin font-mono  "
-                            >
-                              {i.priority?.toString().toUpperCase() || "UNSET"}
-                              {/* {localTime(i.lastUpdate, "America/Montevideo")} */}
+                          <div className=" flex gap-4">
+                            {/* DEPRECATED  */}
+                            {/* <div className=" items-baseline">
+                              <div
+                                style={{ fontSize: "7pt" }}
+                                className=" whitespace-nowrap  w-20 text-center px-1 py-1 rounded-sm font-thin font-mono  "
+                              >
+                                {toLocalShortDateTime(parseInt(i.id))}
+                              </div>
+                            </div> */}
+
+                            <div className=" items-baseline">
+                              <div
+                                style={{ fontSize: "7pt" }}
+                                className="dark:bg-stone-600 bg-stone-300 w-14 text-center px-1 py-1 rounded-sm  
+                                 font-monoX  "
+                              >
+                                {i.priority?.toString().toUpperCase() ||
+                                  "UNSET"}
+                                {/* {localTime(i.lastUpdate, "America/Montevideo")} */}
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))
-                )}
+                    ))
+                  )}
+                </div>
               </div>
             </div>
+          </div>
+
+          <div
+            className={`overflow-hidden  rounded-lg flex gap-4
+                  transition-all duration-300 ease-in-out
+                    ${isResourcesOpen ? "max-h-96" : "max-h-0"}
+                  `}
+          >
+            <DaoLinks arrayLinks={daoLinks} />
           </div>
         </div>
 
