@@ -1,3 +1,4 @@
+import { FileTextIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -12,19 +13,33 @@ interface DaoLinkProps {
 }
 
 const arr: React.FC<any> = ({ arrayLinks }: DaoLinkProps) => {
-  return arrayLinks.map((link: any, key: number) => (
-    <Link
-      key={key}
-      target="_blank"
-      className=" border rounded-lg  dark:border-stone-600 border-stone-200 text-xs text-gray-600 dark:text-gray-400"
-      href={link.url}
-    >
-      <div className="rounded-sm w-36 h-16 items-center  p-2 sw-full flex justify-between hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800 ">
-        <div className="   ">{link.title}</div>
-        <div className="ml-2 dark:text-stone-600 text-stone-100">↗︎</div>
-      </div>
-    </Link>
-  ));
+  return (
+    <div className=" w-full grid grid-cols-2 gap-4">
+      {arrayLinks.map((link: any, key: number) => (
+        <Link key={key} target="_blank" href={link.url}>
+          <div
+            key={key}
+            className="flex justify-between px-4 py-2 bg-stone-100 hover:bg-rose-100 shadow-md rounded-lg"
+          >
+            <div className="rounded-lg p-4 text-black transition-colors flex flex-col">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <FileTextIcon className="h-6 w-6" />
+                  <span className="text-md font-semibold">{link.title}</span>
+                </div>
+              </div>
+              <div className="text-sm mt-2 text-black">
+                {link.description || "No description available"}
+              </div>
+            </div>
+            <div className="items-center flex">
+              <FileTextIcon className="h-12 w-12 text-muted-foreground" />
+            </div>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
 };
 
 export default arr;
