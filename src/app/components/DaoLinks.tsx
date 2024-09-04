@@ -14,12 +14,12 @@ interface DaoLinkProps {
 
 const arr: React.FC<any> = ({ arrayLinks }: DaoLinkProps) => {
   return (
-    <div className=" w-full grid grid-cols-2 gap-4">
+    <div className=" w-full grid grid-cols-2 gap-4 mb-6">
       {arrayLinks.map((link: any, key: number) => (
         <Link key={key} target="_blank" href={link.url}>
           <div
             key={key}
-            className="flex justify-between px-4 py-2 bg-stone-100 hover:bg-rose-100 shadow-md rounded-lg"
+            className="flex justify-between px-4 h-28 py-2 bg-stone-100 hover:bg-rose-100 shadow-md rounded-lg"
           >
             <div className="rounded-lg p-4 text-black transition-colors flex flex-col">
               <div className="flex items-center justify-between">
@@ -28,7 +28,7 @@ const arr: React.FC<any> = ({ arrayLinks }: DaoLinkProps) => {
                   <span className="text-md font-semibold">{link.title}</span>
                 </div>
               </div>
-              <div className="text-sm mt-2 text-black">
+              <div className="text-xs mt-2 text-black">
                 {link.description || "No description available"}
               </div>
             </div>

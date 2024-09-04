@@ -462,11 +462,12 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                             <div className=" items-baseline">
                               <div
                                 style={{ fontSize: "7pt" }}
-                                className="dark:bg-stone-600 bg-stone-300 w-14 text-center px-1 py-1 rounded-sm  
-                                 font-monoX  "
+                                className={` ${
+                                  i.priority === "critical" &&
+                                  "dark:bg-red-600 bg-rose-500 text-white font-semibold"
+                                } w-14 text-center px-1 py-0 rounded-sm`}
                               >
-                                {i.priority?.toString().toUpperCase() ||
-                                  "UNSET"}
+                                {i.priority?.toString() || "UNSET"}
                                 {/* {localTime(i.lastUpdate, "America/Montevideo")} */}
                               </div>
                             </div>
