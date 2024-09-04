@@ -117,6 +117,7 @@ export async function POST(req: Request) {
       pathName,
       content,
       title,
+      link,
       priority,
       project,
       tags,
@@ -136,7 +137,9 @@ export async function POST(req: Request) {
       const newDocRef = push(ref(database, incompletePath));
       await set(newDocRef, {
         content,
+
         title,
+        link,
         priority,
         project,
         tags,
@@ -149,7 +152,15 @@ export async function POST(req: Request) {
       );
     } else {
       const docRef = ref(database, `documents/${pathName}`);
-      await set(docRef, { content, title, priority, project, tags, collabs });
+      await set(docRef, {
+        content,
+        title,
+        link,
+        priority,
+        project,
+        tags,
+        collabs,
+      });
 
       return NextResponse.json(
         { message: "Document updated successfully" },

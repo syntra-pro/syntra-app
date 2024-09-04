@@ -56,6 +56,7 @@ const MarkdownEditor: React.FC<{
 }> = ({ folder, documentId, afterSave }) => {
   const [cont, setCont] = useState("");
   const [title, setTitle] = useState("");
+  const [link, setLink] = useState("");
   const [priority, setPriority] = useState("normal");
   const [project, setProject] = useState("");
   const [tags, setTags] = useState([]);
@@ -105,6 +106,7 @@ const MarkdownEditor: React.FC<{
         console.log("data ", data);
 
         setTitle(data.title);
+        setLink(data.link);
         setPriority(data.priority);
         setProject(data.project || "");
         setTags(data.tags || []);
@@ -139,6 +141,7 @@ const MarkdownEditor: React.FC<{
 
     if (documentId === "0") {
       setTitle("");
+      setLink("");
       setPriority("normal");
       setProject("");
       setTags([]);
@@ -205,6 +208,7 @@ const MarkdownEditor: React.FC<{
       pathName,
       cont,
       title,
+      link,
       priority,
       project,
       tags,
@@ -238,6 +242,23 @@ const MarkdownEditor: React.FC<{
               <option value={"normal"}>Normal</option>
               <option value={"low"}>Low</option>
             </select>
+          </div>
+
+          <div className="flex items-baseline">
+            <div className="w-1/12">Link</div>
+            <input
+              onChange={(e) => setLink(e.target.value)}
+              value={link}
+              className="px-2 mr-2 py-1 w-8/12 outline-none rounded-md  "
+              placeholder="type an url"
+              type="text"
+            />
+            <div className="w-1/12">Tags</div>
+            <select
+              // onChange={(e) => setTags(e.target.value)}
+              // value={tags}
+              className="w-2/12 px-2 py-1 outline-none rounded-md"
+            ></select>
           </div>
 
           <div className="flex items-baseline opacity-50 w-full">
