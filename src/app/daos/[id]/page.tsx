@@ -1,6 +1,11 @@
 "use client";
 // the dao home
 
+import {
+  fetchAllDocuments,
+  localTime,
+  toLocalShortDateTime,
+} from "../../../lib/utils";
 // import { getLHUploads, getLHkey } from "../../../lib/storageLighthouse";
 import { useEffect, useState } from "react";
 
@@ -12,22 +17,15 @@ import DaoEvent from "../../components/DaoEvents";
 import { DaoLink } from "../../../types/DaoLink";
 import DaoLinks from "../../components/DaoLinks";
 import Link from "next/link";
+import Loader from "../../components/ui/Loader";
 import PlatformLayout from "../../layouts/platformLayout";
 import { getCalendar } from "../../../lib/calendar";
 import { getDocument } from "../../../lib/firestore";
-import { localTime } from "../../../lib/utils";
 import { useAuth } from "../../components/contexts/AuthContext";
 import { useDAO } from "../../components/contexts/DAOContext";
 
-// import { useParams } from "next/navigation";
-// import { useWallets } from "@privy-io/react-auth";
-
-// import { Breadcrumb } from "@/components/ui/Breadcrumb";
-// import Chip from "@/components/ui/Chip";
-// import { usePrivy } from "@privy-io/react-auth";
-
-export default function TokenPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function DaoPage({ params }: { params: { id: string } }) {
+  const { id: idDao } = params;
   // const par = useParams();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -36,36 +34,52 @@ export default function TokenPage({ params }: { params: { id: string } }) {
   const [isActivityOpen, setIsActivityOpen] = useState(false);
   const [calendar, setCalendar] = useState([]);
   const { authenticated, user, ready } = useAuth();
-
-  const [tokenB, setTokenB] = useState("No token");
-
-  const handleNewDraft = () => {
-    // assign new file name
-    // create folder?
-    //
-    setIsOpen(!isOpen);
-  };
-
-  // useEffect(() => {
-  //   console.log("Auth state in component:", { authenticated, user, ready });
-  // }, [authenticated, ready, user]);
-
   const [daoLinks, setDaoLinks] = useState<DaoLink[]>([]);
   const [daoSettings, setDaoSettings] = useState<DaoLink[]>([]);
   const [daoTemplates, setDaoTemplates] = useState<DaoLink[]>([]);
   const [calendarId, setCalendarId] = useState("");
   const { logo, setLogo, color, setColor, colorDark, setColorDark } = useDAO();
   const [loading, setLoading] = useState(true);
-  const [list, setList] = useState<any[]>([]);
   const [showCalendar, setShowCalendar] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [documents, setDocuments] = useState<any[]>([]);
+  const [documentId, setDocumentId] = useState<any>();
+
   // const { wallets } = useWallets();
+
+  const handleNewDraft = () => {
+    // assign new file name according to the list!
+
+    //
+    setDocumentId("0");
+    setIsOpen(!isOpen);
+  };
+
+  const handleOpenDraft = (docId: string) => {
+    setDocumentId(docId);
+    setIsOpen(!isOpen);
+    console.log("abierto el docid ", docId, documentId);
+  };
+
+  async function fetchDocuments() {
+    try {
+      const pathName = `/documents/${idDao}/${user?.wallet?.address}`;
+      const documents = await fetchAllDocuments(pathName);
+      console.log("Documents:", pathName, documents);
+      setDocuments(documents);
+      setIsOpen(false);
+
+      // Puedes hacer lo que necesites con los documentos aquí
+    } catch (error) {
+      console.error("Failed to get documents:", error);
+    }
+  }
 
   useEffect(() => {
     async function fetchDAOLinks() {
       try {
         console.log("loading docs...");
-        const docs = await getDocument("DAOS", id);
+        const docs = await getDocument("DAOS", idDao);
 
         setDaoLinks(docs?.links as DaoLink[]);
         setDaoSettings(docs?.settings as DaoLink[]);
@@ -100,10 +114,11 @@ export default function TokenPage({ params }: { params: { id: string } }) {
     //   setList(response?.data?.fileList);
     // }
 
-    if (!id || !user) return;
+    if (!idDao || !user) return;
     fetchDAOLinks();
+    fetchDocuments();
     // fetchLHUploads();
-  }, [id, user]);
+  }, [idDao, user]);
 
   useEffect(() => {
     async function exe(id: string) {
@@ -113,19 +128,17 @@ export default function TokenPage({ params }: { params: { id: string } }) {
       console.log("ee ", events);
     }
 
-    if (!id) {
+    if (!idDao) {
       return;
     }
     if (!calendarId || calendarId === "") return;
     exe(calendarId);
-  }, [id, calendarId]);
+  }, [idDao, calendarId]);
 
   if (loading)
     return (
       <PlatformLayout>
-        <div className="flex h-screen w-full items-center justify-center bg-transparent">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-4 border-rose-500"></div>
-        </div>
+        <Loader />
       </PlatformLayout>
     );
   if (error) return <div>Error: {error}</div>;
@@ -249,7 +262,7 @@ export default function TokenPage({ params }: { params: { id: string } }) {
               "
               >
                 <div id="sector2" className="flex  flex-col sm:flex-row w-full">
-                  {id === "arbitrum" && <ArbitrumAnn />}
+                  {idDao === "arbitrum" && <ArbitrumAnn />}
                 </div>
 
                 {/* das kalender  */}
@@ -297,7 +310,11 @@ export default function TokenPage({ params }: { params: { id: string } }) {
             >
               <div className="flex justify-between">
                 <div className="text-xl font-semibold">Projects</div>
-                <Button variant={"ghost"} size={"sm"}>
+                <Button
+                  className="rounded-md px-2 py-1 text-xs text-black"
+                  variant={"ghost"}
+                  size={"sm"}
+                >
                   + New project
                 </Button>
               </div>
@@ -310,8 +327,8 @@ export default function TokenPage({ params }: { params: { id: string } }) {
                 <Link href={"#"}>
                   <div
                     className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
-              px-2 py-1 rounded-md
-              text-xs font-mono grid grid-cols-2"
+                  px-2 py-1 rounded-md
+                  text-xs font-mono grid grid-cols-2"
                   >
                     <div>Project 1</div>
                     <div className="text-right">11 Collaborators</div>
@@ -321,8 +338,8 @@ export default function TokenPage({ params }: { params: { id: string } }) {
                 <Link href={"#"}>
                   <div
                     className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
-              px-2 py-1 rounded-md
-              text-xs font-mono grid grid-cols-2"
+                px-2 py-1 rounded-md
+                text-xs font-mono grid grid-cols-2"
                   >
                     <div>Project 2</div>
                     <div className="text-right">11 Collaborators</div>
@@ -343,26 +360,36 @@ export default function TokenPage({ params }: { params: { id: string } }) {
             </div>
 
             <div
-              className="bg-transparent w-full border p-4 rounded-md
+              className="bg-transparent w-full h-full border p-4 rounded-md
               text-stone-600 dark:text-stone-300 shadow-md
               border-stone-200 dark:border-stone-700"
             >
               <div className="flex items-baseline justify-between">
                 <div className="text-xl font-semibold">Drafts</div>
-                <Button
-                  // className="bg-rose-300 rounded-md px-3 py-2 text-xs text-black"
-                  onClick={handleNewDraft}
-                  variant={"ghost"}
-                  size={"sm"}
-                >
-                  + New draft
-                </Button>
+                <div className="flex gap-1">
+                  <Button
+                    className="rounded-md px-2 py-1 text-xs text-black"
+                    onClick={handleNewDraft}
+                    variant={"ghost"}
+                    size={"sm"}
+                  >
+                    + New draft
+                  </Button>
+                  <Button
+                    className="rounded-md px-2 py-1 text-xs text-black"
+                    onClick={handleNewDraft}
+                    variant={"ghost"}
+                    size={"sm"}
+                  >
+                    + Use template
+                  </Button>
+                </div>
               </div>
               <span className="text-xs">Access to your draft proposals.</span>
 
               {/* the list  */}
               <div className="flex flex-col mt-2 gap-1">
-                {/* {
+                {/* { DEPRECATED
               publicKey: '0x4e6d5be93ab7c1f75e30dd5a7f574f42f675eed3',
               fileName: 'sample.txt',
               mimeType: 'text/plain',
@@ -376,25 +403,51 @@ export default function TokenPage({ params }: { params: { id: string } }) {
               encryption: false
             }
              */}
-                {list.map((i) => (
-                  <>
-                    <Link
-                      target="_blank"
-                      href={`https://ipfs.io/ipfs/${i.cid}`}
-                    >
+
+                {loading ? (
+                  <Loader />
+                ) : (
+                  documents.map((i, k) => (
+                    <div key={k}>
                       <div
                         className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
-                          px-2 py-1 rounded-md
-                          text-xs font-mono grid grid-cols-2"
+                          px-2 py-1 rounded-md  items-baseline
+                          text-xs font-mono flex justify-between"
                       >
-                        <div>{i.Filename || i.cid}</div>
-                        <div className="text-right">
-                          {localTime(i.lastUpdate, "America/Montevideo")}
+                        <div>
+                          <button
+                            className="w-60 text-left "
+                            style={{ fontSize: "7pt" }}
+                            onClick={() => handleOpenDraft(i.id)}
+                          >
+                            {i.title || `#${i.id}`}
+                          </button>
+                        </div>
+
+                        <div className=" flex gap-4">
+                          <div className=" items-baseline">
+                            <div
+                              style={{ fontSize: "7pt" }}
+                              className=" whitespace-nowrap  w-20 text-center px-1 py-1 rounded-sm font-thin font-mono  "
+                            >
+                              {toLocalShortDateTime(parseInt(i.id))}
+                            </div>
+                          </div>
+
+                          <div className=" items-baseline">
+                            <div
+                              style={{ fontSize: "7pt" }}
+                              className="dark:bg-stone-600 bg-stone-300 w-14 text-center px-1 py-1 rounded-sm font-thin font-mono  "
+                            >
+                              {i.priority?.toString().toUpperCase() || "UNSET"}
+                              {/* {localTime(i.lastUpdate, "America/Montevideo")} */}
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </Link>
-                  </>
-                ))}
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -421,12 +474,13 @@ export default function TokenPage({ params }: { params: { id: string } }) {
             </div>
 
             <div className="w-full " style={{ height: "100vh" }}>
-              {user?.wallet?.address && id && (
+              {user?.wallet?.address && idDao && (
                 <CollaborativeEditor
                   // TODO next iteration
                   // username={user?.wallet?.address}
-                  folder={`${id}/${user?.wallet?.address}`}
-                  documentId={`doc-${user?.wallet?.address}`}
+                  folder={`${idDao}/${user?.wallet?.address}`}
+                  documentId={documentId}
+                  afterSave={fetchDocuments}
                 />
               )}
             </div>
