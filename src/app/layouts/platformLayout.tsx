@@ -15,6 +15,7 @@ import {
 import { useEffect, useState } from "react";
 
 import { AnimatePresence } from "framer-motion";
+import { BlankLink } from "../components/BlankLink";
 import FeedbackPopup from "../components/FeedbackPopup";
 import { HeadBar } from "../components/ui/HeadBar";
 // import { Inter } from "next/font/google";
@@ -200,46 +201,46 @@ export default function PlatformLayout({
                 </div>
               </Link>
               <nav className="mt-6 flex flex-col">
-                <Link
+                <BlankLink
                   className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="/home"
                 >
                   <HomeIcon />
                   Home
-                </Link>
+                </BlankLink>
 
-                <Link
+                <BlankLink
                   className="flex items-center gap-2 mb-4 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="#"
                 >
                   <BellIcon />
                   Notifications
-                </Link>
+                </BlankLink>
 
                 <span className="font-semibold pl-3 text-stone-500 text-sm">
                   Workspace
                 </span>
 
-                <Link
+                <BlankLink
                   className="flex items-center gap-2 mt-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="/dao-manager"
                 >
                   <CubeIcon /> DAO Manager
-                </Link>
-                <Link
+                </BlankLink>
+                <BlankLink
                   className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="#"
                 >
                   <FileIcon />
                   Drafts
-                </Link>
-                <Link
+                </BlankLink>
+                <BlankLink
                   className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="#"
                 >
                   <BarChartIcon />
                   Analytics
-                </Link>
+                </BlankLink>
               </nav>
             </div>
             {/* lower section  */}

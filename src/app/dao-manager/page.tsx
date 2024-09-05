@@ -6,8 +6,7 @@ import PlatformLayout from "../layouts/platformLayout";
 export default function DaoManager() {
   return (
     <PlatformLayout>
-      {/* <div className=" p-8 gap-6 flex flex-wrap content-start justify-right"> */}
-      <div className=" p-8 gap-6 flex flex-wrap content-center justify-center">
+      <div className=" p-8 gap-6 flex flex-wrap content-start  ">
         <DaoCard
           name={"Arbitrum"}
           colour={"bg-blue-600"}

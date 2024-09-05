@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { BlankLink } from "../BlankLink";
 import Link from "next/link";
 import { LoginButton } from "./LoginButton";
 import { UserIcon } from "lucide-react";
@@ -45,11 +46,11 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
     };
   }, []);
 
-  const handleBack = () => {
-    setColor("stone-100");
-    setColorDark("stone-900");
-    setLogo("");
-  };
+  // const handleBack = () => {
+  //   setColor("stone-100");
+  //   setColorDark("stone-900");
+  //   setLogo("");
+  // };
 
   return (
     <header
@@ -70,13 +71,9 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
           <span className="  flex gap-2 dark:text-stone-300 items-center">
             {id?.length > 0 && (
               <>
-                <Link
-                  onClick={handleBack}
-                  className="text-xl opacity-40"
-                  href={"/dao-manager"}
-                >
+                <BlankLink className="text-xl opacity-40" href={"/dao-manager"}>
                   ←
-                </Link>
+                </BlankLink>
               </>
             )}
           </span>
@@ -84,7 +81,8 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
         <div className="w-full text-center flex justify-center text-lg">
           {logo === "" ? (
             id?.length > 0 &&
-            id.charAt(0).toUpperCase() + id.slice(1).toLowerCase()
+            // id.charAt(0).toUpperCase() + id.slice(1).toLowerCase()
+            ""
           ) : (
             <div dangerouslySetInnerHTML={{ __html: logo }} />
           )}
