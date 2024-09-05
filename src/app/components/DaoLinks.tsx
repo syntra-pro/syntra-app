@@ -15,7 +15,7 @@ interface DaoLinkProps {
 const arr: React.FC<any> = ({ arrayLinks }: DaoLinkProps) => {
   return (
     <div className=" w-full grid grid-cols-2 gap-4 mb-6">
-      {arrayLinks.map((link: any, key: number) => (
+      {arrayLinks?.map((link: any, key: number) => (
         <Link key={key} target="_blank" href={link.url}>
           <div
             key={key}

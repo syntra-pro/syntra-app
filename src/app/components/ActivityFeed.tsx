@@ -293,7 +293,7 @@ function FeedItem({ avatar, title, likes, comments }: any) {
       <CardContent className="p-4">
         <div className="flex items-start gap-4">
           <Avatar className="h-10 w-10">
-            <AvatarImage src="/placeholder-user.jpg" alt={avatar} />
+            {/* <AvatarImage src="/placeholder-user.jpg" alt={avatar} /> */}
             <AvatarFallback>{avatar}</AvatarFallback>
           </Avatar>
           <div className="flex-1 space-y-1">
