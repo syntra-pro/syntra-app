@@ -8,6 +8,7 @@ import {
   CubeIcon,
   DiscordLogoIcon,
   FileIcon,
+  GlobeIcon,
   HomeIcon,
   QuestionMarkCircledIcon,
   TwitterLogoIcon,
@@ -260,21 +261,25 @@ export default function PlatformLayout({
                     Follow us
                   </div>
                   <div className="flex gap-1">
-                    <div
-                      className="w-6 h-6 p-0.5 bg-zinc-100 rounded 
+                    <Link
+                      target="_blank"
+                      href={"https://seedorg.super.site/seedgov"}
+                      className="w-6 h-6 p-0.5 dark:bg-transparent rounded 
                         sidebarSocials
                         flex-col justify-center items-center gap-2.5 inline-flex"
                     >
-                      <DiscordLogoIcon />
-                    </div>
+                      <GlobeIcon className="dark:invert" />
+                    </Link>
 
-                    <div
-                      className="w-6 h-6 p-0.5 bg-zinc-100 rounded 
+                    <Link
+                      href={"https://x.com/seedgov"}
+                      target="_blank"
+                      className="w-6 h-6 p-0.5 dark:bg-transparent rounded 
                         sidebarSocials
                           flex-col justify-center items-center gap-2.5 inline-flex"
                     >
-                      <TwitterLogoIcon />
-                    </div>
+                      <TwitterLogoIcon className="dark:invert" />
+                    </Link>
                   </div>
                 </div>
               </div>
