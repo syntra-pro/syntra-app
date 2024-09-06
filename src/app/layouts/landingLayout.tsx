@@ -2,14 +2,6 @@
 
 import "../../app/globals.css";
 
-import {
-  BarChartIcon,
-  BellIcon,
-  CubeIcon,
-  FileIcon,
-  HomeIcon,
-} from "@radix-ui/react-icons";
-
 import { Button } from "../components/ui/Button";
 import Link from "next/link";
 

@@ -226,3 +226,97 @@ export async function fetchAllDocuments(pathName: string) {
     return []; // Devuelve un array vacío en caso de error
   }
 }
+
+// export const preprocessMarkdown = (content: string): string => {
+//   // Replace single newlines with double newlines, except within code blocks
+//   const codeBlockRegex = /```[\s\S]*?```/g;
+//   const codeBlocks: string[] = [];
+//   let processedContent = content.replace(codeBlockRegex, (match) => {
+//     codeBlocks.push(match);
+//     return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
+//   });
+
+//   processedContent = processedContent.replace(/(?<!\n)\n(?!\n)/g, "\n\n");
+
+//   // Restore code blocks
+//   processedContent = processedContent.replace(
+//     /__CODE_BLOCK_(\d+)__/g,
+//     (_, index) => codeBlocks[parseInt(index)]
+//   );
+
+//   return processedContent;
+// };
+
+export const preprocessMarkdown = (content: string): string => {
+  // Regex para los bloques de código
+  const codeBlockRegex = /```[\s\S]*?```/g;
+  const codeBlocks: string[] = [];
+
+  // Reemplaza los bloques de código temporales
+  let processedContent = content.replace(codeBlockRegex, (match) => {
+    codeBlocks.push(match);
+    return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
+  });
+
+  // Agregar doble salto de línea después de encabezados, listas, y otras etiquetas importantes
+  processedContent = processedContent.replace(
+    /(#+\s[^\n]+)(?!\n\n)/g,
+    "$1\n\n"
+  );
+  processedContent = processedContent.replace(
+    /(\*\*[^\*]+\*\*)(?!\n\n)/g,
+    "$1\n\n"
+  ); // Para negritas
+  processedContent = processedContent.replace(/(_[^\_]+_)(?!\n\n)/g, "$1\n\n"); // Para cursivas
+  processedContent = processedContent.replace(
+    /(\*\s[^\n]+)(?!\n\n)/g,
+    "$1\n\n"
+  ); // Para listas
+
+  // Reemplaza líneas simples con dobles líneas, excepto dentro de los bloques de código
+  processedContent = processedContent.replace(/(?<!\n)\n(?!\n)/g, "\n\n");
+
+  // Restaura los bloques de código
+  processedContent = processedContent.replace(
+    /__CODE_BLOCK_(\d+)__/g,
+    (_, index) => codeBlocks[parseInt(index)]
+  );
+
+  return processedContent;
+};
+
+// export const preprocessMarkdown = (content: string): string => {
+//   // Regex para los bloques de código
+//   const codeBlockRegex = /```[\s\S]*?```/g;
+//   const codeBlocks: string[] = [];
+
+//   // Reemplazar los bloques de código temporalmente
+//   let processedContent = content.replace(codeBlockRegex, (match) => {
+//     codeBlocks.push(match);
+//     return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
+//   });
+
+//   // Asegurarnos de que las líneas con encabezados estén bien formateadas
+//   processedContent = processedContent.replace(
+//     /(#+\s[^\n]+)(?!\n\n)/g,
+//     "$1\n\n"
+//   );
+
+//   // Reemplazar una sola nueva línea con dos nuevas líneas, excepto dentro de bloques de código
+//   processedContent = processedContent.replace(/(?<!\n)\n(?!\n)/g, "\n\n");
+
+//   // Evitar añadir saltos de línea dentro de cursivas, negritas o enlaces.
+//   // Reemplazo solo en líneas sin formato de estilos
+//   processedContent = processedContent.replace(
+//     /(^|\n)([^_*[\n]+)(?!\n\n)/g,
+//     "$1$2\n\n"
+//   );
+
+//   // Restaurar los bloques de código
+//   processedContent = processedContent.replace(
+//     /__CODE_BLOCK_(\d+)__/g,
+//     (_, index) => codeBlocks[parseInt(index)]
+//   );
+
+//   return processedContent;
+// };

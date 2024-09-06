@@ -1,16 +1,21 @@
 @import "~prosemirror-view/style/prosemirror.css";
 @import "~prosemirror-menu/style/menu.css";
 
+.editor-container {
+  max-width: 100%;
+}
+
 .ProseMirror {
   padding: 10px;
   min-height: 100px;
   outline: none;
   width: 100%;
-  height: calc(100vh - 130px);
+  height: calc(100vh - 280px);
   box-sizing: border-box;
   overflow-y: auto;
-  line-height: 1.5;  
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; /* Mejora la fuente */
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  white-space: normal;
 }
 
 .ProseMirror:focus {
@@ -34,15 +39,14 @@
   left: -1px;
   font-size: 13px;
   background-color: rgb(250, 129, 0);
-  font-family: inherit; /* Usa la misma fuente que el editor */
+  font-family: inherit;
   font-style: normal;
   font-weight: normal;
   line-height: normal;
   user-select: none;
   color: white;
   padding: 2px 4px;
-  white-space: nowrap;
-  border-radius: 3px; /* Añade bordes redondeados */
+  border-radius: 3px;
 }
 
 .ProseMirror-menubar {
@@ -66,7 +70,7 @@
   flex-wrap: wrap;
   width: 100%;
   margin-bottom: 10px;
-  align-items: center; /* Alinea los items verticalmente */
+  align-items: center;
 }
 
 .ProseMirror-menuitem {
@@ -80,19 +84,27 @@
   background-color: #e0e0e0;
 }
 
-/* Estilos adicionales para mejorar la apariencia de Markdown */
-.ProseMirror h1, .ProseMirror h2, .ProseMirror h3, .ProseMirror h4, .ProseMirror h5, .ProseMirror h6 {
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror h4,
+.ProseMirror h5,
+.ProseMirror h6 {
   margin-top: 1em;
   margin-bottom: 0.5em;
   line-height: 1.2;
 }
 
-.ProseMirror p {
-  /* margin-bottom: 0.5em; */
-  margin:0em;
+.ProseMirror em {
+  font-style: italic;
 }
 
-.ProseMirror ul, .ProseMirror ol {
+.ProseMirror p {
+  margin-bottom: 1em;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
   padding-left: 1.5em;
   margin-bottom: 1em;
 }
@@ -117,4 +129,148 @@
   padding: 1em;
   border-radius: 5px;
   overflow-x: auto;
+}
+
+.ProseMirror h1 {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.ProseMirror h2 {
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+.ProseMirror h3 {
+  font-size: 0.5em;
+  font-weight: 600;
+}
+
+.ProseMirror h4 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.ProseMirror h5 {
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.ProseMirror h6 {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.ProseMirror a {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.ProseMirror a:hover {
+  color: darkblue;
+}
+
+.ProseMirror code {
+  background-color: inherit;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.95em;
+}
+
+.ProseMirror pre {
+  background-color: inherit;
+  padding: 10px;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+.ProseMirror pre code {
+  background-color: inherit;
+  padding: 0;
+  font-size: 0.95em;
+}
+
+.ProseMirror ul {
+  margin: 1em 0;
+  padding-left: 40px;
+  list-style-type: disc;
+}
+
+.ProseMirror ol {
+  margin: 1em 0;
+  padding-left: 40px;
+  list-style-type: decimal;
+}
+
+.ProseMirror li {
+  margin-bottom: 0.5em;
+}
+
+.ProseMirror blockquote {
+  margin: 1em 0;
+  padding: 10px 20px;
+  border-left: 5px solid currentColor;
+  font-style: italic;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px 0;
+}
+
+.ProseMirror table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.ProseMirror th, td {
+  border: 1px solid currentColor;
+  padding: 8px;
+  text-align: left;
+}
+
+.ProseMirror th {
+  font-weight: bold;
+}
+
+.ProseMirror hr {
+  border: 0;
+  height: 1px;
+  background: currentColor;
+  margin: 20px 0;
+}
+
+.ProseMirror strong {
+  font-weight: bold;
+}
+
+.ProseMirror em {
+  font-style: italic;
+}
+
+.ProseMirror em, 
+.ProseMirror a {
+  white-space: normal;
+  margin-bottom: 0;
+}
+
+.ProseMirror ul {
+  margin: 1em 0;
+  padding-left: 40px;
+  list-style-type: disc;
+}
+
+.ProseMirror ol {
+  margin: 1em 0;
+  padding-left: 40px;
+  list-style-type: decimal;
+}
+
+.ProseMirror li {
+  margin-bottom: 0.5em;
 }
