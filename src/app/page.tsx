@@ -40,7 +40,7 @@ export default function Home() {
           </div>
 
           <div className="w-5/12 flex flex-col justify-between">
-            <div className="w-full bg-rose-300 flex flex-col justify-between gap-y-8 rounded-xl md:p-4 p-10">
+            <div className="w-full bg-rose-300 dark:bg-red-400 flex flex-col justify-between gap-y-8 rounded-xl md:p-4 p-10">
               <div>
                 <span className="rounded-full bg-black px-3 py-1 text-xs text-white">
                   Grow Fast
@@ -63,7 +63,7 @@ export default function Home() {
               Grow Fast
             </div> */}
             <div className="flex justify-between ">
-              <div className="rounded-full bg-rose-300 pl-4 pr-2 py-2 text-xs">
+              <div className="rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-xs">
                 <Link href={"/home"}>
                   Get Started
                   <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
@@ -71,7 +71,7 @@ export default function Home() {
                   </span>
                 </Link>
               </div>
-              <div className="text-xs text-right font-light">
+              <div className="text-xs text-right dark:text-stone-300 font-light">
                 Amplify your impact and unlock
                 <br />
                 insights with data-driven solutions.
@@ -82,7 +82,7 @@ export default function Home() {
       </div>
 
       {/* carousel  */}
-      <div className="w-full overflow-hidden py-2 border-stone-300 border-y my-10">
+      <div className="w-full overflow-hidden py-2 border-stone-300 dark:border-stone-500 dark:text-stone-400 border-y my-10">
         <div className="marquee whitespace-nowrap inline-block animate-scroll">
           <div className="flex align-middle gap-3">
             <div className="text-2xl my-auto mx-4 ">
@@ -141,7 +141,7 @@ export default function Home() {
               </div>
               <div
                 id="setting"
-                className="text-7xl  md:text-5xl tracking-tighter"
+                className="text-7xl dark:text-stone-300 md:text-5xl tracking-tighter"
               >
                 Setting
                 <br />
@@ -149,7 +149,7 @@ export default function Home() {
                 <br />
                 Standard
               </div>
-              <div className=" text-sm  md:text-xs font-normal ">
+              <div className=" text-sm dark:text-stone-300 md:text-xs font-normal ">
                 Streamline your DAO operations with our platform. Whether you
                 are drafting proposals, coordinating community initiatives,
                 managing funding allocation, overseeing treasury activities, our
@@ -177,7 +177,7 @@ export default function Home() {
 
       {/* features section  */}
       <div className="w-full flex mx-auto justify-center py-6 text-center gap-2 ">
-        <div className="bg-rose-300 rounded-xl items-center w-2/12 px-3 py-6 flex flex-col gap-6 justify-between">
+        <div className="bg-rose-300 dark:bg-red-400 rounded-xl items-center w-2/12 px-3 py-6 flex flex-col gap-6 justify-between">
           <p className="text-xl font-light">Integrated Workflow</p>
           <Image
             className="rounded-xl"
@@ -195,7 +195,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="bg-rose-300 rounded-xl items-center w-2/12 px-3 py-6 flex flex-col  gap-6 justify-between">
+        <div className="bg-rose-300 dark:bg-red-400 rounded-xl items-center w-2/12 px-3 py-6 flex flex-col  gap-6 justify-between">
           <p className="text-xl font-light">Collaboration</p>
           <Image
             className="rounded-xl"
@@ -213,7 +213,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="bg-rose-300 rounded-xl items-center w-2/12 px-3 py-6 flex flex-col  gap-6 justify-between">
+        <div className="bg-rose-300 dark:bg-red-400 rounded-xl items-center w-2/12 px-3 py-6 flex flex-col  gap-6 justify-between">
           <p className="text-xl font-light">Ecosystem Integrations</p>
           <Image
             className="rounded-xl"
@@ -232,9 +232,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="w-full flex flex-col mx-auto justify-center py-6 text-center gap-6 ">
+      <div className="w-full flex flex-col mx-auto dark:text-stone-300 justify-center py-6 text-center gap-6 ">
         <div className="text-7xl  md:text-5xl tracking-tighter">
-          Streamline Your Workflow with
+          Improve Your Workflow with
           <br />
           Seamless Integration
         </div>
@@ -247,7 +247,7 @@ export default function Home() {
 
       <div className="flex justify-center gap-6 pb-10  border-b border-stone-400">
         <Link href={"/home"}>
-          <div className="rounded-full bg-rose-300 pl-4 pr-2 py-2 text-sm">
+          <div className="rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-sm">
             Get started
             <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
               →
@@ -256,7 +256,9 @@ export default function Home() {
         </Link>
 
         <Link href={"/home"}>
-          <div className="  pl-4 pr-2 py-2 text-sm">● Learn more</div>
+          <div className=" dark:text-stone-300 pl-4 pr-2 py-2 text-sm">
+            ● Learn more
+          </div>
         </Link>
       </div>
     </LandingLayout>

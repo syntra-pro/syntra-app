@@ -14,7 +14,7 @@ export default function LandingLayout({
     <div className="min-h-screen">
       <header className="px-12 py-3">
         <div className="flex justify-between items-center">
-          <Link href="/" className="text-2xl font-semibold">
+          <Link href="/" className="text-2xl dark:invert font-semibold">
             <svg
               width="160"
               height="51.78"
@@ -59,14 +59,14 @@ export default function LandingLayout({
             </svg>
           </Link>
 
-          <div className="flex gap-10 text-stone-400 text-xs self-center">
+          <div className="flex gap-10 text-stone-500 dark:text-stone-100 text-xs self-center">
             <Link href={"#setting"}>About</Link>
             <Link href={"/changelog"}>Changelog</Link>
             <Link href={"https://www.seedlatam.org"}>Seed Org</Link>
           </div>
 
           <Link href={"/home"}>
-            <div className="rounded-full bg-rose-300 pl-4 pr-2 py-2 text-sm">
+            <div className="rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-sm">
               Open app
               <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
                 →
@@ -81,8 +81,7 @@ export default function LandingLayout({
       <footer className="py-12 w-full">
         <div className="w-11/12 mx-auto">
           <div className="flex justify-between items-start">
-            <div>
-              {/* <span className="text-xl font-semibold">Syntra</span> */}
+            <div className="dark:invert">
               <svg
                 width="160"
                 height="51.78"
@@ -130,7 +129,7 @@ export default function LandingLayout({
                 (C) 2024 Seed. All rights reserved
               </p>
             </div>
-            <div className="flex gap-8 text-xs font-light text-stone-500">
+            <div className="flex gap-8 text-xs font-light text-stone-500 dark:text-stone-400">
               <div className="flex flex-col  gap-y-2">
                 <p className="text-">About us</p>
                 <p className="text-">Changelog</p>
@@ -145,7 +144,7 @@ export default function LandingLayout({
             </div>
 
             <Link href={"/home"}>
-              <div className="rounded-full bg-rose-300 pl-4 pr-2 py-2 text-sm">
+              <div className="rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-sm">
                 Open app
                 <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
                   →
