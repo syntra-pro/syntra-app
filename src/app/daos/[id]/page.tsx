@@ -162,7 +162,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                 setIsCalendarOpen(false);
                 setIsActivityOpen(false);
               }}
-              className={`  rounded-lg px-3 py-2  
+              className={`  rounded-lg px-3 py-2  outline-none
                   ${isDraftsOpen && " bg-stone-100 dark:bg-stone-700 "}
                 text-stone-600 dark:text-stone-300 text-sm`}
             >
@@ -177,7 +177,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                 setIsActivityOpen(false);
                 setIsDraftsOpen(false);
               }}
-              className={`  rounded-lg px-3 py-2  
+              className={`  rounded-lg px-3 py-2  outline-none
                   ${isResourcesOpen && " bg-stone-100 dark:bg-stone-700 "}
                 text-stone-600 dark:text-stone-300 text-sm`}
             >
@@ -192,7 +192,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                 setIsResourcesOpen(false);
                 setIsActivityOpen(false);
               }}
-              className={`  rounded-lg px-3 py-2  
+              className={`  rounded-lg px-3 py-2  outline-none
                       ${isCalendarOpen && " bg-stone-100 dark:bg-stone-700 "}
                     text-stone-600 dark:text-stone-300 text-sm`}
             >
@@ -207,7 +207,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                 setIsResourcesOpen(false);
                 setIsDraftsOpen(false);
               }}
-              className={`flex flex-col rounded-lg px-3 py-2  
+              className={`flex flex-col rounded-lg px-3 py-2  outline-none
                     ${isActivityOpen && " bg-stone-100 dark:bg-stone-700 "}
                   text-stone-600 dark:text-stone-300 text-sm`}
             >
@@ -217,7 +217,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
 
           {/* tab contents  */}
           <div
-            className={` rounded-lg
+            className={` rounded-lg 
                   overflow-hidden transition-all duration-300 ease-in-out
                   ${isActivityOpen ? "max-h-full" : "max-h-0"}
                 `}
@@ -479,7 +479,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
           <div
             className={`overflow-hidden  rounded-lg flex gap-4
                   transition-all duration-300 ease-in-out
-                    ${isResourcesOpen ? "max-h-96" : "max-h-0"}
+                    ${isResourcesOpen ? "max-h-full" : "max-h-0"}
                   `}
           >
             <DaoLinks arrayLinks={daoLinks} />
@@ -489,7 +489,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
         {/* sliding editor  */}
         {isOpen ? (
           <div
-            className=" px-3
+            className=" px-3 
             bg-slate-200 dark:bg-stone-700 dark:text-stone-400
             bg-opacity-90 backdrop-blur-sm rounded-xl
             absolute z-50 w-2/3 h-screen right-0 shadow-lg 

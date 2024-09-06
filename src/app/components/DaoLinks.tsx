@@ -7,6 +7,8 @@ interface DaoLinkProps {
     {
       title: string;
       url: string;
+      description: string;
+      svg: string;
     }
   ];
   filterBy: string;
@@ -35,7 +37,13 @@ const arr: React.FC<any> = ({ arrayLinks }: DaoLinkProps) => {
               </div>
             </div>
             <div className="items-center flex">
-              <FileTextIcon className="h-12 w-12 text-muted-foreground" />
+              <div
+                className="h-16 w-16 text-blacks fill-currents fill-stone-400"
+                style={{ width: "64px", height: "64px" }}
+                dangerouslySetInnerHTML={{
+                  __html: link.svg.replace(/fill="#\w+"/g, ""),
+                }}
+              />
             </div>
           </div>
         </Link>
