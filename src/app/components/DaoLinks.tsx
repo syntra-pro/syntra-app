@@ -25,20 +25,20 @@ const arr: React.FC<any> = ({ arrayLinks }: DaoLinkProps) => {
             dark:hover:bg-rose-900 
             hover:bg-rose-100 shadow-md rounded-lg"
           >
-            <div className="rounded-lg p-4 text-black dark:text-stone-300 transition-colors flex flex-col">
+            <div className="rounded-lg p-4 text-black dark:text-stone-300 transition-colors flex  justify-center flex-col">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <FileTextIcon className="h-6 w-6" />
                   <span className="text-md font-semibold">{link.title}</span>
                 </div>
               </div>
-              <div className="text-xs mt-2">
+              <div className="text-xs mt-3">
                 {link.description || "No description available"}
               </div>
             </div>
             <div className="items-center flex">
               <div
-                className="h-16 w-16 text-blacks fill-currents fill-stone-400"
+                className="h-16 sm:hidden md:block w-16 text-blacks fill-currents fill-stone-400"
                 style={{ width: "64px", height: "64px" }}
                 dangerouslySetInnerHTML={{
                   __html: link.svg.replace(/fill="#\w+"/g, ""),
