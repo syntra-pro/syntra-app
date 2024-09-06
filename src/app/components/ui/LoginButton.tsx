@@ -36,8 +36,12 @@ export const LoginButton: React.FC = () => {
       </Button>
       <div className="justify-self-end absolute">
         {showMenu ? (
-          <div className="bg-stone-100 shadow-md rounded-md p-4">
-            <Button size="sm" onClick={handleLogout}>
+          <div className="bg-stone-100 dark:bg-stone-500 shadow-md rounded-md p-4">
+            <Button
+              className="dark:bg-stone-500"
+              size="sm"
+              onClick={handleLogout}
+            >
               Disconnect
             </Button>
           </div>

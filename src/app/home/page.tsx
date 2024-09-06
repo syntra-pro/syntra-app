@@ -7,7 +7,7 @@ export default function Home() {
       <main className="flex flex-col w-full gap-8 p-8">
         <div id="sector1" className="flex flex-col sm:flex-row  w-full gap-4">
           <div
-            className="rounded-lg border  border-stone-200 
+            className="rounded-lg border  border-stone-200  dark:border-stone-700
           p-4 flex flex-col gap-4"
           >
             <div className="dark:text-stone-100">
@@ -16,21 +16,24 @@ export default function Home() {
                 Quickly access your most used features
               </p>
             </div>
-            <Link href={"/daos/optimism"} className="bg-red-100 p-4 rounded-lg">
+            <Link
+              href={"/daos/optimism"}
+              className="bg-red-200 dark:bg-red-800 dark:text-stone-300 p-4 rounded-lg"
+            >
               <p className="font-bold">Optimism</p>
               <p className="text-xs">View your upcoming events</p>
             </Link>
 
             <Link
               href={"/daos/arbitrum"}
-              className="bg-blue-100 p-4 rounded-lg"
+              className="bg-sky-200 dark:bg-sky-800 dark:text-stone-300 p-4 rounded-lg"
             >
               <p className="font-bold">Arbitrum</p>
               <p className="text-xs">Manage your tasks and projects</p>
             </Link>
 
-            <div className="bg-stone-100 p-4 rounded-lg">
-              <p className="font-bold">Draft-001 Grants</p>
+            <div className="bg-stone-200 dark:bg-stone-700 dark:text-stone-300 p-4 rounded-lg">
+              <p className="font-bold">Web3</p>
               <p className="text-xs">View your tasks list</p>
             </div>
           </div>

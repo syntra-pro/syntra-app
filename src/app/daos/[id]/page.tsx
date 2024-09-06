@@ -307,7 +307,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                 <div className="flex justify-between">
                   <div className="text-lg font-semibold">Projects</div>
                   <Button
-                    className="rounded-md px-2 py-1 text-xs text-black"
+                    className="rounded-md px-2 py-1 text-xs dark:hover:bg-rose-900 dark:text-stone-400 text-black"
                     variant={"ghost"}
                     size={"sm"}
                   >
@@ -364,7 +364,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                   <div className="text-lg font-semibold">Drafts</div>
                   <div className="flex gap-1">
                     <Button
-                      className="rounded-md px-2 py-1 text-xs text-black"
+                      className="rounded-md px-2 py-1 text-xs dark:hover:bg-rose-900 dark:text-stone-400 text-black"
                       onClick={handleNewDraft}
                       variant={"ghost"}
                       size={"sm"}
