@@ -15,14 +15,17 @@ import {
   defaultMarkdownSerializer,
   schema,
 } from "prosemirror-markdown";
-import { readDocument, upsertDocument } from "../../lib/utils";
+import {
+  preprocessMarkdown,
+  readDocument,
+  upsertDocument,
+} from "../../lib/utils";
 
 import { EditorView } from "prosemirror-view";
 import Loader from "./ui/Loader";
 import { Schema } from "prosemirror-model";
 import { addListNodes } from "prosemirror-schema-list";
 import { keymap } from "prosemirror-keymap";
-import { useWallets } from "@privy-io/react-auth";
 
 const shiftEnterCommand = chainCommands(
   newlineInCode,
@@ -44,20 +47,41 @@ EditorView.prototype.updateState = function (state) {
 
 const mySchema = new Schema({
   nodes: addListNodes(schema.spec.nodes, "paragraph block*", "block"),
-  marks: schema.spec.marks,
+  // @ts-ignore
+  marks: {
+    ...schema.spec.marks,
+    strong: {
+      parseDOM: [{ tag: "strong" }],
+      toDOM() {
+        return ["strong", 0];
+      },
+    },
+    em: {
+      parseDOM: [{ tag: "em" }],
+      toDOM() {
+        return ["em", 0];
+      },
+    },
+    link: {
+      parseDOM: [{ tag: "a[href]" }],
+      toDOM(node) {
+        return ["a", { href: node.attrs.href }, 0];
+      },
+    },
+  },
 });
-
 const menu = buildMenuItems(mySchema);
 
 const MarkdownEditor: React.FC<{
+  daoTemplates: any;
   folder: string;
   documentId: string;
   afterSave: () => void;
-}> = ({ folder, documentId, afterSave }) => {
+}> = ({ daoTemplates, folder, documentId, afterSave }) => {
   const [cont, setCont] = useState("");
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
-  const [priority, setPriority] = useState("normal");
+  const [priority, setPriority] = useState("medium");
   const [project, setProject] = useState("");
   const [tags, setTags] = useState([]);
   const [collabs, setCollabs] = useState([]);
@@ -65,11 +89,12 @@ const MarkdownEditor: React.FC<{
   const [isSaving, setIsSaving] = useState(false);
 
   const editorRef = useRef<HTMLDivElement>(null);
+  const viewRef = useRef<EditorView | null>(null);
 
-  useEffect(() => {
-    if (!editorRef.current) return;
-    let view: EditorView | null = null;
-    const state = EditorState.create({
+  const createEditorState = (content: string = "") => {
+    const doc = defaultMarkdownParser.parse(content.trim());
+    return EditorState.create({
+      doc,
       schema: mySchema,
       plugins: [
         keymap({
@@ -81,141 +106,142 @@ const MarkdownEditor: React.FC<{
         }),
       ],
     });
+  };
 
-    view = new EditorView(editorRef.current, { state });
+  const initializeEditor = (content: string = "") => {
+    if (!editorRef.current) return;
 
-    view.setProps({
-      dispatchTransaction: (transaction: Transaction) => {
-        if (view && view.state) {
-          const newState = view.state.apply(transaction);
-          view.updateState(newState);
-          if (transaction.docChanged) {
-            const content = defaultMarkdownSerializer.serialize(newState.doc);
-            setCont(content);
+    const state = createEditorState(content);
+
+    if (viewRef.current) {
+      viewRef.current.updateState(state);
+    } else {
+      // viewRef.current = new EditorView(editorRef.current, {
+      //   state,
+      //   dispatchTransaction: (transaction: Transaction) => {
+      //     if (viewRef.current) {
+      //       const newState = viewRef.current.state.apply(transaction);
+      //       viewRef.current.updateState(newState);
+      //       if (transaction.docChanged) {
+      //         const content = defaultMarkdownSerializer.serialize(newState.doc);
+      //         setCont(content);
+      //       }
+      //     }
+      //   },
+      // });
+
+      viewRef.current = new EditorView(editorRef.current, {
+        state: createEditorState(content),
+        dispatchTransaction: (transaction: Transaction) => {
+          if (viewRef.current) {
+            const newState = viewRef.current.state.apply(transaction);
+            viewRef.current.updateState(newState);
+            if (transaction.docChanged) {
+              const content = defaultMarkdownSerializer.serialize(newState.doc);
+              setCont(content);
+            }
           }
-        }
-      },
-    });
+        },
+        handleDOMEvents: {
+          click: (view, event) => {
+            const target = event.target as HTMLAnchorElement;
+            if (target.tagName === "A") {
+              event.preventDefault(); // Prevent the default behavior
+              window.open(target.href, "_blank"); // Open the link in a new tab
+              return true;
+            }
+            return false;
+          },
+        },
+      });
+    }
+  };
 
+  useEffect(() => {
     const fetchDocument = async () => {
       try {
         setIsLoading(true);
-        const data = await readDocument(`/${folder}/${documentId}`);
-
-        console.log("ok  ", `/${folder}/${documentId}`);
-        console.log("data ", data);
-
-        setTitle(data.title);
-        setLink(data.link);
-        setPriority(data.priority);
-        setProject(data.project || "");
-        setTags(data.tags || []);
-        setCollabs(data.collabs || []);
-        const content = data.content;
-
-        if (content && view) {
-          const remoteContent = content;
-          const newDoc = defaultMarkdownParser.parse(remoteContent);
-          setCont(remoteContent);
-          const newState = EditorState.create({
-            doc: newDoc,
-            schema: mySchema,
-            plugins: [
-              keymap({
-                "Shift-Enter": shiftEnterCommand,
-              }),
-              ...exampleSetup({
-                schema: mySchema,
-                menuContent: [...menu.fullMenu.slice(0, 1), menu.fullMenu[1]],
-              }),
-            ],
-          });
-
-          view.updateState(newState);
-          setIsLoading(false);
+        if (documentId === "0") {
+          setTitle("");
+          setLink("");
+          setPriority("medium");
+          setProject("");
+          setTags([]);
+          setCollabs([]);
+          initializeEditor();
+        } else {
+          const data = await readDocument(`/${folder}/${documentId}`);
+          setTitle(data.title);
+          setLink(data.link);
+          setPriority(data.priority);
+          setProject(data.project || "");
+          setTags(data.tags || []);
+          setCollabs(data.collabs || []);
+          initializeEditor(data.content);
         }
       } catch (error) {
         console.error("Error fetching document:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    if (documentId === "0") {
-      setTitle("");
+    fetchDocument();
+
+    return () => {
+      if (viewRef.current) viewRef.current.destroy();
+    };
+  }, [documentId, folder]);
+
+  const handleTemplate = async (templateId: string) => {
+    try {
+      setIsLoading(true);
+      const daoTemplate = daoTemplates.find((r: any) => r.id === templateId);
+      setTitle(`[${daoTemplate.name}]`);
       setLink("");
-      setPriority("normal");
+      setPriority("medium");
       setProject("");
       setTags([]);
       setCollabs([]);
-    } else {
-      fetchDocument();
-    }
-
-    return () => {
-      if (view) view.destroy();
-    };
-  }, []);
-
-  const { wallets } = useWallets();
-
-  const handleStore = async () => {
-    try {
-      const wallet = wallets[0]; // Replace this with your desired wallet
-      if (!wallet) return;
-      const provider = await wallet.getEthereumProvider();
-      const address = wallet.address;
-
-      //   const { message } = (await lighthouse.getAuthMessage(address)).data;
-      //   const signature = await provider.request({
-      //     method: "personal_sign",
-      //     params: [message, address],
-      //   });
-
-      //   const verificationMessage = await getMessage(address);
-
-      //   const signAuthMessage = async (
-      //     address: string,
-      //     verificationMessage: string
-      //   ) => {
-      //     const signedMessage = await provider.request({
-      //       method: "personal_sign",
-      //       params: [verificationMessage, address],
-      //     });
-      //     return signedMessage;
-      //   };
-
-      //   const signedMessage = await signAuthMessage(address, verificationMessage);
-      //   const key = await lighthouse.getApiKey(address, signedMessage);
-
-      // DEPRECATED
-      // const { signedMessage, key } = await getLHkey(address, provider);
-      // uploadLH(address, signedMessage, cont, key.data.apiKey, documentId)
-      //   .then((response) => setResponseLH(response?.url))
-      //   .catch((err) => console.error("xxxerr ", err));
+      const contentPre = daoTemplate.markdown;
+      const content = preprocessMarkdown(contentPre);
+      // const content = contentPre;
+      console.log("pre ", daoTemplate.markdown);
+      console.log("post ", content);
+      setCont(content);
+      initializeEditor(content);
     } catch (error) {
-      console.log("Error ", error);
+      console.error("Error fetching template:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleSave = async () => {
     setIsSaving(true);
+    try {
+      const pathName =
+        documentId === "0"
+          ? `/${folder}/${new Date().getTime().toString()}`
+          : `/${folder}/${documentId}`;
 
-    const pathName =
-      documentId === "0"
-        ? `/${folder}/${new Date().getTime().toString()}`
-        : `/${folder}/${documentId}`;
+      await upsertDocument(
+        pathName,
+        cont,
+        title,
+        link,
+        priority,
+        project,
+        tags,
+        collabs
+      );
 
-    await upsertDocument(
-      pathName,
-      cont,
-      title,
-      link,
-      priority,
-      project,
-      tags,
-      collabs
-    );
-
-    afterSave();
+      afterSave();
+    } catch (error) {
+      console.error("Error saving document:", error);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -239,7 +265,7 @@ const MarkdownEditor: React.FC<{
             >
               <option value={"critical"}>Critical</option>
               <option value={"high"}>High</option>
-              <option value={"normal"}>Normal</option>
+              <option value={"medium"}>Medium</option>
               <option value={"low"}>Low</option>
             </select>
           </div>
@@ -280,7 +306,23 @@ const MarkdownEditor: React.FC<{
           </div>
         </div>
 
-        <div className="flex mt-2 w-full justify-end">
+        <div className="flex mt-2 w-full justify-between">
+          <div className="text-xs ">
+            Use template
+            <select
+              onChange={(e) => handleTemplate(e.target.value)}
+              className="ml-2 rounded-sm outline-none px-2 py-1"
+            >
+              {daoTemplates.map((i: any, k: number) => (
+                <>
+                  <option key={k} value={i.id}>
+                    {i.name}
+                  </option>
+                </>
+              ))}
+            </select>
+          </div>
+
           {isSaving ? (
             <Loader />
           ) : (

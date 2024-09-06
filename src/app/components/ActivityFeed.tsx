@@ -237,8 +237,8 @@ import React from "react";
 export default function ActivityFeed() {
   return (
     <div className="w-full max-w-4xl mx-auto ">
-      <Tabs defaultValue="votes" className="space-y-4">
-        <TabsList className="w-full grid bg-stone-200 grid-cols-2 gap-4">
+      <Tabs defaultValue="votes" className="space-y-4 ">
+        <TabsList className="w-full grid bg-stone-200 dark:bg-stone-700 grid-cols-2 gap-4">
           <TabsTrigger value="votes" className="w-full">
             Votes
           </TabsTrigger>
@@ -247,7 +247,7 @@ export default function ActivityFeed() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="votes" className="space-y-4">
+        <TabsContent value="votes" className="p-4 space-y-4">
           <FeedItem
             avatar="AC"
             title="Upgrade Proposal #10: Granite Network Upgrade"
@@ -289,7 +289,7 @@ export default function ActivityFeed() {
 
 function FeedItem({ avatar, title, likes, comments }: any) {
   return (
-    <Card className="w-full shadow-sm">
+    <Card className="w-full dark:bg-stone-700 bg-stone-200 border-0 dark:text-stone-400 shadow-md">
       <CardContent className="p-4">
         <div className="flex items-start gap-4">
           <Avatar className="h-10 w-10">

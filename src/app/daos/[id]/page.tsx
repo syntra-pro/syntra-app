@@ -85,19 +85,14 @@ export default function DaoPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     async function fetchDAOLinks() {
       try {
-        console.log("loading docs...");
         const docs = await getDocument("DAOS", idDao);
-
         setDaoLinks(docs?.links as DaoLink[]);
         setDaoSettings(docs?.settings as DaoLink[]);
         setDaoTemplates(docs?.templates as DaoLink[]);
         setCalendarId(docs?.settings[0].google_calendar_id);
-
         setLogo(docs?.settings[0].logoSVG || "");
-        // console.log("acaaa ", docs?.settings[0].tailwindColor || "stone");
         setColor(docs?.settings[0].color || "stone-100");
         setColorDark(docs?.settings[0].colorDark || "stone-900");
-        console.log("loaded.");
         setLoading(false);
       } catch (err) {
         setError("Error fetching documents ");
@@ -245,7 +240,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                 {isCalendarOpen && (
                   <div
                     className="w-full rounded-lg 
-               border shadow
+               border dark:border-stone-700 shadow
               "
                   >
                     <div
@@ -385,7 +380,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                       + Use template
                     </Button> */}
 
-                    <DropdownMenu>
+                    {/* <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button
                           variant="outline"
@@ -406,7 +401,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                           Delegate Statement
                         </DropdownMenuItem>
                       </DropdownMenuContent>
-                    </DropdownMenu>
+                    </DropdownMenu> */}
                   </div>
                 </div>
                 <span className="text-xs">Access to your draft proposals.</span>
@@ -516,6 +511,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                 <CollaborativeEditor
                   // TODO next iteration
                   // username={user?.wallet?.address}
+                  daoTemplates={daoTemplates}
                   folder={`${idDao}/${user?.wallet?.address}`}
                   documentId={documentId}
                   afterSave={fetchDocuments}
