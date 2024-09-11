@@ -517,7 +517,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                             variant="ghost"
                             size={'sm'}
                             className="text-xs outline-none dark:hover:bg-rose-900 dark:text-stone-400 text-black">
-                            + New with template
+                            Use template
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
