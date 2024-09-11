@@ -157,8 +157,8 @@ const MarkdownEditor: React.FC<{
           click: (view, event) => {
             const target = event.target as HTMLAnchorElement;
             if (target.tagName === 'A') {
-              event.preventDefault(); // Prevent the default behavior
-              window.open(target.href, '_blank'); // Open the link in a new tab
+              event.preventDefault(); // Prevents the default behavior
+              window.open(target.href, '_blank');
               return true;
             }
             return false;
@@ -173,7 +173,34 @@ const MarkdownEditor: React.FC<{
       try {
         setIsLoading(true);
 
-        if (daoTemplate) {
+        if (documentId !== '0' && typeof daoTemplate?.id === 'undefined') {
+          const data = await readDocument(`/${folder}/${documentId}`);
+          setTitle(data.title);
+          setLink(data.link || '');
+          setPriority(data.priority);
+          setProject(data.project || 'xxx');
+          setTags(data.tags || []);
+          setCollabs(data.collabs || []);
+          setCont(data.content);
+          initializeEditor(data.content);
+        }
+
+        if (documentId === '0' && typeof daoTemplate?.id === 'undefined') {
+          setTitle('');
+          setLink('');
+          setPriority('medium');
+          if (project === ALL_DOCS_FOLDER) {
+            setProject('Unassigned');
+          }
+
+          setTags([]);
+          setCollabs([]);
+          initializeEditor();
+          return;
+        }
+
+        if (documentId === '0' && typeof daoTemplate?.id !== 'undefined') {
+          console.log('nuevo CON TEMPLATE?');
           setTitle(`[${daoTemplate.name}]`);
           setLink('');
           setPriority('medium');
@@ -187,31 +214,9 @@ const MarkdownEditor: React.FC<{
           const content = preprocessMarkdown(contentPre);
           setCont(content);
           initializeEditor(content);
-        } else {
-          if (documentId === '0') {
-            setTitle('');
-            setLink('');
-            setPriority('medium');
-            if (project === ALL_DOCS_FOLDER) {
-              setProject('Unassigned');
-            }
-
-            setTags([]);
-            setCollabs([]);
-            initializeEditor();
-          } else {
-            const data = await readDocument(`/${folder}/${documentId}`);
-            setTitle(data.title);
-            setLink(data.link);
-            setPriority(data.priority);
-            setProject(data.project || 'xxx');
-
-            setTags(data.tags || []);
-            setCollabs(data.collabs || []);
-            setCont(data.content);
-            initializeEditor(data.content);
-          }
         }
+
+        return;
       } catch (error) {
         console.error('Error fetching document:', error);
       } finally {
@@ -251,7 +256,13 @@ const MarkdownEditor: React.FC<{
   // };
 
   const handleSave = async () => {
-    if (link.trim() !== '' || cont.trim() !== '' || title.trim() !== '') {
+    console.log('link, cont, title>>>> ', link, cont, title);
+
+    if (
+      typeof link !== 'undefined' ||
+      cont.trim() !== '' ||
+      title.trim() !== ''
+    ) {
       console.log('saving!');
 
       let newTitle = title.trim();

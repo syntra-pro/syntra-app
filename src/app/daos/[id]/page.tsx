@@ -92,6 +92,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
 
   async function fetchDocuments() {
     try {
+      setDaoTemplate(undefined);
       const pathName = `/documents/${idDao}/${user?.wallet?.address}`;
       const documents = await fetchAllDocuments(pathName);
       console.log('Documents:', pathName, documents);
@@ -541,7 +542,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                     Access to your draft proposals.
                   </div>
                   <hr className="dark:border-stone-700" />
-                  {/* the list  */}
+                  {/* the draft list  */}
                   <div className="flex flex-col mt-4 gap-1">
                     {loading ? (
                       <Loader />
@@ -558,8 +559,10 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                                 <FileTextIcon />
                                 <button
                                   className="w-60 text-left "
-                                  onClick={() => handleOpenDraft(i.id)}>
-                                  {i.title || `#${i.id}`}
+                                  onClick={() => {
+                                    return handleOpenDraft(i.id);
+                                  }}>
+                                  {i.title || `id #${i.id}`}
                                 </button>
                               </div>
 
