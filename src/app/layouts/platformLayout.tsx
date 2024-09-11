@@ -202,14 +202,14 @@ export default function PlatformLayout({
               </Link>
               <nav className="mt-6 flex flex-col">
                 <BlankLink
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-slate-300 hover:text-gray-900 focus:bg-slate-300 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="/home">
                   <HomeIcon />
                   Home
                 </BlankLink>
 
                 <Link
-                  className="flex items-center opacity-30 gap-2 mb-4 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                  className="flex items-center gap-2 mb-4 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-slate-300 hover:text-gray-900 focus:bg-slate-300 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="#">
                   <BellIcon />
                   Notifications
@@ -220,18 +220,18 @@ export default function PlatformLayout({
                 </span>
 
                 <BlankLink
-                  className="flex items-center gap-2 mt-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                  className="flex items-center gap-2 mt-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-slate-300 hover:text-gray-900 focus:bg-slate-300 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="/dao-manager">
                   <CubeIcon /> DAO Manager
                 </BlankLink>
                 <Link
-                  className="flex items-center gap-2 opacity-30 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-slate-300 hover:text-gray-900 focus:bg-slate-300 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="#">
                   <FileIcon />
                   Drafts
                 </Link>
                 <Link
-                  className="flex items-center gap-2 opacity-30 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-slate-300 hover:text-gray-900 focus:bg-slate-300 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                   href="#">
                   <BarChartIcon />
                   Analytics
@@ -242,7 +242,7 @@ export default function PlatformLayout({
             <div className="flex flex-col text-center gap-3 mb-3">
               <button
                 onClick={() => setFeedback(true)}
-                className="rounded-md flex gap-2 items-center px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50">
+                className="rounded-md flex gap-2 items-center px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-slate-300 hover:text-gray-900 focus:bg-slate-300 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50">
                 <QuestionMarkCircledIcon />
                 Send feedback
               </button>

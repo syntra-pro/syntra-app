@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, {
   ReactNode,
@@ -6,8 +6,8 @@ import React, {
   useContext,
   useEffect,
   useState,
-} from "react";
-import { User, usePrivy } from "@privy-io/react-auth";
+} from 'react';
+import { User, usePrivy } from '@privy-io/react-auth';
 
 interface AuthContextType {
   authenticated: boolean;
@@ -26,7 +26,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { ready, authenticated, login, logout, user } = usePrivy();
   const [authState, setAuthState] = useState<
-    Omit<AuthContextType, "login" | "logout">
+    Omit<AuthContextType, 'login' | 'logout'>
   >({
     authenticated: false,
     user: null,
@@ -34,8 +34,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   });
 
   useEffect(() => {
-    // console.log("ready ", ready);
-
     if (ready) {
       setAuthState({ authenticated, user, ready });
     }
@@ -51,7 +49,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };
