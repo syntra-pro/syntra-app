@@ -1,8 +1,8 @@
-import { get, getDatabase, push, ref, set } from "firebase/database";
+import { get, getDatabase, push, ref, set } from 'firebase/database';
 
-import { NextResponse } from "next/server";
-import { firebaseConfig } from "../../../lib/firebaseConfig";
-import { initializeApp } from "firebase/app";
+import { NextResponse } from 'next/server';
+import { firebaseConfig } from '../../../lib/firebaseConfig';
+import { initializeApp } from 'firebase/app';
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -11,8 +11,8 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
 
-    const folder = searchParams.get("folder");
-    const documentId = searchParams.get("documentId");
+    const folder = searchParams.get('folder');
+    const documentId = searchParams.get('documentId');
 
     if (documentId) {
       const docRef = ref(database, `/documents/${documentId}`);
@@ -25,8 +25,8 @@ export async function GET(req: Request) {
         return NextResponse.json(data, { status: 200 });
       } else {
         return NextResponse.json(
-          { error: "Document not found" },
-          { status: 404 }
+          { error: 'Document not found' },
+          { status: 404 },
         );
       }
     } else {
@@ -36,23 +36,23 @@ export async function GET(req: Request) {
       const data = snapshot.val();
 
       if (snapshot.exists()) {
-        const documents = Object.keys(data).map((key) => ({
+        const documents = Object.keys(data).map(key => ({
           id: key,
           ...data[key],
         }));
         return NextResponse.json({ documents }, { status: 200 });
       } else {
         return NextResponse.json(
-          { error: "No documents found in the folder" },
-          { status: 404 }
+          { error: 'No documents found in the folder' },
+          { status: 404 },
         );
       }
     }
   } catch (error) {
-    console.error("Error handling GET request:", error);
+    console.error('Error handling GET request:', error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
+      { error: 'Internal Server Error' },
+      { status: 500 },
     );
   }
 }
@@ -125,19 +125,19 @@ export async function POST(req: Request) {
       isNew,
     } = body;
 
-    if (!pathName || typeof content !== "string") {
+    if (!pathName || typeof content !== 'string') {
       return NextResponse.json(
-        { error: "Folder, Document ID, and content are required" },
-        { status: 400 }
+        { error: 'Folder, Document ID, and content are required' },
+        { status: 400 },
       );
     }
 
     if (isNew) {
       const incompletePath = `documents/${pathName}`;
+      console.log('incompletePath ', incompletePath);
       const newDocRef = push(ref(database, incompletePath));
       await set(newDocRef, {
         content,
-
         title,
         link,
         priority,
@@ -147,8 +147,8 @@ export async function POST(req: Request) {
       });
 
       return NextResponse.json(
-        { message: "Document created successfully", id: newDocRef.key },
-        { status: 201 }
+        { message: 'Document created successfully', id: newDocRef.key },
+        { status: 201 },
       );
     } else {
       const docRef = ref(database, `documents/${pathName}`);
@@ -162,16 +162,18 @@ export async function POST(req: Request) {
         collabs,
       });
 
+      // TODO Erase from route 0
+
       return NextResponse.json(
-        { message: "Document updated successfully" },
-        { status: 200 }
+        { message: 'Document updated successfully' },
+        { status: 200 },
       );
     }
   } catch (error) {
-    console.error("Error handling POST request:", error);
+    console.error('Error handling POST request:', error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
+      { error: 'Internal Server Error' },
+      { status: 500 },
     );
   }
 }

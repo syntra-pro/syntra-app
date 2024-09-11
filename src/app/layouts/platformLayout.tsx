@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import "../../app/globals.css";
+import '../../app/globals.css';
 
 import {
   BarChartIcon,
@@ -12,19 +12,20 @@ import {
   HomeIcon,
   QuestionMarkCircledIcon,
   TwitterLogoIcon,
-} from "@radix-ui/react-icons";
-import { useEffect, useState } from "react";
+} from '@radix-ui/react-icons';
+import { useEffect, useState } from 'react';
 
-import { AnimatePresence } from "framer-motion";
-import { BlankLink } from "../components/BlankLink";
-import FeedbackPopup from "../components/FeedbackPopup";
-import { HeadBar } from "../components/ui/HeadBar";
+import { AnimatePresence } from 'framer-motion';
+import { BlankLink } from '../components/BlankLink';
+import FeedbackPopup from '../components/FeedbackPopup';
+import { HeadBar } from '../components/ui/HeadBar';
 // import { Inter } from "next/font/google";
-import Link from "next/link";
-import { LoginButton } from "../components/ui/LoginButton";
+import Link from 'next/link';
+import { LoginButton } from '../components/ui/LoginButton';
+import { initMixpanel } from '../../lib/mixpanel';
 // import { NetworkProvider } from "../components/contexts/NetworkContext";
-import { useAuth } from "../components/contexts/AuthContext";
-import { useDAO } from "../components/contexts/DAOContext";
+import { useAuth } from '../components/contexts/AuthContext';
+import { useDAO } from '../components/contexts/DAOContext';
 
 // import { AuthProvider } from "../components/contexts/AuthContext";
 
@@ -104,10 +105,10 @@ export default function PlatformLayout({
   // }, [color]);
   useEffect(() => {
     // setIsClient(true);
+    initMixpanel();
 
-    // Detectar el modo oscuro
     const darkModeMediaQuery = window.matchMedia(
-      "(prefers-color-scheme: dark)"
+      '(prefers-color-scheme: dark)',
     );
     setIsDarkMode(darkModeMediaQuery.matches);
 
@@ -116,11 +117,11 @@ export default function PlatformLayout({
       setIsDarkMode(e.matches);
     };
 
-    darkModeMediaQuery.addEventListener("change", handleChange);
+    darkModeMediaQuery.addEventListener('change', handleChange);
 
     // Limpiar el event listener cuando el componente se desmonta
     return () => {
-      darkModeMediaQuery.removeEventListener("change", handleChange);
+      darkModeMediaQuery.removeEventListener('change', handleChange);
     };
   }, []);
 
@@ -145,15 +146,14 @@ export default function PlatformLayout({
             className="fixed left-0 h-full justify-between z-30 flex w-44 flex-col p-3"
             style={{
               backgroundColor:
-                logo === ""
+                logo === ''
                   ? isDarkMode
-                    ? "#1c1917"
-                    : "#f5f5f4"
+                    ? '#1c1917'
+                    : '#f5f5f4'
                   : isDarkMode
                   ? colorDark
                   : color,
-            }}
-          >
+            }}>
             <div>
               <Link href="/">
                 <div className="ml-3 dark:invert ">
@@ -162,8 +162,7 @@ export default function PlatformLayout({
                     height="32"
                     viewBox="0 0 365 118"
                     fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                    xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M113.227 98.5768C108.125 98.5768 103.605 97.6081 99.6653 95.6707C95.7905 93.6687 92.7229 90.8917 90.4626 87.3398C88.2669 83.7234 87.0722 79.5257 86.8784 74.7467H100.828C101.151 78.2341 102.378 80.9787 104.509 82.9807C106.705 84.9827 109.611 85.9837 113.227 85.9837C116.521 85.9837 119.136 85.3056 121.074 83.9494C123.011 82.5932 123.98 80.6558 123.98 78.1372C123.98 76.3935 123.398 75.005 122.236 73.9718C121.138 72.8739 119.75 72.0344 118.071 71.4531C116.392 70.8719 114.002 70.1938 110.902 69.4189C106.317 68.321 102.539 67.1586 99.5684 65.9315C96.6623 64.6399 94.1437 62.6057 92.0125 59.8287C89.8814 57.0518 88.8158 53.2416 88.8158 48.3981C88.8158 44.717 89.8168 41.4234 91.8188 38.5173C93.8208 35.6112 96.5977 33.3509 100.15 31.7364C103.702 30.0573 107.77 29.2178 112.355 29.2178C117.199 29.2178 121.461 30.0896 125.142 31.8333C128.823 33.5769 131.697 36.0633 133.764 39.2923C135.895 42.5213 137.025 46.2669 137.154 50.5292H123.398C123.076 47.8168 121.945 45.6857 120.008 44.1358C118.071 42.5213 115.52 41.714 112.355 41.714C109.449 41.714 107.157 42.3275 105.477 43.5546C103.798 44.7816 102.959 46.3961 102.959 48.3981C102.959 50.2709 103.54 51.7562 104.703 52.8541C105.865 53.9519 107.35 54.8238 109.159 55.4696C110.967 56.0508 113.453 56.6966 116.618 57.407C121.267 58.5048 125.045 59.635 127.951 60.7974C130.857 61.9599 133.344 63.9296 135.41 66.7065C137.541 69.4189 138.607 73.1645 138.607 77.9434C138.607 82.1411 137.541 85.7899 135.41 88.8898C133.279 91.9896 130.309 94.3791 126.498 96.0582C122.688 97.7372 118.264 98.5768 113.227 98.5768Z"
                       fill="#232118"
@@ -204,19 +203,17 @@ export default function PlatformLayout({
               <nav className="mt-6 flex flex-col">
                 <BlankLink
                   className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                  href="/home"
-                >
+                  href="/home">
                   <HomeIcon />
                   Home
                 </BlankLink>
 
-                <BlankLink
-                  className="flex items-center gap-2 mb-4 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                  href="#"
-                >
+                <Link
+                  className="flex items-center opacity-30 gap-2 mb-4 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                  href="#">
                   <BellIcon />
                   Notifications
-                </BlankLink>
+                </Link>
 
                 <span className="font-semibold pl-3 text-stone-500 text-sm">
                   Workspace
@@ -224,32 +221,28 @@ export default function PlatformLayout({
 
                 <BlankLink
                   className="flex items-center gap-2 mt-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                  href="/dao-manager"
-                >
+                  href="/dao-manager">
                   <CubeIcon /> DAO Manager
                 </BlankLink>
-                <BlankLink
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                  href="#"
-                >
+                <Link
+                  className="flex items-center gap-2 opacity-30 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                  href="#">
                   <FileIcon />
                   Drafts
-                </BlankLink>
-                <BlankLink
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                  href="#"
-                >
+                </Link>
+                <Link
+                  className="flex items-center gap-2 opacity-30 rounded-md px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                  href="#">
                   <BarChartIcon />
                   Analytics
-                </BlankLink>
+                </Link>
               </nav>
             </div>
             {/* lower section  */}
             <div className="flex flex-col text-center gap-3 mb-3">
               <button
                 onClick={() => setFeedback(true)}
-                className="rounded-md flex gap-2 items-center px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-              >
+                className="rounded-md flex gap-2 items-center px-3 py-2 text-sm font-medium text-gray-500 transition-colors hover:bg-rose-200 hover:text-gray-900 focus:bg-rose-200 focus:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50">
                 <QuestionMarkCircledIcon />
                 Send feedback
               </button>
@@ -263,21 +256,19 @@ export default function PlatformLayout({
                   <div className="flex gap-1">
                     <Link
                       target="_blank"
-                      href={"https://seedorg.super.site/seedgov"}
+                      href={'https://seedorg.super.site/seedgov'}
                       className="w-6 h-6 p-0.5 dark:bg-transparent rounded 
                         sidebarSocials
-                        flex-col justify-center items-center gap-2.5 inline-flex"
-                    >
+                        flex-col justify-center items-center gap-2.5 inline-flex">
                       <GlobeIcon className="dark:invert" />
                     </Link>
 
                     <Link
-                      href={"https://x.com/seedgov"}
+                      href={'https://x.com/seedgov'}
                       target="_blank"
                       className="w-6 h-6 p-0.5 dark:bg-transparent rounded 
                         sidebarSocials
-                          flex-col justify-center items-center gap-2.5 inline-flex"
-                    >
+                          flex-col justify-center items-center gap-2.5 inline-flex">
                       <TwitterLogoIcon className="dark:invert" />
                     </Link>
                   </div>
@@ -289,7 +280,7 @@ export default function PlatformLayout({
       </div>
       <AnimatePresence>
         {feedback && <FeedbackPopup onClose={() => setFeedback(false)} />}
-      </AnimatePresence>{" "}
+      </AnimatePresence>{' '}
     </>
   );
 }

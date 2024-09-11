@@ -1,7 +1,8 @@
-import Link from "next/link";
-import React from "react";
-import { localTime } from "../../lib/utils";
+import { CalendarIcon, MaskOffIcon } from '@radix-ui/react-icons';
 
+import Link from 'next/link';
+import React from 'react';
+import { localTime } from '../../lib/utils';
 interface DaoEventProps {
   id: number;
   updated: Date;
@@ -32,8 +33,7 @@ const DaoEvent: React.FC<DaoEventProps> = ({
       className="flex opacity-70 items-center gap-2 rounded-lg
    text-sm font-medium text-gray-500 transition-colors dark:text-gray-400
    bg-stone-100
-   "
-    >
+   ">
       empty event
     </div>
   ) : (
@@ -50,9 +50,8 @@ const DaoEvent: React.FC<DaoEventProps> = ({
               href={hangoutLink}
               target="_blank"
               className="bg-rose-200 dark:bg-stone-400 text-black  text-xs px-2 py-1 rounded-md"
-              title="Link to conference"
-            >
-              🎥
+              title="Link to conference">
+              <MaskOffIcon />
             </Link>
           )}
 
@@ -61,9 +60,8 @@ const DaoEvent: React.FC<DaoEventProps> = ({
               href={htmlLink}
               target="_blank"
               className="bg-rose-200 dark:bg-stone-400 text-black text-xs px-2 py-1 rounded-md"
-              title="Link to original event"
-            >
-              🗓️
+              title="Link to original event">
+              <CalendarIcon />
             </Link>
           )}
         </div>
@@ -71,12 +69,10 @@ const DaoEvent: React.FC<DaoEventProps> = ({
 
       <div
         className="w-full h-14 my-2 font-mono text-sm leading-tight tracking-tight 
-      overflow-hidden whitespace-nowraps"
-      >
+      overflow-hidden whitespace-nowraps">
         <span
           title={summary}
-          className="inline-block animate-scroll dark:text-stone-300"
-        >
+          className="inline-block animate-scroll dark:text-stone-300">
           {summary}
         </span>
       </div>
