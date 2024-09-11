@@ -12,8 +12,8 @@ interface BlankLinkProps {
 export const BlankLink = ({ href, className, children }: BlankLinkProps) => {
   const { logo, color, setLogo, setColor, colorDark, setColorDark } = useDAO();
   const handleBack = () => {
-    setColor('red-500');
-    setColorDark('blue-500');
+    setColor('stone-100');
+    setColorDark('stone-900');
     setLogo('');
   };
   return (

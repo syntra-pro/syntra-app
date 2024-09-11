@@ -15,7 +15,7 @@ import { MoreHorizontalIcon } from 'lucide-react';
 export default function ActivityFeed() {
   const [showVotes, setShowVotes] = useState(true);
   return (
-    <div className="w-full max-w-4xls mx-auto ">
+    <div className="w-full max-w-4xls mx-auto opacity-40 ">
       <Tabs defaultValue="votes" className="space-y-4 ">
         <div className="flex justify-start gap-2">
           <button

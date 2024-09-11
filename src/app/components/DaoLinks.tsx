@@ -27,7 +27,7 @@ const arr: React.FC<any> = ({ arrayLinks }: DaoLinkProps) => {
             <div className="rounded-lg p-4 text-black dark:text-stone-300 transition-colors flex  justify-center flex-col">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <FileTextIcon className="h-6 w-6" />
+                  {/* <FileTextIcon className="h-6 w-6" /> */}
                   <span className="text-md font-semibold">{link.title}</span>
                 </div>
               </div>
