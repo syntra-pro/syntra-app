@@ -1,13 +1,14 @@
-import { AuthProvider } from "./components/contexts/AuthContext";
-import { DAOProvider } from "./components/contexts/DAOContext";
-import { NetworkProvider } from "./components/contexts/NetworkContext";
-import Providers from "./providers";
-import { VerificationProvider } from "./components/contexts/VerificationContext";
+import { AuthProvider } from './components/contexts/AuthContext';
+import { DAOProvider } from './components/contexts/DAOContext';
+import { NetworkProvider } from './components/contexts/NetworkContext';
+import Providers from './providers';
+import { VerificationProvider } from './components/contexts/VerificationContext';
+
 // import { useAuth } from "./components/contexts/AuthContext";
 
 export const metadata = {
-  title: "Syntra",
-  description: "",
+  title: 'Syntra',
+  description: '',
 };
 
 export default function RootLayout({

@@ -1,0 +1,9 @@
+{
+  "endOfLine": "auto",
+  "singleQuote": true,
+  "trailingComma": "all",
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "jsxBracketSameLine": true,
+  "prettier.printWidth": 80
+}
