@@ -527,7 +527,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                             <DropdownMenuItem
                               key={k}
                               onClick={() => {
-                                console.log('setting templatye ', i);
+                                // console.log('setting templatye ', i);
                                 setDocumentId('0');
                                 setDaoTemplate(i);
                                 setIsOpen(true);
@@ -692,15 +692,6 @@ export default function DaoPage({ params }: { params: { id: string } }) {
             absolute z-50 w-2/3 h-screen right-0 shadow-lg 
             transition-opacity duration-300 ease-in-out
             opacity-100">
-            <div className="flex pb-4 justify-between">
-              <span className="text-md mt-3 ">Create draft</span>
-              <button
-                className="text-lg mt-3 font-thin"
-                onClick={() => setIsOpen(false)}>
-                ✕
-              </button>
-            </div>
-
             <div className="w-full " style={{ height: '100vh' }}>
               {user?.wallet?.address && idDao && (
                 <CollaborativeEditor
