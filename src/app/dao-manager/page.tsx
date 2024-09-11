@@ -9,7 +9,7 @@ export default function DaoManager() {
       <div className=" p-8 gap-6 flex flex-wrap content-start  ">
         <DaoCard
           name={"Arbitrum"}
-          colour={"bg-blue-600"}
+          colour={"slate-800"}
           path={"/daos/arbitrum"}
           drafts={11}
           projects={10}
@@ -17,7 +17,7 @@ export default function DaoManager() {
         />
         <DaoCard
           name={"Optimism"}
-          colour={"bg-red-500"}
+          colour={"bg-red-600"}
           path={"/daos/optimism"}
           drafts={22}
           projects={11}
