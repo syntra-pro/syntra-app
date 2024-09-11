@@ -130,10 +130,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
           .filter((i: any) => i.id !== '0')
           .sort((a: any, b: any) => a.project.localeCompare(b.project)),
       );
-      console.log(
-        'veerificando ',
-        documents.filter((i: any) => i.id !== '0'),
-      );
+
       // empty projects
       const allProjects = [...all, ...itemsByProject, ...empty];
       console.log('allProjects ', allProjects);
