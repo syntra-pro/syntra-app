@@ -66,16 +66,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
   };
 
   const handleSaveProject = async () => {
-    // create doc in id 0
-    // const pathName = `${idDao}/${user?.wallet?.address}/0/${new Date().getTime().toString()}`
-    // const pathName = `${idDao}/${user?.wallet?.address}/0/${newProject.replace(
-    //   ' ',
-    //   '_',
-    // )}`;
-
     const pathName = `${idDao}/${user?.wallet?.address}/0/${newProject}`;
-
-    console.log('DDDD ', pathName);
     await upsertDocument(pathName, ' ', null, null, '', '', [], []);
 
     // refresh list of projects
@@ -83,14 +74,12 @@ export default function DaoPage({ params }: { params: { id: string } }) {
 
     setNewProject('untitled');
     setShowNew(false);
-    // refresh
     await fetchDocuments();
   };
 
   const handleOpenDraft = (docId: string) => {
     setDocumentId(docId);
     setIsOpen(!isOpen);
-    console.log('abierto el docid ', docId, documentId);
   };
 
   async function fetchDocuments() {
@@ -210,7 +199,6 @@ export default function DaoPage({ params }: { params: { id: string } }) {
     async function exe(id: string) {
       const events = await getCalendar(id);
       setCalendar(events);
-      console.log('ee ', events);
     }
 
     if (!idDao) {

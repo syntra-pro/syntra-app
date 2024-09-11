@@ -185,11 +185,7 @@ const MarkdownEditor: React.FC<{
           setCollabs([]);
           const contentPre = daoTemplate.markdown;
           const content = preprocessMarkdown(contentPre);
-          // const content = contentPre;
-          console.log('pre ', daoTemplate.markdown);
-          console.log('post ', content);
           setCont(content);
-
           initializeEditor(content);
         } else {
           if (documentId === '0') {
