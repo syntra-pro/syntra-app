@@ -3,6 +3,12 @@
 // the dao home
 
 import {
+  CaretDownIcon,
+  CaretUpIcon,
+  FileTextIcon,
+  SizeIcon,
+} from '@radix-ui/react-icons';
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -19,7 +25,7 @@ import CollaborativeEditor from '../../components/CollaborativeEditor';
 import DaoEvent from '../../components/DaoEvents';
 import { DaoLink } from '../../../types/DaoLink';
 import DaoLinks from '../../components/DaoLinks';
-import { FileTextIcon } from '@radix-ui/react-icons';
+import { ExpandIcon } from 'lucide-react';
 import Loader from '../../components/ui/Loader';
 import PlatformLayout from '../../layouts/platformLayout';
 import { ProjectList } from '../../components/ProjectList';
@@ -58,6 +64,8 @@ export default function DaoPage({ params }: { params: { id: string } }) {
   const [documents, setDocuments] = useState<any[]>([]);
   const [allDocuments, setAllDocuments] = useState<any[]>([]);
   const [documentId, setDocumentId] = useState<any>();
+  const [isProjectsCollapsed, setIsProjectsCollapsed] = useState(false);
+  const [isProjectsMinimized, setIsProjectsMinimized] = useState(false);
 
   // const { wallets } = useWallets();
 
@@ -216,6 +224,14 @@ export default function DaoPage({ params }: { params: { id: string } }) {
     );
   if (error) return <div>Error: {error}</div>;
 
+  const handleCollapseProjects = () => {
+    setIsProjectsCollapsed(!isProjectsCollapsed);
+  };
+
+  const handleMinimizeProjects = () => {
+    setIsProjectsMinimized(!isProjectsMinimized);
+  };
+
   return (
     <PlatformLayout>
       <div className="flex flex-row  w-full  relative">
@@ -287,71 +303,106 @@ export default function DaoPage({ params }: { params: { id: string } }) {
           <div className=" ">
             {/* pro-jects and drafts  */}
             <div
-              className={` rounded-lg px-1 pb-2s  
+              className={` rounded-lg px-1
                     overflow-hidden transition-all duration-300 ease-in-out 
                     ${isDraftsOpen ? 'max-h-full' : 'max-h-0'}
                   `}>
               <div className="flex flex-col sm:flex-row w-full gap-4 pb-2">
                 {/* project area */}
-                <div
-                  className="bg-transparent w-full border p-4 rounded-xl
-                    text-stone-600 dark:text-stone-300
-                    border-stone-200 dark:border-stone-700 h-screen ">
-                  <div className="flex justify-between">
-                    <div className="text-lg font-semibold">Projects</div>
-                    <div className="relative">
-                      <Button
-                        onClick={handleNewProject}
-                        className="rounded-md px-2  py-1 text-xs dark:hover:bg-rose-900 dark:text-stone-400 text-black"
-                        variant={'ghost'}
-                        size={'sm'}>
-                        + New project
-                      </Button>
-                      {showNew && (
-                        <div className="absolute w-40 -left-14 p-2 rounded-md bg-stone-100 shadow-md dark:bg-stone-700">
-                          <input
-                            onChange={e => setNewProject(e.target.value)}
-                            className="px-2 mr-2 py-1 w-full text-xs outline-none rounded-md  "
-                            placeholder="Enter a name..."
-                            type="text"
-                          />
-                          <div className="flex p-2 gap-2">
-                            <Button
-                              className="rounded-md px-3 py-0 text-xs dark:hover:bg-rose-900 dark:text-stone-400 text-black"
-                              onClick={handleSaveProject}
-                              variant={'ghost'}
-                              size={'sm'}>
-                              Save
-                            </Button>
 
-                            <Button
-                              className="rounded-md px-3 py-0 text-xs dark:hover:bg-rose-900 dark:text-stone-400 text-black"
-                              onClick={() => setShowNew(false)}
-                              variant={'ghost'}
-                              size={'sm'}>
-                              Cancel
-                            </Button>
-                          </div>
+                {isProjectsMinimized ? (
+                  // <div className="flex">
+                  //   <button className=" bg-stone-100 px-3 w-fit py-2 rounded-md -rotate-90 ">
+                  //     Projects
+                  //   </button>
+                  // </div>
+                  <div className=" mt-[55px] w-9 relative left-[-52px]     ">
+                    <button
+                      onClick={() => setIsProjectsMinimized(false)}
+                      className=" flex gap-x-4 items-center transform -rotate-90 border dark:text-stone-300 dark:border-stone-700 px-4 py-2 rounded-lg">
+                      <div className=" whitespace-nowrap">
+                        Projects
+                        <span className="ml-4 font-bold text-xs">
+                          {projects.length - 1}
+                        </span>
+                      </div>
+                      <SizeIcon />
+                    </button>
+                  </div>
+                ) : (
+                  <div
+                    className={`'bg-transparent border p-4 rounded-xl  text-stone-600 dark:text-stone-300    border-stone-200 dark:border-stone-700 h-screen' ${
+                      isProjectsCollapsed ? 'w-1/4' : 'w-full'
+                    }`}>
+                    <div className="flex justify-between">
+                      <div className="text-lg font-semibold">Projects</div>
+
+                      <div className="relative">
+                        <div className="flex gap-4 items-center">
+                          <Button
+                            onClick={handleNewProject}
+                            className="rounded-md px-2  py-1 text-xs dark:hover:bg-rose-900 dark:text-stone-400 text-black"
+                            variant={'ghost'}
+                            size={'sm'}>
+                            + New project
+                          </Button>
+                          <button onClick={handleCollapseProjects}>
+                            <SizeIcon />
+                          </button>
+                          <button onClick={handleMinimizeProjects}>
+                            <CaretDownIcon />
+                          </button>
                         </div>
-                      )}
-                    </div>
-                  </div>
+                        {showNew && (
+                          <div className="absolute w-40 -left-14 p-2 rounded-md bg-stone-100 shadow-md dark:bg-stone-700">
+                            <input
+                              onChange={e => setNewProject(e.target.value)}
+                              className="px-2 mr-2 py-1 w-full text-xs outline-none rounded-md  "
+                              placeholder="Enter a name..."
+                              type="text"
+                            />
+                            <div className="flex p-2 gap-2">
+                              <Button
+                                className="rounded-md px-3 py-0 text-xs dark:hover:bg-rose-900 dark:text-stone-400 text-black"
+                                onClick={handleSaveProject}
+                                variant={'ghost'}
+                                size={'sm'}>
+                                Save
+                              </Button>
 
-                  <div className="text-xs mb-4">
-                    View and manage all active subprojects.
-                  </div>
-                  <hr className="dark:border-stone-700" />
-                  {/* the project list  */}
-                  <div className="flex flex-col mt-4 gap-1">
-                    {projects && projects.length > 0 ? (
-                      <ProjectList
-                        handleSelect={e => handleSelectProject(e)}
-                        projects={projects}
-                      />
+                              <Button
+                                className="rounded-md px-3 py-0 text-xs dark:hover:bg-rose-900 dark:text-stone-400 text-black"
+                                onClick={() => setShowNew(false)}
+                                variant={'ghost'}
+                                size={'sm'}>
+                                Cancel
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {!isProjectsCollapsed ? (
+                      <div className="text-xs mb-4">
+                        View and manage all active subprojects.
+                      </div>
                     ) : (
-                      'No projects to display'
+                      <div className="py-4"> </div>
                     )}
-                    {/* 
+
+                    <hr className="dark:border-stone-700" />
+                    {/* the project list  */}
+                    <div className="flex flex-col mt-4 gap-1">
+                      {projects && projects.length > 0 ? (
+                        <ProjectList
+                          handleSelect={e => handleSelectProject(e)}
+                          projects={projects}
+                        />
+                      ) : (
+                        'No projects to display'
+                      )}
+                      {/* 
                     <Link href={'#'}>
                       <div
                         className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
@@ -407,9 +458,9 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                         <div className="text-right">5 drafts</div>
                       </div>
                     </Link> */}
+                    </div>
                   </div>
-                </div>
-
+                )}
                 {/* draft area  */}
                 <div
                   className="bg-transparent w-full border p-4 rounded-xl
