@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { BlankLink } from "../BlankLink";
-import Link from "next/link";
-import { LoginButton } from "./LoginButton";
-import { UserIcon } from "lucide-react";
-import { cn } from "../../../lib/utils";
+import { BlankLink } from '../BlankLink';
+import Link from 'next/link';
+import { LoginButton } from './LoginButton';
+import { UserIcon } from 'lucide-react';
+import { cn } from '../../../lib/utils';
 // import WorldIDVerifier from "../WorldBadge";
-import { useAuth } from "../contexts/AuthContext";
-import { useDAO } from "../contexts/DAOContext";
-import { useParams } from "next/navigation";
+import { useAuth } from '../contexts/AuthContext';
+import { useDAO } from '../contexts/DAOContext';
+import { useParams } from 'next/navigation';
 
 interface HeadBarProps {
   showDropdown?: boolean;
@@ -34,15 +34,15 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
 
   useEffect(() => {
     const darkModeMediaQuery = window.matchMedia(
-      "(prefers-color-scheme: dark)"
+      '(prefers-color-scheme: dark)',
     );
     setIsDarkMode(darkModeMediaQuery.matches);
     const handleChange = (e: MediaQueryListEvent) => {
       setIsDarkMode(e.matches);
     };
-    darkModeMediaQuery.addEventListener("change", handleChange);
+    darkModeMediaQuery.addEventListener('change', handleChange);
     return () => {
-      darkModeMediaQuery.removeEventListener("change", handleChange);
+      darkModeMediaQuery.removeEventListener('change', handleChange);
     };
   }, []);
 
@@ -57,21 +57,20 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
       className="w-[calc(100%-10rem)] ml-44 mr-0 shadow-md fixed top-0 right-00 z-30 flex h-12 items-center"
       style={{
         backgroundColor:
-          logo === ""
+          logo === ''
             ? isDarkMode
-              ? "#1c1917"
-              : "#f5f5f4"
+              ? '#1c1917'
+              : '#f5f5f4'
             : isDarkMode
             ? colorDark
             : color,
-      }}
-    >
+      }}>
       <div className=" containers flex items-center w-full justify-between px-4 md:px-6">
         <>
           <span className="  flex gap-2 dark:text-stone-300 items-center">
             {id?.length > 0 && (
               <>
-                <BlankLink className="text-xl opacity-40" href={"/dao-manager"}>
+                <BlankLink className="text-xl opacity-40" href={'/dao-manager'}>
                   ←
                 </BlankLink>
               </>
@@ -79,10 +78,10 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
           </span>
         </>
         <div className="w-full text-center flex justify-center text-lg">
-          {logo === "" ? (
+          {logo === '' ? (
             id?.length > 0 &&
             // id.charAt(0).toUpperCase() + id.slice(1).toLowerCase()
-            ""
+            ''
           ) : (
             <div dangerouslySetInnerHTML={{ __html: logo }} />
           )}
@@ -90,11 +89,6 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
 
         {/* <WorldIDVerifier /> */}
         <>
-          {authenticated && (
-            <span className="text-rose-400 font-mono text-xs">
-              <UserIcon />
-            </span>
-          )}
           <LoginButton />
         </>
       </div>

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Button } from './Button';
+import Chip from './Chip';
 import { shortAddress } from '../../../lib/utils';
 import { trackEvent } from '../../../lib/mixpanel';
 import { useAuth } from '../contexts/AuthContext';
@@ -33,7 +34,8 @@ export const LoginButton: React.FC = () => {
         className="rounded-xl pl-2 text-xs font-mono pr-4 z-20 dark:text-stone-300"
         variant="ghost"
         onClick={() => setShowMenu(!showMenu)}>
-        {shortAddress(user?.wallet?.address)} ⏷
+        <Chip text={shortAddress(user?.wallet?.address)} /> ⏷
+        {/* {shortAddress(user?.wallet?.address)}  */}
       </Button>
       <div className="justify-self-end absolute">
         {showMenu ? (

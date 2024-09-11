@@ -27,6 +27,7 @@
     "autoprefixer": "^10.4.19",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "ethereum-blockies": "^0.1.1",
     "firebase": "^10.13.0",
     "framer-motion": "^11.3.31",
     "install": "^0.13.0",
@@ -57,6 +58,7 @@
     "yjs": "^13.6.18"
   },
   "devDependencies": {
+    "@types/ethereum-blockies": "^0.1.2",
     "@types/mixpanel-browser": "^2.50.0",
     "@types/node": "^20",
     "@types/react": "^18",
