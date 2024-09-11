@@ -4,14 +4,17 @@ import React, { useEffect, useState } from 'react';
 
 import { Button } from './Button';
 import Chip from './Chip';
+import Link from 'next/link';
 import { shortAddress } from '../../../lib/utils';
 import { trackEvent } from '../../../lib/mixpanel';
 import { useAuth } from '../contexts/AuthContext';
+import { useDAO } from '../contexts/DAOContext';
 
 export const LoginButton: React.FC = () => {
   const { authenticated, login, logout, user } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const { logo, color, setLogo, setColor, colorDark, setColorDark } = useDAO();
 
   const handleLogin = () => {
     login();
@@ -19,9 +22,12 @@ export const LoginButton: React.FC = () => {
     trackEvent('Login event', { user: user?.wallet?.address });
   };
   const handleLogout = () => {
+    setColor('stone-100');
+    setColorDark('stone-900');
+    setLogo('');
+    trackEvent('Logout event', { user: user?.wallet?.address });
     logout();
     setShowMenu(false);
-    console.log('logout ', user);
   };
 
   useEffect(() => {
@@ -40,12 +46,13 @@ export const LoginButton: React.FC = () => {
       <div className="justify-self-end absolute">
         {showMenu ? (
           <div className="bg-stone-100 dark:bg-stone-500 shadow-md rounded-md p-4">
-            <Button
+            <Link
+              href="/"
               className="dark:bg-stone-500"
-              size="sm"
+              // size="sm"
               onClick={handleLogout}>
               Disconnect
-            </Button>
+            </Link>
           </div>
         ) : null}
       </div>

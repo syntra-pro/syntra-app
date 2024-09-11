@@ -3,14 +3,12 @@
 import { useEffect, useState } from 'react';
 
 import { BlankLink } from '../BlankLink';
-import Link from 'next/link';
 import { LoginButton } from './LoginButton';
-import { UserIcon } from 'lucide-react';
-import { cn } from '../../../lib/utils';
-// import WorldIDVerifier from "../WorldBadge";
 import { useAuth } from '../contexts/AuthContext';
 import { useDAO } from '../contexts/DAOContext';
 import { useParams } from 'next/navigation';
+
+// import WorldIDVerifier from "../WorldBadge";
 
 interface HeadBarProps {
   showDropdown?: boolean;

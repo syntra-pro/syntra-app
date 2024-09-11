@@ -251,37 +251,80 @@ const MarkdownEditor: React.FC<{
   // };
 
   const handleSave = async () => {
-    setIsSaving(true);
-    try {
-      const pathName =
-        documentId === '0'
-          ? `/${folder}/${new Date().getTime().toString()}`
-          : `/${folder}/${documentId}`;
+    if (link.trim() !== '' || cont.trim() !== '' || title.trim() !== '') {
+      console.log('saving!');
 
-      console.log('DDDD ', pathName, cont, title, link, project);
-      await upsertDocument(
-        pathName,
-        cont,
-        title,
-        link,
-        priority,
-        project,
-        tags,
-        collabs,
-      );
+      let newTitle = title.trim();
+      let newCont = cont.trim();
 
-      afterSave();
-    } catch (error) {
-      console.error('Error saving document:', error);
-    } finally {
-      setIsSaving(false);
+      if (newTitle === '') {
+        newTitle = 'Untitled';
+      }
+
+      if (newCont.trim() === '') {
+        newCont = ' ';
+      }
+
+      console.log('>>>> ', link.trim(), newCont, newTitle);
+
+      setIsSaving(true);
+      try {
+        const pathName =
+          documentId === '0'
+            ? `/${folder}/${new Date().getTime().toString()}`
+            : `/${folder}/${documentId}`;
+
+        console.log('DDDD ', pathName, newCont, newTitle, link, project);
+        await upsertDocument(
+          pathName,
+          newCont,
+          newTitle,
+          link,
+          priority,
+          project,
+          tags,
+          collabs,
+        );
+
+        afterSave();
+        return;
+      } catch (error) {
+        console.error('Error saving document:', error);
+      } finally {
+        setIsSaving(false);
+      }
     }
+    console.log('not saving !');
+    afterSave();
+    return;
   };
 
   return (
     <div className="w-full">
       <>
         <div className="text-xs gap-y-2 flex flex-col ">
+          <div className="flex py-2 items-center justify-between">
+            <span className="text-base  ">New draft</span>
+            {/* <button
+              className="text-lg mt-3 font-thin"
+              // onClick={() => setIsOpen(false)}
+            >
+              ✕
+            </button> */}
+
+            {isSaving ? (
+              <Loader />
+            ) : (
+              <Button
+                variant="ghost"
+                size={'sm'}
+                // className="text-sm bg-black text-white px-3 py-1 rounded-md"
+                onClick={handleSave}>
+                Save & close
+              </Button>
+            )}
+          </div>
+
           <div className="flex items-baseline">
             <div className="w-1/12">Title</div>
             <input
@@ -360,7 +403,7 @@ const MarkdownEditor: React.FC<{
               ))}
             </select>
           </div> */}
-
+          {/* 
           {isSaving ? (
             <Loader />
           ) : (
@@ -371,7 +414,7 @@ const MarkdownEditor: React.FC<{
               onClick={handleSave}>
               Save
             </Button>
-          )}
+          )} */}
         </div>
 
         <div className="mt-3" ref={editorRef} />

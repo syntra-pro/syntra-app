@@ -6,7 +6,6 @@ import {
   BarChartIcon,
   BellIcon,
   CubeIcon,
-  DiscordLogoIcon,
   FileIcon,
   GlobeIcon,
   HomeIcon,
@@ -21,6 +20,7 @@ import FeedbackPopup from '../components/FeedbackPopup';
 import { HeadBar } from '../components/ui/HeadBar';
 // import { Inter } from "next/font/google";
 import Link from 'next/link';
+import Loader from '../components/ui/Loader';
 import { LoginButton } from '../components/ui/LoginButton';
 import { initMixpanel } from '../../lib/mixpanel';
 // import { NetworkProvider } from "../components/contexts/NetworkContext";
@@ -56,9 +56,9 @@ function MainContent({ children }: { children: React.ReactNode }) {
     // </>
 
     <>
-      {/* { authenticated ? ( */}
-      <>{children}</>
-      {/* ) : (
+      {authenticated ? (
+        <>{children}</>
+      ) : ready ? (
         <div className="flex h-screen w-full items-center justify-center bg-transparent">
           <div className="text-center">
             <h1 className="text-5xl font-thin text-stone-800 dark:text-stone-300 mb-4">
@@ -70,7 +70,9 @@ function MainContent({ children }: { children: React.ReactNode }) {
             <LoginButton />
           </div>
         </div>
-      )} */}
+      ) : (
+        <Loader />
+      )}
     </>
   );
 }
@@ -118,8 +120,6 @@ export default function PlatformLayout({
     };
 
     darkModeMediaQuery.addEventListener('change', handleChange);
-
-    // Limpiar el event listener cuando el componente se desmonta
     return () => {
       darkModeMediaQuery.removeEventListener('change', handleChange);
     };
