@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import LandingLayout from "./layouts/landingLayout";
-import Link from "next/link";
+import Image from 'next/image';
+import LandingLayout from './layouts/landingLayout';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -21,246 +21,190 @@ export default function Home() {
             color: #1c1917;
           }
         }
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
       `}</style>
 
-      {/* hero section  */}
-      <div className="w-full  ">
-        <div className="w-10/12 flex gap-4 mx-auto   py-6 ">
-          <div className="w-7/12">
+      {/* Hero section */}
+      <section className="container mx-auto px-4 py-12">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="lg:w-7/12">
             <Image
-              className="rounded-xl h-full my-0"
+              className="rounded-xl w-full h-auto"
               src="/hero1.png"
               width={700}
               height={700}
-              alt=""
-              priority={true}
-              loading={"eager"}
-              objectFit={"cover"}
+              alt="Hero image"
+              priority
+              layout="responsive"
             />
           </div>
 
-          <div className="w-5/12 flex flex-col justify-between">
-            <div className="w-full bg-rose-300 dark:bg-red-400 flex flex-col justify-between gap-y-8 rounded-xl md:p-4 p-10">
+          <div className="lg:w-5/12 flex flex-col justify-between">
+            <div className="bg-rose-300 dark:bg-red-400 rounded-xl p-6 h-full lg:p-8 flex flex-col justify-between gap-y-6">
               <div>
-                <span className="rounded-full bg-black px-3 py-1 text-xs text-white">
+                <span className="inline-block rounded-full bg-black px-3 py-1 text-xs text-white">
                   Grow Fast
                 </span>
               </div>
-              <div className="text-7xl md:text-5xl tracking-tighter">
-                DAO
-                <br />
-                Management
-                <br />
-                for Everyone
-              </div>
-              <div className=" text-sm font-normal ">
-                All-in-one tool to optimize the way you
-                <br />
-                create and collaborate.
-              </div>
+              <h1 className="text-5xl lg:text-6xl xl:text-7xl tracking-tighter font-semibold">
+                DAO Management for Everyone
+              </h1>
+              <p className="text-xl">
+                All-in-one tool to optimize the way you create and collaborate.
+              </p>
             </div>
-            {/* <div className="rounded-full bg-rose-300 px-3 py-1 text-xs text-white">
-              Grow Fast
-            </div> */}
-            <div className="flex justify-between ">
-              <div className="rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-xs">
-                <Link href={"/home"}>
-                  Get Started
-                  <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
-                    →
-                  </span>
-                </Link>
-              </div>
-              <div className="text-xs text-right dark:text-stone-300 font-light">
+
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-6 gap-4">
+              <Link
+                href="/home"
+                className="rounded-full bg-rose-300 dark:bg-red-400 px-6 py-3 text-sm font-medium inline-flex items-center">
+                Get Started
+                <span className="bg-black ml-2 rounded-full px-2 py-1 text-white">
+                  →
+                </span>
+              </Link>
+              <p className="text-xs sm:text-sm text-right dark:text-stone-300 font-light">
                 Amplify your impact and unlock
                 <br />
                 insights with data-driven solutions.
-              </div>
+              </p>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* carousel  */}
-      <div className="w-full overflow-hidden py-2 border-stone-300 dark:border-stone-500 dark:text-stone-400 border-y my-10">
-        <div className="marquee whitespace-nowrap inline-block animate-scroll">
-          <div className="flex align-middle gap-3">
-            <div className="text-2xl my-auto mx-4 ">
-              Your All-in-One Solution
+      {/* Carousel */}
+      <div className="w-full overflow-hidden py-4 border-y border-stone-300 dark:border-stone-500 my-10">
+        <div className="whitespace-nowrap inline-block animate-[scroll_20s_linear_infinite]">
+          {[1, 2, 3].map((_, index) => (
+            <div key={index} className="inline-flex items-center">
+              <span className="text-xl lg:text-2xl mx-4 dark:text-stone-400">
+                Your All-in-One Solution
+              </span>
+              <Image
+                src="/seedLogo.png"
+                width={32}
+                height={32}
+                alt="Seed Logo"
+                className="inline-block"
+              />
             </div>
-            <Image
-              src="/seedLogo.png"
-              width={32}
-              height={32}
-              alt=""
-              priority={true}
-              loading={"eager"}
-              objectFit={"cover"}
-            />
-            <div className="text-2xl my-auto mx-4 ">
-              Your All-in-One Solution
-            </div>{" "}
-            <Image
-              src="/seedLogo.png"
-              width={32}
-              height={32}
-              alt=""
-              priority={true}
-              loading={"eager"}
-              objectFit={"cover"}
-            />
-            <div className="text-2xl my-auto mx-4 ">
-              Your All-in-One Solution
-            </div>
-            {"   "}
-            <Image
-              src="/seedLogo.png"
-              width={32}
-              height={32}
-              alt=""
-              priority={true}
-              loading={"eager"}
-              objectFit={"cover"}
-            />
-            <div className="text-2xl my-auto mx-4 ">
-              Your All-in-One Solution
-            </div>{" "}
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* hero 2 section  */}
-      <div className="w-full  ">
-        <div className="w-10/12 flex gap-4 mx-auto   py-6 ">
-          <div className="w-5/12 flex flex-col justify-between">
-            <div className="w-full flex flex-col justify-between gap-y-8 p-10">
+      {/* Hero 2 section */}
+      <section className="container mx-auto px-4 py-12">
+        <div className="flex flex-col-reverse lg:flex-row gap-8">
+          <div className="lg:w-5/12 flex flex-col justify-between">
+            <div className="flex flex-col gap-y-6">
               <div>
-                <span className="rounded-full bg-white border border-black px-3 py-1 text-xs text-black">
-                  The Vision
+                <span className="inline-block rounded-full bg-white border border-black px-3 py-1 text-xs text-black">
+                  Master DAO Ops
                 </span>
               </div>
-              <div
-                id="setting"
-                className="text-7xl dark:text-stone-300 md:text-5xl tracking-tighter"
-              >
-                Setting
-                <br />
-                A New
-                <br />
-                Standard
-              </div>
-              <div className=" text-sm dark:text-stone-300 md:text-xs font-normal ">
+              <h2 className="text-4xl lg:text-5xl xl:text-6xl dark:text-stone-300 tracking-tighter font-semibold">
+                Setting A New Standard
+              </h2>
+              <p className="text-xl dark:text-stone-300">
                 Streamline your DAO operations with our platform. Whether you
                 are drafting proposals, coordinating community initiatives,
-                managing funding allocation, overseeing treasury activities, our
-                platform adapts to your unique processes, helping you achieve
-                your goals every day. Built for DAO participants who prioritize
-                efficient governance.
-              </div>
+                managing funding allocation, or overseeing treasury activities,
+                our platform adapts to your unique processes, helping you
+                achieve your goals every day. Built for DAO participants who
+                prioritize efficient governance.
+              </p>
             </div>
           </div>
 
-          <div className="w-7/12">
+          <div className="lg:w-7/12">
             <Image
-              className="rounded-xl"
-              src="/hero2.png"
+              className="rounded-xl w-full h-auto"
+              src="/hero2.svg"
               width={700}
               height={500}
-              alt=""
-              priority={true}
-              loading={"eager"}
-              // objectFit={"cover"}
+              alt="Vision illustration"
+              priority
+              layout="responsive"
             />
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* features section  */}
-      <div className="w-full flex mx-auto justify-center py-6 text-center gap-2 ">
-        <div className="bg-rose-300 dark:bg-red-400 rounded-xl items-center w-2/12 px-3 py-6 flex flex-col gap-6 justify-between">
-          <p className="text-xl font-light">Integrated Workflow</p>
-          <Image
-            className="rounded-xl"
-            src="/hero3.png"
-            width={200}
-            height={100}
-            alt=""
-            priority={true}
-            loading={"eager"}
-            objectFit={"cover"}
-          />
-          <p className="text-xs tracking-tight font-light">
-            Work together with your team in real-time or asyncronously, no
-            matter where they are.
-          </p>
+      {/* Features section */}
+      <section className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              title: 'Integrated Workflow',
+              image: '/hero3.png',
+              description:
+                'Work together with your team in real-time or asynchronously, no matter where they are.',
+            },
+            {
+              title: 'Collaboration',
+              image: '/hero4.png',
+              description:
+                'Explore and leverage best-in-class tools to create your unified DAO operations hub.',
+            },
+            {
+              title: 'Ecosystem Integrations',
+              image: '/hero5.png',
+              description:
+                'Our platform keeps everything you need at your fingertips. Create, organize, and track your projects with ease.',
+            },
+          ].map((feature, index) => (
+            <div
+              key={index}
+              className="bg-rose-300 dark:bg-red-400 rounded-xl p-6 flex flex-col gap-4 justify-between h-full">
+              <h3 className="text-xl font-medium">{feature.title}</h3>
+              <Image
+                className="rounded-xl w-full h-auto"
+                src={feature.image}
+                width={200}
+                height={100}
+                alt={feature.title}
+                layout="responsive"
+              />
+              <p className="text-sm">{feature.description}</p>
+            </div>
+          ))}
         </div>
+      </section>
 
-        <div className="bg-rose-300 dark:bg-red-400 rounded-xl items-center w-2/12 px-3 py-6 flex flex-col  gap-6 justify-between">
-          <p className="text-xl font-light">Collaboration</p>
-          <Image
-            className="rounded-xl"
-            src="/hero4.png"
-            width={200}
-            height={100}
-            alt=""
-            priority={true}
-            loading={"eager"}
-            // objectFit={"cover"}
-          />
-          <p className="text-xs tracking-tight font-light">
-            Explore and leverage best-in-class tools to create your unified DAO
-            operations hub.
-          </p>
-        </div>
-
-        <div className="bg-rose-300 dark:bg-red-400 rounded-xl items-center w-2/12 px-3 py-6 flex flex-col  gap-6 justify-between">
-          <p className="text-xl font-light">Ecosystem Integrations</p>
-          <Image
-            className="rounded-xl"
-            src="/hero5.png"
-            width={200}
-            height={100}
-            alt=""
-            priority={true}
-            loading={"eager"}
-            // objectFit={"cover"}
-          />
-          <p className="text-xs tracking-tight font-light">
-            Our platform keeps everything you need at your fingertips. Create,
-            organize, and track your projects with ease.
-          </p>
-        </div>
-      </div>
-
-      <div className="w-full flex flex-col mx-auto dark:text-stone-300 justify-center py-6 text-center gap-6 ">
-        <div className="text-7xl  md:text-5xl tracking-tighter">
-          Improve Your Workflow with
+      {/* Call to Action */}
+      <section className="container mx-auto px-4 py-12 text-center">
+        <h2 className="text-4xl lg:text-5xl xl:text-6xl dark:text-stone-300 tracking-tighter font-semibold mb-6">
+          Improve Your Workflow
           <br />
-          Seamless Integration
-        </div>
-        Integrate our solution seamlessly
-        <br />
-        into your workflow for enhanced
-        <br />
-        efficiency and productivity.
-      </div>
-
-      <div className="flex justify-center gap-6 pb-10  border-b border-stone-400">
-        <Link href={"/home"}>
-          <div className="rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-sm">
+          with Seamless Integration
+        </h2>
+        <p className="text-xl dark:text-stone-300 mb-8">
+          Integrate our solution seamlessly into your
+          <br />
+          workflow for enhanced efficiency and productivity.
+        </p>
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+          <Link
+            href="/home"
+            className="rounded-full bg-rose-300 dark:bg-red-400 px-6 py-3 text-sm font-medium inline-flex items-center">
             Get started
-            <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
+            <span className="bg-black ml-2 rounded-full px-2 py-1 text-white">
               →
             </span>
-          </div>
-        </Link>
-
-        <Link href={"/home"}>
-          <div className=" dark:text-stone-300 pl-4 pr-2 py-2 text-sm">
+          </Link>
+          <Link href="/home" className="text-sm dark:text-stone-300">
             ● Learn more
-          </div>
-        </Link>
-      </div>
+          </Link>
+        </div>
+      </section>
     </LandingLayout>
   );
 }
