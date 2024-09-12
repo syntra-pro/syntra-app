@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import "../../app/globals.css";
+import '../../app/globals.css';
 
-import { Button } from "../components/ui/Button";
-import Link from "next/link";
+import { Button } from '../components/ui/Button';
+import Link from 'next/link';
 
 export default function LandingLayout({
   children,
@@ -12,16 +12,14 @@ export default function LandingLayout({
 }) {
   return (
     <div className="min-h-screen">
-      <header className="px-12 py-3">
-        <div className="flex justify-between items-center">
-          <Link href="/" className="text-2xl dark:invert font-semibold">
+      <header className="  md:px-12 md:py-3 xs:px-2 xs:py-1 px-2 py-2">
+        <div className="flex flex-wrap gap-y-2  justify-between items-center">
+          <Link href="/" className="dark:invert">
             <svg
-              width="160"
-              height="51.78"
+              className=" h-auto w-20 xs:w-20 sm:w-20 md:w-40 lg:w-40 xl:w-40" // En pantallas pequeñas, el ancho será 40 y en pantallas más grandes, 80
               viewBox="0 0 365 118"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M113.227 98.5768C108.125 98.5768 103.605 97.6081 99.6653 95.6707C95.7905 93.6687 92.7229 90.8917 90.4626 87.3398C88.2669 83.7234 87.0722 79.5257 86.8784 74.7467H100.828C101.151 78.2341 102.378 80.9787 104.509 82.9807C106.705 84.9827 109.611 85.9837 113.227 85.9837C116.521 85.9837 119.136 85.3056 121.074 83.9494C123.011 82.5932 123.98 80.6558 123.98 78.1372C123.98 76.3935 123.398 75.005 122.236 73.9718C121.138 72.8739 119.75 72.0344 118.071 71.4531C116.392 70.8719 114.002 70.1938 110.902 69.4189C106.317 68.321 102.539 67.1586 99.5684 65.9315C96.6623 64.6399 94.1437 62.6057 92.0125 59.8287C89.8814 57.0518 88.8158 53.2416 88.8158 48.3981C88.8158 44.717 89.8168 41.4234 91.8188 38.5173C93.8208 35.6112 96.5977 33.3509 100.15 31.7364C103.702 30.0573 107.77 29.2178 112.355 29.2178C117.199 29.2178 121.461 30.0896 125.142 31.8333C128.823 33.5769 131.697 36.0633 133.764 39.2923C135.895 42.5213 137.025 46.2669 137.154 50.5292H123.398C123.076 47.8168 121.945 45.6857 120.008 44.1358C118.071 42.5213 115.52 41.714 112.355 41.714C109.449 41.714 107.157 42.3275 105.477 43.5546C103.798 44.7816 102.959 46.3961 102.959 48.3981C102.959 50.2709 103.54 51.7562 104.703 52.8541C105.865 53.9519 107.35 54.8238 109.159 55.4696C110.967 56.0508 113.453 56.6966 116.618 57.407C121.267 58.5048 125.045 59.635 127.951 60.7974C130.857 61.9599 133.344 63.9296 135.41 66.7065C137.541 69.4189 138.607 73.1645 138.607 77.9434C138.607 82.1411 137.541 85.7899 135.41 88.8898C133.279 91.9896 130.309 94.3791 126.498 96.0582C122.688 97.7372 118.264 98.5768 113.227 98.5768Z"
                 fill="#232118"
@@ -59,14 +57,18 @@ export default function LandingLayout({
             </svg>
           </Link>
 
-          <div className="flex gap-10 text-stone-500 dark:text-stone-100 text-xs self-center">
-            <Link href={"#setting"}>About</Link>
-            <Link href={"/changelog"}>Changelog</Link>
-            <Link href={"https://www.seedlatam.org"}>Seed Org</Link>
+          <div className="flex gap-2 sm:gap-10 text-stone-500 dark:text-stone-100 text-xs md:text-lg self-center">
+            <Link href={'#setting'}>About</Link>
+            <Link href={'/changelog'}>Changelog</Link>
+            <Link
+              className="md:block hidden"
+              href={'https://www.seedlatam.org'}>
+              Seed Org
+            </Link>
           </div>
 
-          <Link href={"/home"}>
-            <div className="rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-sm">
+          <Link href={'/home'}>
+            <div className="rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-xs xs:text-xs sm:text-xs md:text-xs lg:text-lg">
               Open app
               <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
                 →
@@ -80,15 +82,15 @@ export default function LandingLayout({
 
       <footer className="py-12 w-full">
         <div className="w-11/12 mx-auto">
-          <div className="flex justify-between items-start">
+          <div className="flex flex-wrap gap-y-4 justify-between items-start">
             <div className="dark:invert">
               <svg
+                className=" h-auto w-20 xs:w-20 sm:w-20 md:w-40 lg:w-40 xl:w-40" // En pantallas pequeñas, el ancho será 40 y en pantallas más grandes, 80
                 width="160"
                 height="51.78"
                 viewBox="0 0 365 118"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+                xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M113.227 98.5768C108.125 98.5768 103.605 97.6081 99.6653 95.6707C95.7905 93.6687 92.7229 90.8917 90.4626 87.3398C88.2669 83.7234 87.0722 79.5257 86.8784 74.7467H100.828C101.151 78.2341 102.378 80.9787 104.509 82.9807C106.705 84.9827 109.611 85.9837 113.227 85.9837C116.521 85.9837 119.136 85.3056 121.074 83.9494C123.011 82.5932 123.98 80.6558 123.98 78.1372C123.98 76.3935 123.398 75.005 122.236 73.9718C121.138 72.8739 119.75 72.0344 118.071 71.4531C116.392 70.8719 114.002 70.1938 110.902 69.4189C106.317 68.321 102.539 67.1586 99.5684 65.9315C96.6623 64.6399 94.1437 62.6057 92.0125 59.8287C89.8814 57.0518 88.8158 53.2416 88.8158 48.3981C88.8158 44.717 89.8168 41.4234 91.8188 38.5173C93.8208 35.6112 96.5977 33.3509 100.15 31.7364C103.702 30.0573 107.77 29.2178 112.355 29.2178C117.199 29.2178 121.461 30.0896 125.142 31.8333C128.823 33.5769 131.697 36.0633 133.764 39.2923C135.895 42.5213 137.025 46.2669 137.154 50.5292H123.398C123.076 47.8168 121.945 45.6857 120.008 44.1358C118.071 42.5213 115.52 41.714 112.355 41.714C109.449 41.714 107.157 42.3275 105.477 43.5546C103.798 44.7816 102.959 46.3961 102.959 48.3981C102.959 50.2709 103.54 51.7562 104.703 52.8541C105.865 53.9519 107.35 54.8238 109.159 55.4696C110.967 56.0508 113.453 56.6966 116.618 57.407C121.267 58.5048 125.045 59.635 127.951 60.7974C130.857 61.9599 133.344 63.9296 135.41 66.7065C137.541 69.4189 138.607 73.1645 138.607 77.9434C138.607 82.1411 137.541 85.7899 135.41 88.8898C133.279 91.9896 130.309 94.3791 126.498 96.0582C122.688 97.7372 118.264 98.5768 113.227 98.5768Z"
                   fill="#232118"
@@ -125,12 +127,12 @@ export default function LandingLayout({
                 />
               </svg>
 
-              <p style={{ fontSize: "8pt" }} className="text-stone-400 mt-2">
+              <p style={{ fontSize: '8pt' }} className="text-stone-400 mt-2">
                 (C) 2024 Seed. All rights reserved
               </p>
             </div>
             <div className="flex gap-8 text-xs font-light text-stone-500 dark:text-stone-400">
-              <div className="flex flex-col  gap-y-2">
+              <div className="flex flex-col gap-y-2">
                 <p className="text-">About us</p>
                 <p className="text-">Changelog</p>
                 <p className="text-">Seed Org</p>
@@ -143,8 +145,8 @@ export default function LandingLayout({
               </div>
             </div>
 
-            <Link href={"/home"}>
-              <div className="rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-sm">
+            <Link href={'/home'}>
+              <div className="rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-xs xs:text-xs sm:text-xs md:text-xs lg:text-lg">
                 Open app
                 <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
                   →
