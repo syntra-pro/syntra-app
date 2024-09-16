@@ -118,7 +118,9 @@ export default function Home() {
                 are drafting proposals, coordinating community initiatives,
                 managing funding allocation, or overseeing treasury activities,
                 our platform adapts to your unique processes, helping you
-                achieve your goals every day. Built for DAO participants who
+                achieve your goals every day. 
+                <br />
+                Built for DAO participants who
                 prioritize efficient governance.
               </p>
             </div>
@@ -187,9 +189,9 @@ export default function Home() {
           with Seamless Integration
         </h2>
         <p className="text-xl dark:text-stone-300 mb-8">
-          Integrate our solution seamlessly into your
+          Take Your DAO Operations 
           <br />
-          workflow for enhanced efficiency and productivity.
+          to the Next Level.
         </p>
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
           <Link
