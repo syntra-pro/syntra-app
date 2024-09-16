@@ -24,7 +24,6 @@ if (getApps().length === 0) {
 }
 
 // const firebaseAuth = getAuth(firebaseApp);
-
 const db = getFirestore(app);
 const database = getDatabase(app);
 
