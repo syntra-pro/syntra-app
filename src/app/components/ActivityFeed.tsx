@@ -47,19 +47,19 @@ export default function ActivityFeed() {
           <div className="space-y-4">
             <FeedItem
               avatar="AC"
-              title="Upgrade Proposal #10: Granite Network Upgrade"
+              title="Upgrade Proposal #10: Network Upgrade"
               likes={12}
               comments={4}
             />
             <FeedItem
               avatar="JD"
-              title="[Non-Constitutional AIP] Front-end interface to force transaction inclusion during sequencer downtime"
+              title="[IP] Front-end interface to force transaction inclusion during sequencer downtime"
               likes={24}
               comments={8}
             />
             <FeedItem
               avatar="XD"
-              title="[Non-Constitutional AIP] Front-end interface to force transaction inclusion during sequencer downtime"
+              title="[DRAFT] Proposal: Grants Program"
               likes={24}
               comments={8}
             />
@@ -68,13 +68,13 @@ export default function ActivityFeed() {
           <div className="space-y-4">
             <FeedItem
               avatar="AM"
-              title="Just finished an amazing yoga session. Feeling refreshed and energized!"
+              title="Onboarding working group weekly call. Sharing the insights"
               likes={18}
               comments={6}
             />
             <FeedItem
               avatar="JD"
-              title="Spent the weekend hiking in the mountains. It was so peaceful and refreshing to get away from the city for a bit."
+              title="We, BlockGov, support the last proposal to distribute sequencer fees."
               likes={24}
               comments={8}
             />
