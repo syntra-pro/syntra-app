@@ -18,6 +18,7 @@ import {
 import {
   preprocessMarkdown,
   readDocument,
+  readSettings,
   upsertDocument,
 } from '../../lib/utils';
 
@@ -25,6 +26,7 @@ import { ALL_DOCS_FOLDER } from '../../lib/constants';
 import { Button } from './ui/Button';
 import { EditorView } from 'prosemirror-view';
 import Loader from './ui/Loader';
+import ReactMarkdown from 'react-markdown';
 import { Schema } from 'prosemirror-model';
 import { addListNodes } from 'prosemirror-schema-list';
 import { keymap } from 'prosemirror-keymap';
@@ -200,7 +202,6 @@ const MarkdownEditor: React.FC<{
         }
 
         if (documentId === '0' && typeof daoTemplate?.id !== 'undefined') {
-          console.log('nuevo CON TEMPLATE?');
           setTitle(`[${daoTemplate.name}]`);
           setLink('');
           setPriority('medium');
@@ -211,6 +212,8 @@ const MarkdownEditor: React.FC<{
           setTags([]);
           setCollabs([]);
           const contentPre = daoTemplate.markdown;
+          console.log('nuevo CON TEMPLATE', daoTemplate.markdown);
+
           const content = preprocessMarkdown(contentPre);
           setCont(content);
           initializeEditor(content);
@@ -310,6 +313,14 @@ const MarkdownEditor: React.FC<{
     return;
   };
 
+  const handleClose = async () => {
+    setCont('');
+    setTitle('');
+    setLink('');
+    setIsSaving(false);
+    afterSave();
+  };
+
   return (
     <div className="w-full">
       <>
@@ -326,16 +337,28 @@ const MarkdownEditor: React.FC<{
             {isSaving ? (
               <Loader />
             ) : (
-              <Button
-                variant="ghost"
-                size={'sm'}
-                // className="text-sm bg-black text-white px-3 py-1 rounded-md"
-                onClick={handleSave}>
-                Save & close
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  size={'sm'}
+                  // className="text-sm bg-black text-white px-3 py-1 rounded-md"
+                  onClick={handleSave}>
+                  Save
+                </Button>
+
+                <Button
+                  variant="ghost"
+                  size={'sm'}
+                  // className="text-sm bg-black text-white px-3 py-1 rounded-md"
+                  onClick={handleClose}>
+                  Close
+                </Button>
+              </div>
             )}
           </div>
-
+          {/* // FIXME */}
+          {/* <ReactMarkdown>{cont}</ReactMarkdown>; */}
+          {/* <ReactMarkdown>{cont}</ReactMarkdown>; */}
           <div className="flex items-baseline">
             <div className="w-1/12">Title</div>
             <input
@@ -357,7 +380,6 @@ const MarkdownEditor: React.FC<{
               <option value={'low'}>Low</option> */}
             </select>
           </div>
-
           <div className="flex items-baseline">
             <div className="w-1/12">Link</div>
             <input
@@ -373,7 +395,6 @@ const MarkdownEditor: React.FC<{
               // value={tags}
               className="w-2/12 px-2 py-1 outline-none  opacity-50  rounded-md"></select>
           </div>
-
           <div className="flex items-baseline w-full">
             <span className="w-1/12">Project</span>
             <select

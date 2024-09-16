@@ -27,7 +27,7 @@ export const ProjectList = ({ projects, handleSelect }: ProjectListProps) => {
       <button
         onClick={e => handleClick(p.project)}
         className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
-                        px-4 py-2 rounded-md cursor-pointer w-full
+                        px-2 py-2 rounded-md cursor-pointer w-full
                         text-sm flex justify-between">
         <div className="flex items-center gap-2">
           {selectedP === p.project ? (

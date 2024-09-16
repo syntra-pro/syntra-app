@@ -1,19 +1,19 @@
 export async function getCalendar(calendar_id: string) {
   const now = new Date();
   const twoWeeksLater = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
-  const API_KEY = process.env.NEXT_PUBLIC_GCALENDAR_API_KEY || "";
+  const API_KEY = process.env.NEXT_PUBLIC_GCALENDAR_API_KEY || '';
 
   const params = new URLSearchParams({
     key: API_KEY,
     timeMin: now.toISOString(),
     timeMax: twoWeeksLater.toISOString(),
     // maxResults: '1000',
-    singleEvents: "true",
-    orderBy: "startTime",
+    singleEvents: 'true',
+    orderBy: 'startTime',
   });
 
   const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
-    calendar_id
+    calendar_id,
   )}/events?${params}`;
 
   try {
@@ -24,7 +24,6 @@ export async function getCalendar(calendar_id: string) {
     }
 
     const data = await response.json();
-    console.log("data ", data);
     const events = data.items.map((item: any) => ({
       id: item.id,
       updated: item.updated,
@@ -40,7 +39,7 @@ export async function getCalendar(calendar_id: string) {
 
     return events;
   } catch (error) {
-    console.error("Error fetching events:", error);
+    console.error('Error fetching events:', error);
     return [];
   }
 }
