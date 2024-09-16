@@ -205,6 +205,25 @@ export async function readDocument(pathName: string) {
   }
 }
 
+export async function readSettings() {
+  try {
+    // const p = `/api/settings?documentId=${pathName}`;
+    const p = `/api/settings`;
+    const response = await fetch(p, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) throw new Error('Failed to fetch document');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error reading:`, error);
+  }
+}
+
 export async function fetchAllDocuments(pathName: string) {
   try {
     const folderName = pathName;

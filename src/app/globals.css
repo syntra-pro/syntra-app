@@ -68,11 +68,14 @@
   }
 }
 
-
 /* globals.css */
 .icon {
   fill: var(--icon-color);
   /* stroke: var(--icon-color); */
+}
+
+.h1 {
+  font-size: 22pt;
 }
 
 .sidebarSocials {
@@ -90,25 +93,23 @@
   justify-content: center;
   padding: 2px;
   box-sizing: border-box;
-  }
+}
 
-  .activityBar {
-    /* backdrop-filter: blur(264px); */
-    /* background-color: rgba(255, 255, 255, 0.1); */
-    /* width: 100%; */
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 8px 0px 8px 4px;
-    box-sizing: border-box;
-    gap: 4px;
-    text-align: center;
-    font-size: 14px;
-    color: #373434;
-  }
-  
-    
+.activityBar {
+  /* backdrop-filter: blur(264px); */
+  /* background-color: rgba(255, 255, 255, 0.1); */
+  /* width: 100%; */
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 8px 0px 8px 4px;
+  box-sizing: border-box;
+  gap: 4px;
+  text-align: center;
+  font-size: 14px;
+  color: #373434;
+}
 
 :root {
   --icon-color: #000;
@@ -118,7 +119,6 @@
   --icon-color: #fff;
 }
 
-  
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -153,8 +153,6 @@
 .animate-scroll {
   animation: scroll 10s linear infinite;
 }
-
-
 
 /* Estilos generales para el contenedor */
 .editor-container {

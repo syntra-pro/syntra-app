@@ -7,6 +7,7 @@ import { LoginButton } from './LoginButton';
 import { useAuth } from '../contexts/AuthContext';
 import { useDAO } from '../contexts/DAOContext';
 import { useParams } from 'next/navigation';
+import { useTheme } from 'next-themes';
 
 // import WorldIDVerifier from "../WorldBadge";
 
@@ -21,7 +22,7 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
   const par = useParams();
   const id = par.id as string;
   const { logo, color, setLogo, setColor, colorDark, setColorDark } = useDAO();
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { theme, setTheme, systemTheme } = useTheme();
 
   useEffect(() => {
     if (!user) {
@@ -30,32 +31,16 @@ export const HeadBar = ({ showDropdown = false }: HeadBarProps) => {
     setAddress(authenticated);
   }, [authenticated, user]);
 
-  useEffect(() => {
-    const darkModeMediaQuery = window.matchMedia(
-      '(prefers-color-scheme: dark)',
-    );
-    setIsDarkMode(darkModeMediaQuery.matches);
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsDarkMode(e.matches);
-    };
-    darkModeMediaQuery.addEventListener('change', handleChange);
-    return () => {
-      darkModeMediaQuery.removeEventListener('change', handleChange);
-    };
-  }, []);
-
-  // const handleBack = () => {
-  //   setColor("stone-100");
-  //   setColorDark("stone-900");
-  //   setLogo("");
-  // };
+  const isDarkMode = systemTheme !== 'light';
 
   return (
     <header
       className="w-[calc(100%-10rem)] ml-44 mr-0 shadow-md fixed top-0 right-00 z-30 flex h-12 items-center"
       style={{
         backgroundColor:
-          logo === ''
+          typeof systemTheme === 'undefined'
+            ? 'transparent'
+            : logo === ''
             ? isDarkMode
               ? '#1c1917'
               : '#f5f5f4'

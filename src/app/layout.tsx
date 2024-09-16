@@ -2,9 +2,8 @@ import { AuthProvider } from './components/contexts/AuthContext';
 import { DAOProvider } from './components/contexts/DAOContext';
 import { NetworkProvider } from './components/contexts/NetworkContext';
 import Providers from './providers';
+import { ThemeProvider } from 'next-themes';
 import { VerificationProvider } from './components/contexts/VerificationContext';
-
-// import { useAuth } from "./components/contexts/AuthContext";
 
 export const metadata = {
   title: 'Syntra',
@@ -16,20 +15,20 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // const { authenticated, user, ready } = useAuth();
-
   return (
     <html lang="en">
       <body className="bg-white dark:bg-stone-800">
-        <Providers>
-          <NetworkProvider>
-            <VerificationProvider>
-              <AuthProvider>
-                <DAOProvider>{children}</DAOProvider>
-              </AuthProvider>
-            </VerificationProvider>
-          </NetworkProvider>
-        </Providers>
+        <ThemeProvider attribute="class" defaultTheme="system">
+          <Providers>
+            <NetworkProvider>
+              <VerificationProvider>
+                <AuthProvider>
+                  <DAOProvider>{children}</DAOProvider>
+                </AuthProvider>
+              </VerificationProvider>
+            </NetworkProvider>
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

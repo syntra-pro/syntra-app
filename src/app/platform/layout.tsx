@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Daosphere",
-  description: "by SeedLatam",
+  title: 'Syntra',
+  description: '',
 };
 
 export default function RootLayout({

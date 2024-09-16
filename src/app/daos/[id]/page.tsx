@@ -2,12 +2,7 @@
 
 // the dao home
 
-import {
-  CaretDownIcon,
-  CaretUpIcon,
-  FileTextIcon,
-  SizeIcon,
-} from '@radix-ui/react-icons';
+import { CaretDownIcon, FileTextIcon, SizeIcon } from '@radix-ui/react-icons';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +20,6 @@ import CollaborativeEditor from '../../components/CollaborativeEditor';
 import DaoEvent from '../../components/DaoEvents';
 import { DaoLink } from '../../../types/DaoLink';
 import DaoLinks from '../../components/DaoLinks';
-import { ExpandIcon } from 'lucide-react';
 import Loader from '../../components/ui/Loader';
 import PlatformLayout from '../../layouts/platformLayout';
 import { ProjectList } from '../../components/ProjectList';
@@ -46,8 +40,12 @@ export default function DaoPage({ params }: { params: { id: string } }) {
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isActivityOpen, setIsActivityOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [template, setTemplate] = useState('');
+
   const [calendar, setCalendar] = useState([]);
   const { authenticated, user, ready } = useAuth();
+
   const [daoLinks, setDaoLinks] = useState<DaoLink[]>([]);
   const [daoSettings, setDaoSettings] = useState<DaoLink[]>([]);
   const [daoTemplates, setDaoTemplates] = useState<DaoLink[]>([]);
@@ -71,6 +69,74 @@ export default function DaoPage({ params }: { params: { id: string } }) {
 
   const handleNewProject = () => {
     setShowNew(true);
+  };
+
+  const handleSaveTemplate = async () => {
+    const data = {
+      title: 'Mission request',
+      markdown: `
+      # Mission Request Template
+_[For more information regarding concepts and requirements please check Mission Request Creation Guide](https://gov.optimism.io/t/season-6-mission-request-creation-guide/8123)_
+_Please note Missions must be completed within 12 months (i.e. marked as done)._
+
+**Delegate Mission Request Summary:** _Mission Requests should be tightly scoped and well-specified. You can see examples [here 9](https://github.com/ethereum-optimism/ecosystem-contributions/issues?q=is%3Aissue+is%3Aopen+RFP). You should describe your Mission Request in 1-2 sentences here._
+
+**S6 [Intent 39](https://gov.optimism.io/t/season-6-intents-ratification/8104):** _Please list the Intent your Request aligns with here_
+
+**Proposing Delegate/Citizen:** _Delegate name/pseudonym, linked to delegate profile_
+
+**Total grant amount:** _This amount should reflect the total amount required to execute the Mission. If a Request specifies multiple applicants, the grant amount should reflect the total OP required to support all qualified applicants. (e.g., if the Request is to make 50k OP grants to 4 applicants, you could specify the total grant amount as 200k OP.)_
+
+_We have suggested applicants request 80% of the amount of impact they believe they will generate, incentivizing the rest to be rewarded retroactively based on quality of execution in future Retro Funding Rounds._
+
+**For clarity, additional Retro Funding is never guaranteed and applicants should not submit applications on the assumption that they will receive more than the upfront grant.**
+
+**Should this Mission be fulfilled by one or multiple applicants:** _Select from: “One,” “Up to X” or “Multiple”_
+
+**How will this Mission Request help accomplish the above Intent?**
+
+- _Please explain alignment with the relevant Intent_
+
+**What is required to execute this Mission Request?**
+
+- _Please list responsibilities and/or expected deliverables_
+
+**How should governance participants measure impact upon completion of this Mission?**
+
+- **Milestones:** _These measures should measure progress towards completion, including expected completion dates for each is recommended_
+
+- **Metrics:** _In order to standardize evaluation, it is recommended that metrics for success and milestones tie back to the target metrics listed under each Intent as much as possible._
+
+- **Impact:** _These measures should be focused on performance and may be used to assess your Misson’s impact in the next round of Retro Funding_
+
+**Has anyone other than the proposer contributed to this Mission Request?** _If so, who, and what parts of this application did they contribute to? If you sponsored another community members idea, please credit them here._
+      
+      `,
+
+      timestamp: Date.now(),
+    };
+
+    try {
+      const response = await fetch('/api/settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error guardando el documento');
+      }
+
+      const result = await response.json();
+      console.log('Documento guardado con éxito:', result);
+    } catch (err) {
+      setError('Ocurrió un error al guardar el documento.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSaveProject = async () => {
@@ -242,7 +308,7 @@ export default function DaoPage({ params }: { params: { id: string } }) {
             {/* drafts  */}
             <button
               onClick={() => {
-                setIsDraftsOpen(!isDraftsOpen);
+                setIsDraftsOpen(true);
                 setIsResourcesOpen(false);
                 setIsCalendarOpen(false);
                 setIsActivityOpen(false);
@@ -294,6 +360,21 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                   text-stone-600 dark:text-stone-200 text-sm`}>
               Activity feed
             </button>
+
+            {/* dao settings */}
+            {/* <button
+              onClick={() => {
+                setIsActivityOpen(false);
+                setIsCalendarOpen(false);
+                setIsResourcesOpen(false);
+                setIsDraftsOpen(false);
+                setIsSettingsOpen(true);
+              }}
+              className={`flex flex-col rounded-lg px-3 py-2  outline-none
+                    ${isActivityOpen && ' bg-stone-100 dark:bg-stone-700 '}
+                  text-stone-600 dark:text-stone-200 text-sm`}>
+              DAO Settings
+            </button> */}
           </div>
 
           {/* tabs contents  */}
@@ -314,10 +395,11 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                   //     Projects
                   //   </button>
                   // </div>
-                  <div className=" mt-[55px] w-9 relative left-[-52px]     ">
+                  <div className="sm:mt-[55px] w-9 relative sm:left-[-52px]     ">
                     <button
                       onClick={() => setIsProjectsMinimized(false)}
-                      className=" flex gap-x-4 items-center transform -rotate-90 border dark:text-stone-300 dark:border-stone-700 px-4 py-2 rounded-lg">
+                      className=" flex gap-x-4 items-center sm:transform
+                       sm:-rotate-90 border dark:text-stone-300 dark:border-stone-700 px-4 py-2 rounded-lg">
                       <div className=" whitespace-nowrap">
                         Projects
                         <span className="ml-4 font-bold text-xs">
@@ -344,9 +426,9 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                             size={'sm'}>
                             + New project
                           </Button>
-                          <button onClick={handleCollapseProjects}>
+                          {/* <button onClick={handleCollapseProjects}>
                             <SizeIcon />
-                          </button>
+                          </button> */}
                           <button onClick={handleMinimizeProjects}>
                             <CaretDownIcon />
                           </button>
@@ -680,6 +762,28 @@ export default function DaoPage({ params }: { params: { id: string } }) {
                 </div>
               </>
             </div>
+
+            {/* dao setting */}
+            {/* <div
+              className={` rounded-lg  overflow-hidden transition-all duration-300 ease-in-out
+                ${isSettingsOpen ? 'max-h-full' : 'max-h-0'}  `}>
+              <div className="pb-2">
+                Template markdown
+                <input
+                  onChange={e => setTemplate(e.target.value)}
+                  className="px-2 mr-2 py-1 w-8/12 outline-none rounded-md  "
+                  placeholder="Enter a template markdown"
+                  type="text"
+                />
+                <button
+                  onClick={handleSaveTemplate}
+                  className={`  rounded-lg px-3 py-2  outline-none
+                  bg-stone-100 dark:bg-stone-700 '}
+              text-stone-600 dark:text-stone-300 text-sm`}>
+                  Upload template
+                </button>
+              </div>
+            </div> */}
           </div>
         </div>
 

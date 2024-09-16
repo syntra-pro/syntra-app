@@ -2,14 +2,16 @@
 
 import '../../app/globals.css';
 
-import { Button } from '../components/ui/Button';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function LandingLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+
   return (
     <div className="min-h-screen">
       <header className="  md:px-12 md:py-3 xs:px-2 xs:py-1 px-2 py-2">
@@ -145,14 +147,16 @@ export default function LandingLayout({
               </div>
             </div>
 
-            <Link href={'/home'}>
-              <div className="rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-xs xs:text-xs sm:text-xs md:text-xs lg:text-lg">
+            <button
+              //  href={'/home'}
+              onClick={() => router.push('/home')}>
+              <div className="outline-none rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-xs xs:text-xs sm:text-xs md:text-xs lg:text-lg">
                 Open app
                 <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
                   →
                 </span>
               </div>
-            </Link>
+            </button>
           </div>
         </div>
       </footer>
