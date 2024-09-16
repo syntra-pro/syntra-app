@@ -63,7 +63,7 @@ export default function LandingLayout({
             <Link
               className="md:block hidden"
               href={'https://www.seedlatam.org'}>
-              Seed Org
+              SEED Org.
             </Link>
           </div>
 
@@ -135,13 +135,13 @@ export default function LandingLayout({
               <div className="flex flex-col gap-y-2">
                 <p className="text-">About us</p>
                 <p className="text-">Changelog</p>
-                <p className="text-">Seed Org</p>
+                <p className="text-">SEED Org.</p>
               </div>
 
               <div className="flex flex-col  gap-y-2">
                 <p className="text-">FAQs</p>
                 <p className="text-">Terms</p>
-                <p className="text-">Contact</p>
+                <p className="text-">SEED Gov</p>
               </div>
             </div>
 
