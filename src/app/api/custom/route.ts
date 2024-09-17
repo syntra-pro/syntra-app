@@ -5,7 +5,9 @@ import { getUser } from '../../../lib/firestore';
 
 export async function POST(req: NextRequest) {
   try {
-    const { walletAddress }: { walletAddress: string } = await req.json();
+    if (typeof req === 'undefined') return;
+    const { walletAddress }: { walletAddress: string } =
+      (await req.json()) || {};
 
     if (!walletAddress) {
       return NextResponse.json(
