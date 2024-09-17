@@ -1,15 +1,41 @@
-import * as admin from 'firebase-admin';
+import admin from 'firebase-admin';
 
-if (!admin.apps.length) {
-  const serviceAccount = JSON.parse(
-    process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string,
-  );
-
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
+interface FirebaseAdminAppParams {
+  projectId: string;
+  clientEmail: string;
+  storageBucket: string;
+  privateKey: string;
 }
 
-const adminAuth = admin.auth();
+function formatPrivateKey(key: string) {
+  return key.replace(/\\n/g, '\n');
+}
 
-export { adminAuth };
+export async function adminAuth() {
+  const params = {
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID as string,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL as string,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET as string,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY as string,
+  };
+
+  const privateKey = formatPrivateKey(params.privateKey);
+
+  if (admin.apps.length > 0) {
+    return admin.app();
+  }
+
+  const cert = admin.credential.cert({
+    projectId: params.projectId,
+    clientEmail: params.clientEmail,
+    privateKey,
+  });
+
+  const auth = admin.initializeApp({
+    credential: cert,
+    projectId: params.projectId,
+    storageBucket: params.storageBucket,
+  });
+
+  return auth;
+}
