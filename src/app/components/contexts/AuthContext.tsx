@@ -71,6 +71,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const authenticateWithFirebase = async (walletAddress: string) => {
       try {
+        if (walletAddress === '' || typeof walletAddress === 'undefined')
+          return;
+
         const response = await fetch('/api/custom', {
           method: 'POST',
           headers: {
