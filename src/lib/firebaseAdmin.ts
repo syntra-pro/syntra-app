@@ -43,7 +43,13 @@ const serviceAccount = {
 if (!admin.apps.length) {
   admin.initializeApp({
     // @ts-ignore
+
     credential: admin.credential.cert(serviceAccount),
+    // @ts-ignore
+
+    private_key: process.env.FIREBASE_PRIVATE_KEY,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY,
+
     databaseURL: 'https://demosphere-web3-default-rtdb.firebaseio.com',
   });
 }
