@@ -54,6 +54,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [firebaseUser, setFirebaseUser] = useState<any | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const router = useRouter();
+  const auth = getAuth();
 
   const [authState, setAuthState] = useState<
     Omit<AuthContextType, 'login' | 'logout'>
@@ -92,7 +93,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           customToken,
         );
 
-        setFirebaseUser({ walletAddress, customToken });
+        const idToken = await auth.currentUser?.getIdToken();
+
+        setFirebaseUser({ walletAddress, customToken, idToken });
       } catch (error) {
         console.error('Error authenticating custom token:', error);
       }
