@@ -1,8 +1,10 @@
-import { CalendarIcon, MaskOffIcon } from '@radix-ui/react-icons';
-
+import { CalendarIcon } from '@radix-ui/react-icons';
+import { ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import { VideoIcon } from 'lucide-react';
 import { localTime } from '../../lib/utils';
+
 interface DaoEventProps {
   id: number;
   updated: Date;
@@ -51,7 +53,7 @@ const DaoEvent: React.FC<DaoEventProps> = ({
               target="_blank"
               className="bg-rose-200 dark:bg-stone-400 text-black  text-xs px-2 py-1 rounded-md"
               title="Link to conference">
-              <MaskOffIcon />
+              <VideoIcon className="h-4 w-4" />
             </Link>
           )}
 
@@ -61,7 +63,7 @@ const DaoEvent: React.FC<DaoEventProps> = ({
               target="_blank"
               className="bg-rose-200 dark:bg-stone-400 text-black text-xs px-2 py-1 rounded-md"
               title="Link to original event">
-              <CalendarIcon />
+              <ExternalLinkIcon className="h-4 w-4" />
             </Link>
           )}
         </div>
