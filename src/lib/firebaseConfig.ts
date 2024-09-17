@@ -11,7 +11,7 @@ const serviceAccount = JSON.parse(
 export const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NFIREBASE_PROJECT_ID,
+  projectId: process.env.FIREBASE_PROJECT_ID,
   storageBucket: 'demosphere-web3.appspot.com',
   messagingSenderId: '37949963488',
   appId: '1:37949963488:web:90296ecb9a4b25d2f0a485',
