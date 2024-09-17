@@ -57,10 +57,9 @@ export async function getUser(
 
     const data = docSnap.data();
     const result: DocumentData = { data };
-
     return result;
   } catch (error) {
-    console.error('Error fetching document:', error);
+    console.error('>>>>.... Error fetching document:', error);
     throw error;
   }
 }
