@@ -5,7 +5,6 @@ import { getUser } from '../../../lib/firestore';
 
 export async function POST(req: NextRequest) {
   try {
-    // Verificar si el método es POST
     if (req.method !== 'POST') {
       return NextResponse.json(
         { message: 'Method Not Allowed' },
@@ -13,7 +12,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Verificar que el cuerpo de la solicitud no esté vacío
     if (!req.body) {
       return NextResponse.json(
         { message: 'Request body is empty' },
@@ -21,10 +19,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Parsear el cuerpo de la solicitud
     const requestBody = await req.json();
 
-    // Verificar si hay contenido en el cuerpo después de parsear
     if (!requestBody) {
       return NextResponse.json(
         { message: 'Invalid or empty JSON in request body' },
@@ -54,7 +50,7 @@ export async function POST(req: NextRequest) {
 
     const auth = await adminAuth();
 
-    const customToken = auth.auth().createCustomToken(walletAddress);
+    const customToken = await auth.auth().createCustomToken(walletAddress);
 
     return NextResponse.json({ customToken, user });
   } catch (error) {

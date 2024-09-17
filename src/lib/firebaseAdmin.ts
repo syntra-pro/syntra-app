@@ -14,7 +14,7 @@ function formatPrivateKey(key: string) {
 export async function adminAuth() {
   const params = {
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID as string,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL as string,
+    clientEmail: process.env.NEXT_PUBLIC_FIREBASE_EMAIL as string,
     storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET as string,
     privateKey: process.env.FIREBASE_PRIVATE_KEY as string,
   };

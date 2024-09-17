@@ -112,7 +112,7 @@ export default function PlatformLayout({
               style={{
                 backgroundColor:
                   typeof systemTheme === 'undefined'
-                    ? 'transparent'
+                    ? '#6363630f '
                     : logo === ''
                     ? isDarkMode
                       ? '#1c1917'

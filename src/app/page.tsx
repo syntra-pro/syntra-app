@@ -37,7 +37,7 @@ export default function Home() {
           <div className="lg:w-7/12">
             <Image
               className="rounded-xl w-full h-auto"
-              src="/hero1.png"
+              src="/hero1.svg"
               width={700}
               height={700}
               alt="Hero image"
@@ -118,10 +118,9 @@ export default function Home() {
                 are drafting proposals, coordinating community initiatives,
                 managing funding allocation, or overseeing treasury activities,
                 our platform adapts to your unique processes, helping you
-                achieve your goals every day. 
+                achieve your goals every day.
                 <br />
-                Built for DAO participants who
-                prioritize efficient governance.
+                Built for DAO participants who prioritize efficient governance.
               </p>
             </div>
           </div>
@@ -189,7 +188,7 @@ export default function Home() {
           with Seamless Integration
         </h2>
         <p className="text-xl dark:text-stone-300 mb-8">
-          Take Your DAO Operations 
+          Take Your DAO Operations
           <br />
           to the Next Level.
         </p>
