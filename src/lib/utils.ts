@@ -227,8 +227,6 @@ export async function readSettings() {
 export async function fetchAllDocuments(pathName: string) {
   try {
     const folderName = pathName;
-    console.log('bucando folderName', folderName);
-
     const response = await fetch(`/api/storage?folder=${folderName}`, {
       method: 'GET',
       headers: {
@@ -236,10 +234,12 @@ export async function fetchAllDocuments(pathName: string) {
       },
     });
 
-    if (!response.ok) throw new Error('Failed to fetch documents');
+    if (!response.ok) {
+      throw new Error('Failed to fetch documents');
+    }
 
     const data = await response.json();
-    return data.documents; // Asume que la respuesta tiene un campo 'documents' con la lista de documentos
+    return data.documents;
   } catch (error) {
     console.error(`Error fetching documents from folder ${pathName}:`, error);
     return []; // Devuelve un array vacío en caso de error
