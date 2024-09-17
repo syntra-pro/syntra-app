@@ -1,7 +1,7 @@
 export async function getCalendar(calendar_id: string) {
   const now = new Date();
   const twoWeeksLater = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
-  const API_KEY = process.env.GCALENDAR_API_KEY || '';
+  const API_KEY = process.env.NEXT_PUBLIC_GCALENDAR_API_KEY || '';
 
   const params = new URLSearchParams({
     key: API_KEY,
