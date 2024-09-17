@@ -159,18 +159,25 @@ _We have suggested applicants request 80% of the amount of impact they believe t
   async function fetchDocuments() {
     try {
       setDaoTemplate(undefined);
-      const pathName = `/documents/${idDao}/${user?.wallet?.address}`;
-      const documents = await fetchAllDocuments(pathName);
-      console.log('Documents:', pathName, documents);
-      if (!documents) return;
+      const docs = await fetchAllDocuments(
+        `/documents/${idDao}/${user?.wallet?.address}`,
+      );
+      if (!docs) return;
 
-      const stuffedDocs = documents.filter((r: any) => r.id !== '0');
-      const emptyProjects = Object.keys(
-        documents.filter((r: any) => r.id === '0')[0],
-      ).filter(t => t !== 'id');
+      const folderedDocs = docs.filter((r: any) => r.id !== '0');
+      const hasEmpties = docs.filter((r: any) => r.id === '0');
+      let emptyProjectsFolder: any;
+
+      if (hasEmpties.length === 0) {
+        emptyProjectsFolder = [];
+      } else {
+        emptyProjectsFolder = Object.keys(
+          docs.filter((r: any) => r.id === '0')[0],
+        ).filter(t => t !== 'id');
+      }
 
       const itemsByProject = Object.entries(
-        stuffedDocs.reduce(
+        folderedDocs.reduce(
           (acc: any, { project }: any) => ({
             ...acc,
             [project]: (acc[project] ?? 0) + 1,
@@ -179,7 +186,7 @@ _We have suggested applicants request 80% of the amount of impact they believe t
         ),
       ).map(([project, drafts]) => ({ project, drafts }));
 
-      const empty = emptyProjects.map(p => ({
+      const empty = emptyProjectsFolder.map((p: any) => ({
         project: p,
         drafts: 0,
       }));
@@ -191,16 +198,16 @@ _We have suggested applicants request 80% of the amount of impact they believe t
         },
       ];
 
-      setDocuments(documents);
+      setDocuments(docs);
       setAllDocuments(
-        documents
+        docs
           .filter((i: any) => i.id !== '0')
           .sort((a: any, b: any) => a.project.localeCompare(b.project)),
       );
 
       // empty projects
       const allProjects = [...all, ...itemsByProject, ...empty];
-      console.log('allProjects ', allProjects);
+      // console.log('allProjects ', allProjects);
 
       const nonZeroId = Object.values(
         allProjects.reduce((acc: any, { project, drafts }: any) => {

@@ -20,14 +20,9 @@ export async function GET(req: Request) {
       const data = snapshot.val();
 
       if (snapshot.exists()) {
-        // const documentKey = Object.keys(data)[0];
-        // const doc = data[documentKey];
         return NextResponse.json(data, { status: 200 });
       } else {
-        return NextResponse.json(
-          { error: 'Document not found' },
-          { status: 404 },
-        );
+        return NextResponse.json([], { status: 200 });
       }
     } else {
       // allDocs
@@ -42,10 +37,7 @@ export async function GET(req: Request) {
         }));
         return NextResponse.json({ documents }, { status: 200 });
       } else {
-        return NextResponse.json(
-          { error: 'No documents found in the folder' },
-          { status: 404 },
-        );
+        return NextResponse.json({ documents: [] }, { status: 200 });
       }
     }
   } catch (error) {
