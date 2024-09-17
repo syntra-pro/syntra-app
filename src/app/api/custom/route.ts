@@ -52,7 +52,9 @@ export async function POST(req: NextRequest) {
       // );
     }
 
-    const customToken = await adminAuth.createCustomToken(walletAddress);
+    const auth = await adminAuth();
+
+    const customToken = auth.auth().createCustomToken(walletAddress);
 
     return NextResponse.json({ customToken, user });
   } catch (error) {
