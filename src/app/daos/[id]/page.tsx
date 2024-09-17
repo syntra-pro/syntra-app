@@ -603,11 +603,17 @@ _We have suggested applicants request 80% of the amount of impact they believe t
                         <DropdownMenuContent
                           className="text-xs bg-stone-100 dark:bg-stone-700 p-3 outline-none shadow rounded-md"
                           align="end">
-                          {daoTemplates.map((i: any, k: number) => (
+                          <DropdownMenuItem
+                            className="hover:bg-stone-200
+                               hover:dark:bg-stone-600 outline-none 
+                               cursor-pointer rounded-md px-3 py-2">
+                            Coming Soon™
+                          </DropdownMenuItem>
+
+                          {/* {daoTemplates.map((i: any, k: number) => (
                             <DropdownMenuItem
                               key={k}
                               onClick={() => {
-                                // console.log('setting templatye ', i);
                                 setDocumentId('0');
                                 setDaoTemplate(i);
                                 setIsOpen(true);
@@ -615,7 +621,7 @@ _We have suggested applicants request 80% of the amount of impact they believe t
                               className="hover:bg-stone-200 hover:dark:bg-stone-600 outline-none cursor-pointer rounded-md px-3 py-2">
                               {i.name}
                             </DropdownMenuItem>
-                          ))}
+                          ))} */}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
@@ -633,23 +639,22 @@ _We have suggested applicants request 80% of the amount of impact they believe t
                         .filter((r: any) => r.id !== '0')
                         .map((i, k) => (
                           <div key={k}>
-                            <div
-                              className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
+                            <button
+                              className="w-60s text-left w-full"
+                              onClick={() => {
+                                return handleOpenDraft(i.id);
+                              }}>
+                              <div
+                                className="hover:bg-stone-200 dark:hover:bg-stone-400 hover:dark:text-stone-800
                               px-4 py-2 rounded-md cursor-pointer  items-center
-                              text-sm flex justify-between">
-                              <div className="flex gap-2 items-center">
-                                <FileTextIcon />
-                                <button
-                                  className="w-60 text-left "
-                                  onClick={() => {
-                                    return handleOpenDraft(i.id);
-                                  }}>
+                              text-sm w-full flex justify-between">
+                                <div className="flex gap-2 items-center">
+                                  <FileTextIcon />
                                   {i.title || `id #${i.id}`}
-                                </button>
-                              </div>
+                                </div>
 
-                              {/* DEPRECATED  */}
-                              {/* <div className=" items-baseline">
+                                {/* DEPRECATED  */}
+                                {/* <div className=" items-baseline">
                               <div
                                 style={{ fontSize: "7pt" }}
                                 className=" whitespace-nowrap  w-20 text-center px-1 py-1 rounded-sm font-thin font-mono  "
@@ -658,26 +663,27 @@ _We have suggested applicants request 80% of the amount of impact they believe t
                               </div>
                             </div> */}
 
-                              {/* <div className="flex align-middle"> */}
-                              {/* <span
+                                {/* <div className="flex align-middle"> */}
+                                {/* <span
                               className={`text-xs font-light ${
                                 i.priority === 'critical' &&
                                 'dark:bg-red-600 bg-rose-500 text-white '
                               } w-14 text-center px-2 py-0 rounded-sm`}>
                               {i.priority?.toString() || 'UNSET'}
                             </span> */}
-                              {/* {localTime(i.lastUpdate, "America/Montevideo")} */}
+                                {/* {localTime(i.lastUpdate, "America/Montevideo")} */}
 
-                              <span
-                                className={`text-xs font-light ${
-                                  i.priority === 'critical' &&
-                                  'dark:bg-red-600 bg-rose-500 text-white '
-                                } w-14x text-center px-2 py-0 rounded-sm`}>
-                                {i.project}
-                              </span>
+                                <span
+                                  className={`text-xs font-light ${
+                                    i.priority === 'critical' &&
+                                    'dark:bg-red-600 bg-rose-500 text-white '
+                                  } w-14x text-center px-2 py-0 rounded-sm`}>
+                                  {i.project}
+                                </span>
 
-                              {/* </div> */}
-                            </div>
+                                {/* </div> */}
+                              </div>
+                            </button>
                           </div>
                         ))
                     )}
