@@ -5,11 +5,29 @@ import { getUser } from '../../../lib/firestore';
 
 export async function POST(req: NextRequest) {
   try {
-    const requestBody = await req.json();
+    // Verificar si el método es POST
+    if (req.method !== 'POST') {
+      return NextResponse.json(
+        { message: 'Method Not Allowed' },
+        { status: 405 },
+      );
+    }
 
-    if (!requestBody) {
+    // Verificar que el cuerpo de la solicitud no esté vacío
+    if (!req.body) {
       return NextResponse.json(
         { message: 'Request body is empty' },
+        { status: 400 },
+      );
+    }
+
+    // Parsear el cuerpo de la solicitud
+    const requestBody = await req.json();
+
+    // Verificar si hay contenido en el cuerpo después de parsear
+    if (!requestBody) {
+      return NextResponse.json(
+        { message: 'Invalid or empty JSON in request body' },
         { status: 400 },
       );
     }
@@ -26,11 +44,11 @@ export async function POST(req: NextRequest) {
     const user = await getUser('users', walletAddress);
 
     if (user === null) {
-      // new user
+      // Usuario no en la whitelist
       // console.log('Wallet not in whitelist: ', walletAddress);
       // return NextResponse.json(
       //   { message: 'Wallet not in whitelist' },
-      //   { status: 403 },
+      //   { status: 403 }
       // );
     }
 
