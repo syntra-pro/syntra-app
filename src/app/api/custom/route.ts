@@ -5,9 +5,16 @@ import { getUser } from '../../../lib/firestore';
 
 export async function POST(req: NextRequest) {
   try {
-    if (typeof req === 'undefined') return;
-    const { walletAddress }: { walletAddress: string } =
-      (await req.json()) || {};
+    const requestBody = await req.json();
+
+    if (!requestBody) {
+      return NextResponse.json(
+        { message: 'Request body is empty' },
+        { status: 400 },
+      );
+    }
+
+    const { walletAddress }: { walletAddress?: string } = requestBody;
 
     if (!walletAddress) {
       return NextResponse.json(
