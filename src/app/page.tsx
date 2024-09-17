@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import InfiniteCarousel from './components/ui/InfiniteCarousel';
 import LandingLayout from './layouts/landingLayout';
 import Link from 'next/link';
 
@@ -80,25 +81,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Carousel */}
-      <div className="w-full overflow-hidden py-4 border-y border-stone-300 dark:border-stone-500 my-10">
-        <div className="whitespace-nowrap inline-block animate-[scroll_20s_linear_infinite]">
-          {[1, 2, 3].map((_, index) => (
-            <div key={index} className="inline-flex items-center">
-              <span className="text-xl lg:text-2xl mx-4 dark:text-stone-400">
-                Your All-in-One Solution
-              </span>
-              <Image
-                src="/seedLogo.png"
-                width={32}
-                height={32}
-                alt="Seed Logo"
-                className="inline-block"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
+      <InfiniteCarousel />
 
       {/* Hero 2 section */}
       <section className="container mx-auto px-4 py-12">

@@ -25,9 +25,11 @@ import { LoginButton } from '../components/ui/LoginButton';
 import { initMixpanel } from '../../lib/mixpanel';
 import { useAuth } from '../components/contexts/AuthContext';
 import { useDAO } from '../components/contexts/DAOContext';
+import { usePrivy } from '@privy-io/react-auth';
 
 function MainContent({ children }: { children: React.ReactNode }) {
-  const { authenticated, user, ready } = useAuth();
+  // const { authenticated, user, ready } = useAuth();
+  const { authenticated, user, ready } = usePrivy();
 
   return (
     // <>
