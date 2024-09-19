@@ -18,7 +18,7 @@
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   white-space: normal;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
 }
 
 .ProseMirror:focus {
@@ -102,7 +102,9 @@
       'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
       'Helvetica Neue', sans-serif;
     white-space: normal;
-    background-color: #2d2d2d;
+    background-color: #44403c;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
   }
 }
 

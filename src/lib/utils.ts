@@ -142,6 +142,28 @@ export async function upsertDocument(
   }
 }
 
+export const removeDocument = async (pathName: string) => {
+  try {
+    const response = await fetch('/api/storage', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ pathName }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || 'Error deleting document');
+    }
+
+    return true;
+  } catch (err) {
+    console.error('Error:', err);
+  }
+};
+
 export const toLocalShortDateTime = (timestamp: number) =>
   new Date(timestamp)
     .toLocaleString(undefined, {
