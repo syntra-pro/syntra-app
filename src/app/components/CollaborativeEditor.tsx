@@ -23,14 +23,12 @@ import {
 } from '../../lib/utils';
 
 import { ALL_DOCS_FOLDER } from '../../lib/constants';
-import { Button } from './ui/Button';
 import { EditorView } from 'prosemirror-view';
 import Loader from './ui/Loader';
 import { MenuItem } from 'prosemirror-menu';
 import ReactMarkdown from 'react-markdown';
 import { Schema } from 'prosemirror-model';
 import { addListNodes } from 'prosemirror-schema-list';
-import { keymap } from 'prosemirror-keymap';
 
 const shiftEnterCommand = chainCommands(
   newlineInCode,
@@ -223,7 +221,6 @@ const MarkdownEditor: React.FC<{
             ? `/${folder}/${new Date().getTime().toString()}`
             : `/${folder}/${documentId}`;
 
-        console.log('DDDD ', pathName, newCont, newTitle, link, project);
         await upsertDocument(
           pathName,
           newCont,
@@ -249,11 +246,11 @@ const MarkdownEditor: React.FC<{
   };
 
   const handleClose = async () => {
+    afterSave();
     setCont('');
     setTitle('');
     setLink('');
     setIsSaving(false);
-    afterSave();
   };
 
   return (
@@ -265,13 +262,31 @@ const MarkdownEditor: React.FC<{
             <Loader />
           ) : (
             <div className="flex gap-2">
-              <Button variant="ghost" size={'sm'} onClick={handleSave}>
+              {/* <Button variant="ghost" size={'sm'} onClick={handleSave}>
                 Save
               </Button>
 
               <Button variant="ghost" size={'sm'} onClick={handleClose}>
                 Close
-              </Button>
+              </Button> */}
+
+              <button
+                onClick={handleSave}
+                className="text-xs rounded-md px-3 py-2
+                             dark:hover:bg-stone-700
+                             hover:bg-stone-200
+                             dark:text-stone-400 text-stone-900">
+                Save
+              </button>
+
+              <button
+                onClick={handleClose}
+                className="text-xs rounded-md px-3 py-2
+                             dark:hover:bg-stone-700
+                             hover:bg-stone-200
+                             dark:text-stone-400 text-stone-900">
+                Close
+              </button>
             </div>
           )}
         </div>
@@ -280,14 +295,22 @@ const MarkdownEditor: React.FC<{
           <input
             onChange={e => setTitle(e.target.value)}
             value={title}
-            className="px-2 mr-2 py-1 w-8/12 outline-none rounded-md  "
+            className="w-8/12 py-2 px-3 mr-2 
+            placeholder:dark:text-stone-600 
+            placeholder:text-stone-300
+            bg-white dark:bg-stone-700
+            outline-none rounded-sm"
             placeholder="Enter a name..."
             type="text"
           />
           <div className="w-1/12">Priority</div>
           <select
             disabled
-            className="w-2/12 px-2 py-1 outline-none  opacity-50  rounded-md">
+            className="w-2/12 py-2 px-3 mr-2 
+            placeholder:dark:text-stone-600 
+            placeholder:text-stone-300
+            bg-white dark:bg-stone-700
+            outline-none rounded-sm  opacity-50  ">
             <option value={'medium'}></option>
           </select>
         </div>
@@ -296,19 +319,32 @@ const MarkdownEditor: React.FC<{
           <input
             onChange={e => setLink(e.target.value)}
             value={link}
-            className="px-2 mr-2 py-1 w-8/12 outline-none rounded-md "
+            className="w-8/12 py-2 px-3 mr-2 
+            placeholder:dark:text-stone-600 
+            placeholder:text-stone-300
+            bg-white dark:bg-stone-700
+            outline-none rounded-sm"
             placeholder="Enter an url..."
             type="text"
           />
           <div className="w-1/12">Tags</div>
-          <select className="w-2/12 px-2 py-1 outline-none  opacity-50  rounded-md"></select>
+          <select
+            className="w-2/12 py-2 px-3 mr-2 
+            placeholder:dark:text-stone-800 
+            placeholder:text-stone-300
+            bg-white dark:bg-stone-700
+            outline-none opacity-50  rounded-sm"></select>
         </div>
         <div className="flex items-baseline w-full">
           <span className="w-1/12">Project</span>
           <select
             value={documentId === '0' ? projectName : project}
             onChange={e => setProject(e.target.value)}
-            className="w-5/12 mr-2 px-2 py-1 outline-none rounded-md">
+            className="w-5/12 py-2 px-3 mr-2 
+            placeholder:dark:text-stone-800 
+            placeholder:text-stone-300
+            bg-white dark:bg-stone-700
+            outline-none rounded-sm">
             {projects.map((i: any, k: number) => (
               <option key={k} value={i.project}>
                 {i.project}
@@ -316,8 +352,18 @@ const MarkdownEditor: React.FC<{
             ))}
           </select>
 
-          <span className="w-1/12 text-right mr-2">Collabs</span>
-          <select disabled className="px-2 w-5/12 py-1 outline-none rounded-md">
+          <span
+            className="w-1/12 py-2 px-3 mr-2 text-right
+          ">
+            Collabs
+          </span>
+          <select
+            disabled
+            className="w-5/12 py-2 px-3 mr-2 
+            placeholder:dark:text-stone-800 
+            placeholder:text-stone-300
+            bg-white dark:bg-stone-700
+            outline-none rounded-sm">
             <option value={'critical'}> </option>
             <option value={'high'}> </option>
             <option defaultValue={''} value={''}></option>

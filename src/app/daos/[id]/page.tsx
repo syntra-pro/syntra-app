@@ -2,13 +2,18 @@
 
 // the dao home
 
-import { CaretDownIcon, FileTextIcon, SizeIcon } from '@radix-ui/react-icons';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu';
+import {
+  MoonIcon,
+  PinBottomIcon,
+  PinLeftIcon,
+  PinRightIcon,
+} from '@radix-ui/react-icons';
 import { fetchAllDocuments, upsertDocument } from '../../../lib/utils';
 import { useEffect, useState } from 'react';
 
@@ -20,6 +25,7 @@ import CollaborativeEditor from '../../components/CollaborativeEditor';
 import DaoEvent from '../../components/DaoEvents';
 import { DaoLink } from '../../../types/DaoLink';
 import DaoLinks from '../../components/DaoLinks';
+import { DraftList } from '../../components/DraftList';
 import Loader from '../../components/ui/Loader';
 import PlatformLayout from '../../layouts/platformLayout';
 import { ProjectList } from '../../components/ProjectList';
@@ -50,7 +56,11 @@ export default function DaoPage({ params }: { params: { id: string } }) {
   const [daoSettings, setDaoSettings] = useState<DaoLink[]>([]);
   const [daoTemplates, setDaoTemplates] = useState<DaoLink[]>([]);
   const [calendarId, setCalendarId] = useState('');
-  const { logo, setLogo, color, setColor, colorDark, setColorDark } = useDAO();
+  // logo,
+  // color,
+  // colorDark,
+  const { setLogo, setColor, setColorDark, setName, name } = useDAO();
+  setName(idDao);
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState<any>([]);
   const [selectedProject, setSelectedProject] = useState(ALL_DOCS_FOLDER);
@@ -227,7 +237,7 @@ _We have suggested applicants request 80% of the amount of impact they believe t
   }
 
   const handleSelectProject = (pro: string) => {
-    console.log('allDocuments ', allDocuments);
+    // console.log('allDocuments ', allDocuments);
     pro === ALL_DOCS_FOLDER
       ? setDocuments(allDocuments)
       : setDocuments(allDocuments.filter(d => d.project === pro));
@@ -293,11 +303,8 @@ _We have suggested applicants request 80% of the amount of impact they believe t
         <Loader />
       </PlatformLayout>
     );
-  if (error) return <div>Error: {error}</div>;
 
-  const handleCollapseProjects = () => {
-    setIsProjectsCollapsed(!isProjectsCollapsed);
-  };
+  if (error) return <div>Error: {error}</div>;
 
   const handleMinimizeProjects = () => {
     setIsProjectsMinimized(!isProjectsMinimized);
@@ -305,10 +312,10 @@ _We have suggested applicants request 80% of the amount of impact they believe t
 
   return (
     <PlatformLayout>
-      <div className="flex flex-row  w-full  relative">
+      <div className="flex flex-row  w-full relative">
         {/* dashboard  */}
-        <div className="flex flex-col w-full px-5">
-          {/* buttons */}
+        <div className={`${isOpen && 'blur-lg '} flex flex-col w-full px-5`}>
+          {/* tab buttons */}
           <div
             id="divButtons"
             className="flex mb-3 mt-6 flex-col sm:flex-row w-full gap-4 px-1 ">
@@ -385,7 +392,6 @@ _We have suggested applicants request 80% of the amount of impact they believe t
           </div>
 
           {/* tabs contents  */}
-
           <div className=" ">
             {/* pro-jects and drafts  */}
             <div
@@ -395,13 +401,7 @@ _We have suggested applicants request 80% of the amount of impact they believe t
                   `}>
               <div className="flex flex-col sm:flex-row w-full gap-4 pb-2">
                 {/* project area */}
-
                 {isProjectsMinimized ? (
-                  // <div className="flex">
-                  //   <button className=" bg-stone-100 px-3 w-fit py-2 rounded-md -rotate-90 ">
-                  //     Projects
-                  //   </button>
-                  // </div>
                   <div className="sm:mt-[55px] w-9 relative sm:left-[-52px]     ">
                     <button
                       onClick={() => setIsProjectsMinimized(false)}
@@ -413,7 +413,7 @@ _We have suggested applicants request 80% of the amount of impact they believe t
                           {projects.length - 1}
                         </span>
                       </div>
-                      <SizeIcon />
+                      <PinBottomIcon />
                     </button>
                   </div>
                 ) : (
@@ -426,44 +426,55 @@ _We have suggested applicants request 80% of the amount of impact they believe t
 
                       <div className="relative">
                         <div className="flex gap-4 items-center">
-                          <Button
+                          {/* <Button
                             onClick={handleNewProject}
                             className="rounded-md px-2  py-1 text-xs dark:hover:bg-rose-900 dark:text-stone-400 text-black"
                             variant={'ghost'}
                             size={'sm'}>
                             + New project
-                          </Button>
-                          {/* <button onClick={handleCollapseProjects}>
-                            <SizeIcon />
-                          </button> */}
+                          </Button> */}
+
+                          <button
+                            onClick={handleNewProject}
+                            className="text-xs rounded-md px-3 py-2
+                             dark:hover:bg-stone-700
+                             hover:bg-stone-100
+                             dark:text-stone-400 text-stone-900">
+                            + New project
+                          </button>
+
                           <button onClick={handleMinimizeProjects}>
-                            <CaretDownIcon />
+                            <PinLeftIcon />
                           </button>
                         </div>
                         {showNew && (
-                          <div className="absolute w-40 -left-14 p-2 rounded-md bg-stone-100 shadow-md dark:bg-stone-700">
+                          <div className="absolute w-48 -left-20 p-3 rounded-md bg-stone-100  shadow-md dark:shadow-stone-800 dark:bg-stone-500">
                             <input
                               onChange={e => setNewProject(e.target.value)}
-                              className="px-2 mr-2 py-1 w-full text-xs outline-none rounded-md  "
+                              className="px-3 mr-2 py-2 w-full text-xs outline-none rounded-sm 
+                              placeholder:dark:text-stone-800 dark:bg-stone-600 bg-white
+                              "
                               placeholder="Enter a name..."
                               type="text"
                             />
-                            <div className="flex p-2 gap-2">
-                              <Button
-                                className="rounded-md px-3 py-0 text-xs dark:hover:bg-rose-900 dark:text-stone-400 text-black"
+                            <div className="flex pt-2 justify-between w-full gap-2">
+                              <button
                                 onClick={handleSaveProject}
-                                variant={'ghost'}
-                                size={'sm'}>
+                                className="text-xs w-20 rounded-md px-3 py-2
+                                dark:hover:bg-stone-700
+                                hover:bg-stone-200
+                                dark:text-stone-700 hover:dark:text-stone-400 text-stone-900">
                                 Save
-                              </Button>
+                              </button>
 
-                              <Button
-                                className="rounded-md px-3 py-0 text-xs dark:hover:bg-rose-900 dark:text-stone-400 text-black"
+                              <button
                                 onClick={() => setShowNew(false)}
-                                variant={'ghost'}
-                                size={'sm'}>
+                                className="text-xs  w-20 rounded-md px-3 py-2
+                                dark:hover:bg-stone-700
+                                hover:bg-stone-200
+                                dark:text-stone-700 hover:dark:text-stone-400 text-stone-900">
                                 Cancel
-                              </Button>
+                              </button>
                             </div>
                           </div>
                         )}
@@ -472,7 +483,7 @@ _We have suggested applicants request 80% of the amount of impact they believe t
 
                     {!isProjectsCollapsed ? (
                       <div className="text-xs mb-4">
-                        View and manage all active subprojects.
+                        View and manage all active projects.
                       </div>
                     ) : (
                       <div className="py-4"> </div>
@@ -487,64 +498,11 @@ _We have suggested applicants request 80% of the amount of impact they believe t
                           projects={projects}
                         />
                       ) : (
-                        'No projects to display'
+                        <div className="flex gap-4 mt-4 flex-col items-center justify-center">
+                          <MoonIcon width={40} height={40} />
+                          No drafts to display
+                        </div>
                       )}
-                      {/* 
-                    <Link href={'#'}>
-                      <div
-                        className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
-                        px-2 py-1 rounded-md
-                        text-xs font-mono grid grid-cols-2">
-                        <div>Project 1</div>
-                        <div className="text-right">11 drafts</div>
-                      </div>
-                    </Link>
-
-                    <Link href={'#'}>
-                      <div
-                        className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
-                        px-2 py-1 rounded-md
-                        text-xs font-mono grid grid-cols-2">
-                        <div>test</div>
-                        <div className="text-right">3 drafts</div>
-                      </div>
-                    </Link>
-                    <Link href={'#'}>
-                      <div
-                        className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
-                        px-2 py-1 rounded-md
-                        text-xs font-mono grid grid-cols-2">
-                        <div>Project 2</div>
-                        <div className="text-right">1 drafts</div>
-                      </div>
-                    </Link>
-                    <Link href={'#'}>
-                      <div
-                        className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
-                        px-2 py-1 rounded-md
-                        text-xs font-mono grid grid-cols-2">
-                        <div>Project 3</div>
-                        <div className="text-right">1 drafts</div>
-                      </div>
-                    </Link>
-                    <Link href={'#'}>
-                      <div
-                        className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
-                        px-2 py-1 rounded-md
-                        text-xs font-mono grid grid-cols-2">
-                        <div>Project 1</div>
-                        <div className="text-right">2 drafts</div>
-                      </div>
-                    </Link>
-                    <Link href={'#'}>
-                      <div
-                        className="hover:bg-rose-200 dark:hover:bg-rose-400 hover:dark:text-stone-800
-                        px-2 py-1 rounded-md
-                        text-xs font-mono grid grid-cols-2">
-                        <div>My coolest project</div>
-                        <div className="text-right">5 drafts</div>
-                      </div>
-                    </Link> */}
                     </div>
                   </div>
                 )}
@@ -556,17 +514,18 @@ _We have suggested applicants request 80% of the amount of impact they believe t
                   <div className="flex items-baseline justify-between">
                     <div className="text-lg font-semibold">Drafts</div>
                     <div className="flex gap-2">
-                      <Button
-                        className="rounded-md px-2 py-1 text-xs dark:hover:bg-rose-900 dark:text-stone-400 text-black"
+                      <button
                         onClick={() => {
                           setDocumentId('0');
                           setDaoTemplate('');
                           setIsOpen(true);
                         }}
-                        variant={'ghost'}
-                        size={'sm'}>
+                        className="text-xs rounded-md px-3 py-2
+                             dark:hover:bg-stone-700
+                             hover:bg-stone-100
+                             dark:text-stone-400 text-stone-900">
                         + New draft
-                      </Button>
+                      </button>
 
                       {/* <select>
                         {daoTemplates.map((i: any, k: number) => (
@@ -600,12 +559,13 @@ _We have suggested applicants request 80% of the amount of impact they believe t
 
                       <DropdownMenu>
                         <DropdownMenuTrigger className="outline-none" asChild>
-                          <Button
-                            variant="ghost"
-                            size={'sm'}
-                            className="text-xs outline-none dark:hover:bg-rose-900 dark:text-stone-400 text-black">
+                          <button
+                            className="text-xs rounded-md px-3 py-2
+                             dark:hover:bg-stone-700
+                             hover:bg-stone-100
+                             dark:text-stone-400 text-stone-900">
                             Use template
-                          </Button>
+                          </button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
                           className="text-xs bg-stone-100 dark:bg-stone-700 p-3 outline-none shadow rounded-md"
@@ -638,61 +598,20 @@ _We have suggested applicants request 80% of the amount of impact they believe t
                   </div>
                   <hr className="dark:border-stone-700" />
                   {/* the draft list  */}
-                  <div className="flex flex-col mt-4 gap-1">
+                  <div className="flex  overflow-auto  flex-col mt-4   gap-1">
                     {loading ? (
                       <Loader />
+                    ) : documents && documents.length > 0 ? (
+                      <DraftList
+                        handleOpenDraft={(e: any) => handleOpenDraft(e)}
+                        documents={documents}
+                        afterOperation={fetchDocuments}
+                      />
                     ) : (
-                      documents
-                        .filter((r: any) => r.id !== '0')
-                        .map((i, k) => (
-                          <div key={k}>
-                            <button
-                              className="w-60s text-left w-full"
-                              onClick={() => {
-                                return handleOpenDraft(i.id);
-                              }}>
-                              <div
-                                className="hover:bg-stone-200 dark:hover:bg-stone-400 hover:dark:text-stone-800
-                              px-4 py-2 rounded-md cursor-pointer  items-center
-                              text-sm w-full flex justify-between">
-                                <div className="flex gap-2 items-center">
-                                  <FileTextIcon />
-                                  {i.title || `id #${i.id}`}
-                                </div>
-
-                                {/* DEPRECATED  */}
-                                {/* <div className=" items-baseline">
-                              <div
-                                style={{ fontSize: "7pt" }}
-                                className=" whitespace-nowrap  w-20 text-center px-1 py-1 rounded-sm font-thin font-mono  "
-                              >
-                                {toLocalShortDateTime(parseInt(i.id))}
-                              </div>
-                            </div> */}
-
-                                {/* <div className="flex align-middle"> */}
-                                {/* <span
-                              className={`text-xs font-light ${
-                                i.priority === 'critical' &&
-                                'dark:bg-red-600 bg-rose-500 text-white '
-                              } w-14 text-center px-2 py-0 rounded-sm`}>
-                              {i.priority?.toString() || 'UNSET'}
-                            </span> */}
-                                {/* {localTime(i.lastUpdate, "America/Montevideo")} */}
-
-                                <span
-                                  className={`text-xs font-light ${
-                                    i.priority === 'critical' &&
-                                    'dark:bg-red-600 bg-rose-500 text-white '
-                                  } w-14x text-center px-2 py-0 rounded-sm`}>
-                                  {i.project}
-                                </span>
-
-                                {/* </div> */}
-                              </div>
-                            </button>
-                          </div>
-                        ))
+                      <div className="flex gap-4 mt-4 flex-col items-center justify-center">
+                        <MoonIcon width={40} height={40} />
+                        No drafts to display
+                      </div>
                     )}
                   </div>
                 </div>
@@ -745,10 +664,7 @@ _We have suggested applicants request 80% of the amount of impact they believe t
                       dark:text-stone-200 text-centers  mb-4 pt-3  text-lg font-semibold ">
                         Upcoming Events
                       </div>
-                      <div
-                        //   className="flex gap-4 mx-3 mt-3 mb-2 overflow-x-hidden hover:overflow-x-scroll
-                        // scrollbar-default"
-                        className="flex flex-wrap justify-center pb-6 gap-4 ">
+                      <div className="flex flex-wrap justify-center pb-6 gap-4 ">
                         {calendar.length > 0 ? (
                           calendar.map((item: any, key) => (
                             <div key={key}>
@@ -802,14 +718,23 @@ _We have suggested applicants request 80% of the amount of impact they believe t
 
         {/* sliding editor  */}
         {isOpen ? (
+          // <div
+          //   className="px-3
+          //     bg-stone-100 dark:bg-stone-700 dark:text-stone-400
+          //     bg-opacity-90 backdrop-blur-sm rounded-xl
+          //     absolute z-50 w-full h-screen right-0 shadow-lg
+          //     transition-opacity duration-300 ease-in-out
+          //     opacity-100">
           <div
-            className=" px-3 
-            bg-slate-200 dark:bg-stone-700 dark:text-stone-400
+            className="left-1/3 px-4
+            bg-stone-100 dark:bg-stone-800 dark:text-stone-400
             bg-opacity-90 backdrop-blur-sm rounded-xl
-            absolute z-50 w-2/3 h-screen right-0 shadow-lg 
+            absolute z-50 w-full h-screen right-0 shadow-lg 
             transition-opacity duration-300 ease-in-out
             opacity-100">
-            <div className="w-full " style={{ height: '100vh' }}>
+            <div
+              className="w-2/3 bg-red-s flex flex-col end-0 "
+              style={{ height: '100vh' }}>
               {user?.wallet?.address && idDao && (
                 <CollaborativeEditor
                   daoTemplate={daoTemplate}
@@ -825,6 +750,7 @@ _We have suggested applicants request 80% of the amount of impact they believe t
             </div>
           </div>
         ) : (
+          // </div>
           <div
             className="
             bg-slate-200 dark:bg-stone-700 dark:text-stone-400

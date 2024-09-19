@@ -1,4 +1,4 @@
-import { get, getDatabase, push, ref, set } from 'firebase/database';
+import { get, getDatabase, push, ref, remove, set } from 'firebase/database';
 
 import { NextResponse } from 'next/server';
 import { firebaseConfig } from '../../../lib/firebaseConfig';
@@ -48,58 +48,6 @@ export async function GET(req: Request) {
     );
   }
 }
-
-// export async function POST(req: Request) {
-//   try {
-//     const body = await req.json();
-
-//     if (body.isNew) {
-//       const { pathName, content, title, priority, project, tags, collabs } =
-//         body;
-
-//       if (!pathName || typeof content !== "string") {
-//         return NextResponse.json(
-//           { error: "Folder, Document ID, and content are required" },
-//           { status: 400 }
-//         );
-//       }
-
-//       const incompletePath=  `documents/${pathName}`
-
-//       const docRef = ref(database, `/${incompletePath}/[ADDHERE THE RANDOM ID]`); //  /arbitrum/0x014FFCF34D8515535b99d6AEF654258c237168B6/1 where 1 should be a random ID
-//       await set(docRef, { content, title, priority, project, tags, collabs });
-
-//       return NextResponse.json(
-//         { message: "Document updated successfully" },
-//         { status: 200 }
-//       );
-//     } else {
-//       const { pathName, content, title, priority, project, tags, collabs } =
-//         body;
-//       console.log("doc ", body);
-//       if (!pathName || typeof content !== "string") {
-//         return NextResponse.json(
-//           { error: "Folder, Document ID, and content are required" },
-//           { status: 400 }
-//         );
-//       }
-
-//       const docRef = ref(database, `documents/${pathName}`); //  /arbitrum/0x014FFCF34D8515535b99d6AEF654258c237168B6/1
-//       await set(docRef, { content, title, priority, project, tags, collabs });
-
-//       return NextResponse.json(
-//         { message: "Document updated successfully" },
-//         { status: 200 }
-//       );
-//     }
-//   } catch (error) {
-//     console.error("Error handling POST request:", error);
-//     return NextResponse.json(
-//       { error: "Internal Server Error" },
-//       { status: 500 }
-//     );
-//   }
-// }
 
 export async function POST(req: Request) {
   try {
@@ -169,3 +117,87 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const body = await req.json();
+    const { pathName } = body;
+    console.log('path ', pathName);
+
+    if (!pathName) {
+      // daoname/wallet/documentId
+      return NextResponse.json(
+        { error: 'Document ID is required' },
+        { status: 400 },
+      );
+    }
+
+    const doc = `documents/${pathName}`;
+    const docRef = ref(database, doc);
+
+    await remove(docRef);
+
+    return NextResponse.json(
+      { message: 'Document deleted successfully' },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error('Error handling DELETE request:', error);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 },
+    );
+  }
+}
+
+// export async function POST(req: Request) {
+//   try {
+//     const body = await req.json();
+
+//     if (body.isNew) {
+//       const { pathName, content, title, priority, project, tags, collabs } =
+//         body;
+
+//       if (!pathName || typeof content !== "string") {
+//         return NextResponse.json(
+//           { error: "Folder, Document ID, and content are required" },
+//           { status: 400 }
+//         );
+//       }
+
+//       const incompletePath=  `documents/${pathName}`
+
+//       const docRef = ref(database, `/${incompletePath}/[ADDHERE THE RANDOM ID]`); //  /arbitrum/0x014FFCF34D8515535b99d6AEF654258c237168B6/1 where 1 should be a random ID
+//       await set(docRef, { content, title, priority, project, tags, collabs });
+
+//       return NextResponse.json(
+//         { message: "Document updated successfully" },
+//         { status: 200 }
+//       );
+//     } else {
+//       const { pathName, content, title, priority, project, tags, collabs } =
+//         body;
+//       console.log("doc ", body);
+//       if (!pathName || typeof content !== "string") {
+//         return NextResponse.json(
+//           { error: "Folder, Document ID, and content are required" },
+//           { status: 400 }
+//         );
+//       }
+
+//       const docRef = ref(database, `documents/${pathName}`); //  /arbitrum/0x014FFCF34D8515535b99d6AEF654258c237168B6/1
+//       await set(docRef, { content, title, priority, project, tags, collabs });
+
+//       return NextResponse.json(
+//         { message: "Document updated successfully" },
+//         { status: 200 }
+//       );
+//     }
+//   } catch (error) {
+//     console.error("Error handling POST request:", error);
+//     return NextResponse.json(
+//       { error: "Internal Server Error" },
+//       { status: 500 }
+//     );
+//   }
+// }
