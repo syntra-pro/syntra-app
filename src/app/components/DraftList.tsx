@@ -132,7 +132,7 @@ export const DraftList = ({
     .map((i, k) => (
       <div
         className="w-full flex gap-3 rounded-md cursor-pointer items-center pl-4 pr-2
-         hover:bg-stone-100 dark:hover:bg-stone-500 hover:dark:text-stone-900 relative"
+           hover:bg-stone-100 dark:hover:bg-stone-500 hover:dark:text-stone-900 relative"
         key={k}>
         <button
           className="w-full text-left"
@@ -168,7 +168,7 @@ export const DraftList = ({
           id={`submenu-${i.id}`}
           onClick={() => toggleMenuVisibility(i.id)}
           className="px-2 py-2 rounded-full hover:bg-stone-200 dark:hover:bg-stone-600 
-          hover:dark:text-stone-300 outline-none relative">
+            hover:dark:text-stone-300 outline-none relative">
           <DotsVerticalIcon />
         </button>
 
@@ -179,17 +179,17 @@ export const DraftList = ({
             ref={el => {
               menuRefs.current[i.id] = el;
             }}
-            className="absolute z-10 bg-stone-100 dark:bg-stone-500 dark:text-stone-900 
-            shadow-md flex flex-col rounded-sm"
+            className="absolute z-50 bg-stone-100 dark:bg-stone-500 dark:text-stone-900 
+              shadow-md flex flex-col rounded-sm"
             style={{
               top: '100%',
-              left: 'auto',
               right: 0,
+              minWidth: '150px',
             }}>
             <button onClick={() => handlePin(i.id)} className="text-xs">
               <div
                 className="flex gap-2 p-4 hover:bg-stone-200 dark:hover:bg-stone-600 rounded-sm
-             hover:dark:text-stone-300 items-center">
+               hover:dark:text-stone-300 items-center">
                 <DrawingPinIcon />
                 Pin draft <small>(Soon™)</small>
               </div>
@@ -198,7 +198,7 @@ export const DraftList = ({
             <button onClick={() => handleDelete(i.id)} className="text-xs">
               <div
                 className="flex gap-2 p-4 hover:bg-stone-200 dark:hover:bg-stone-600 rounded-sm
-             hover:dark:text-stone-300 items-center">
+               hover:dark:text-stone-300 items-center">
                 <TrashIcon />
                 Delete
               </div>
@@ -207,7 +207,7 @@ export const DraftList = ({
             <button onClick={() => handleDuplicate(i.id)} className="text-xs">
               <div
                 className="flex gap-2 p-4 hover:bg-stone-200 dark:hover:bg-stone-600 rounded-sm
-             hover:dark:text-stone-300 items-center">
+               hover:dark:text-stone-300 items-center">
                 <CopyIcon />
                 Duplicate
               </div>
@@ -216,7 +216,7 @@ export const DraftList = ({
             <button className="text-xs">
               <div
                 className="flex gap-2 p-4 hover:bg-stone-200 dark:hover:bg-stone-600 rounded-sm
-             hover:dark:text-stone-300 items-center">
+               hover:dark:text-stone-300 items-center">
                 <ExternalLinkIcon />
                 Open in new tab <small>(Soon™)</small>
               </div>

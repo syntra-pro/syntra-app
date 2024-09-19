@@ -598,7 +598,7 @@ _We have suggested applicants request 80% of the amount of impact they believe t
                   </div>
                   <hr className="dark:border-stone-700" />
                   {/* the draft list  */}
-                  <div className="flex  overflow-auto  flex-col mt-4   gap-1">
+                  <div className="flex  overflow-auto  flex-col mt-4 min-h-screen gap-1">
                     {loading ? (
                       <Loader />
                     ) : documents && documents.length > 0 ? (
