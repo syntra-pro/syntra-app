@@ -2,7 +2,10 @@
 
 import '../../app/globals.css';
 
+import { ArrowRight, ArrowRightIcon, MoveRightIcon } from 'lucide-react';
+
 import Link from 'next/link';
+import { useMixpanel } from '../components/contexts/mixpanelContext';
 import { useRouter } from 'next/navigation';
 
 export default function LandingLayout({
@@ -11,6 +14,7 @@ export default function LandingLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const { trackEvent } = useMixpanel();
 
   return (
     <div className="min-h-screen">
@@ -69,11 +73,13 @@ export default function LandingLayout({
             </Link>
           </div>
 
-          <Link href={'/home'}>
-            <div className="rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-xs xs:text-xs sm:text-xs md:text-xs lg:text-lg">
+          <Link
+            onClick={() => trackEvent('Clicked Open App in toolbar')}
+            href={'/home'}>
+            <div className="flex gap-2 align-middle rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-xs xs:text-xs sm:text-xs md:text-xs lg:text-lg">
               Open app
-              <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
-                →
+              <span className="bg-black items-center flex flex-row  rounded-full px-2 py-2 text-white ">
+                <ArrowRightIcon width={16} height={16} />
               </span>
             </div>
           </Link>
@@ -147,16 +153,16 @@ export default function LandingLayout({
               </div>
             </div>
 
-            <button
-              //  href={'/home'}
-              onClick={() => router.push('/home')}>
-              <div className="outline-none rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-xs xs:text-xs sm:text-xs md:text-xs lg:text-lg">
-                Open app
-                <span className="bg-black ml-2 rounded-full px-2 py-1 text-white ">
-                  →
+            <Link
+              onClick={() => trackEvent('Clicked Open App in footer')}
+              href={'/home'}>
+              <div className="flex gap-2 align-middle rounded-full bg-rose-300 dark:bg-red-400 pl-4 pr-2 py-2 text-xs xs:text-xs sm:text-xs md:text-xs lg:text-lg">
+                Get Started
+                <span className="bg-black items-center flex flex-row  rounded-full px-2 py-2 text-white ">
+                  <ArrowRightIcon width={16} height={16} />
                 </span>
               </div>
-            </button>
+            </Link>
           </div>
         </div>
       </footer>

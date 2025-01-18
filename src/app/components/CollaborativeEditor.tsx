@@ -1,21 +1,11 @@
-import '../../../src/app/editorStyles.css';
+'use client';
 
-import { EditorState, Transaction } from 'prosemirror-state';
-import React, { useEffect, useRef, useState } from 'react';
-import { buildMenuItems, exampleSetup } from 'prosemirror-example-setup';
+import '../../../src/app/EditorStyle.css';
+
+import { ArrowLeft, ArrowLeftIcon } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import {
-  chainCommands,
-  createParagraphNear,
-  liftEmptyBlock,
-  newlineInCode,
-  splitBlock,
-} from 'prosemirror-commands';
-import {
-  defaultMarkdownParser,
-  defaultMarkdownSerializer,
-  schema,
-} from 'prosemirror-markdown';
-import {
+  escapeMD,
   preprocessMarkdown,
   readDocument,
   readSettings,
@@ -23,110 +13,54 @@ import {
 } from '../../lib/utils';
 
 import { ALL_DOCS_FOLDER } from '../../lib/constants';
-import { EditorView } from 'prosemirror-view';
-import Loader from './ui/Loader';
-import { MenuItem } from 'prosemirror-menu';
-import ReactMarkdown from 'react-markdown';
-import { Schema } from 'prosemirror-model';
-import { addListNodes } from 'prosemirror-schema-list';
-
-const shiftEnterCommand = chainCommands(
-  newlineInCode,
-  createParagraphNear,
-  liftEmptyBlock,
-  splitBlock,
-);
-
-const oldUpdateState = EditorView.prototype.updateState;
-
-EditorView.prototype.updateState = function (state) {
-  // @ts-ignore
-  if (!this.docView) {
-    return;
-  }
-
-  oldUpdateState.call(this, state);
-};
+import { ForwardRefEditor } from './ForwardRefEditor';
+import { MDXEditorMethods } from 'mdx-float';
+import MetadataBar from './MetadataBar';
+import { useDAO } from './contexts/DAOContext';
 
 const MarkdownEditor: React.FC<{
+  backToProposals: boolean;
+  proposalURL: string;
   daoTemplate: any;
   folder: string;
   documentId: string;
   afterSave: () => void;
+  afterSave2: () => void;
   projectName: string;
   projects: any[];
 }> = ({
+  backToProposals,
+  proposalURL,
   daoTemplate,
   folder,
   documentId,
   afterSave,
+  afterSave2,
   projectName,
   projects,
-}) => {
+}: any) => {
   const [cont, setCont] = useState('');
   const [title, setTitle] = useState('');
-  const [link, setLink] = useState('');
+  const [link, setLink] = useState(proposalURL);
   const [priority, setPriority] = useState('medium');
   const [project, setProject] = useState(projectName);
   const [tags, setTags] = useState([]);
   const [collabs, setCollabs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const dn = new Date().getTime().toString();
+  const [docName, setDocName] = useState(documentId === '0' ? dn : documentId);
+  const ref = React.useRef<MDXEditorMethods>(null);
 
-  const editorRef = useRef<HTMLDivElement>(null);
-  const viewRef = useRef<EditorView | null>(null);
-  const mySchema = new Schema({
-    nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
-    marks: schema.spec.marks,
-  });
+  const { setShowBack } = useDAO();
 
-  const createEditorState = (content: string = '') => {
-    const doc = defaultMarkdownParser.parse(content.trim());
-    const menuItems = buildMenuItems(mySchema);
-    const filteredMenu = menuItems.fullMenu
-      .map(group =>
-        // @ts-ignore
-        group.filter((item: MenuItem) =>
-          // @ts-ignore
-
-          ['strong', 'em', 'code'].includes(item.spec?.markType?.name || ''),
-        ),
-      )
-      .filter(group => group.length > 0);
-
-    return EditorState.create({
-      doc,
-      schema: mySchema,
-      plugins: exampleSetup({
-        schema: mySchema,
-        menuContent: filteredMenu,
-      }),
-    });
+  const isAlreadyEscaped = (text: string) => {
+    return /\\[\\`*_{}\[\]()#+\-.!]/.test(text);
   };
 
-  const initializeEditor = (content: string = '') => {
-    if (!editorRef.current) return;
-
-    const state = createEditorState(content);
-
-    if (viewRef.current) {
-      viewRef.current.updateState(state);
-    } else {
-      viewRef.current = new EditorView(editorRef.current, {
-        state,
-        dispatchTransaction: (transaction: Transaction) => {
-          if (viewRef.current) {
-            const newState = viewRef.current.state.apply(transaction);
-            viewRef.current.updateState(newState);
-            if (transaction.docChanged) {
-              const content = defaultMarkdownSerializer.serialize(newState.doc);
-              setCont(content);
-            }
-          }
-        },
-      });
-    }
-  };
+  useEffect(() => {
+    setShowBack(false);
+  }, []);
 
   useEffect(() => {
     const fetchDocument = async () => {
@@ -142,12 +76,17 @@ const MarkdownEditor: React.FC<{
           setTags(data.tags || []);
           setCollabs(data.collabs || []);
           setCont(data.content);
-          initializeEditor(data.content);
+          console.log('loaded unescaped!', data.content);
+          ref.current?.setMarkdown(
+            data.content.replace(/\\([\\`*_{}\[\]()#+\-.!])/g, '$1'),
+          );
+          // ref.current?.insertMarkdown(data.content);
+          // initializeEditor(data.content);
         }
 
         if (documentId === '0' && typeof daoTemplate?.id === 'undefined') {
           setTitle('');
-          setLink('');
+          setLink(proposalURL);
           setPriority('medium');
           if (project === ALL_DOCS_FOLDER) {
             setProject('Unassigned');
@@ -155,10 +94,11 @@ const MarkdownEditor: React.FC<{
 
           setTags([]);
           setCollabs([]);
-          initializeEditor();
+          // initializeEditor();
           return;
         }
 
+        // with template
         if (documentId === '0' && typeof daoTemplate?.id !== 'undefined') {
           setTitle(`[${daoTemplate.name}]`);
           setLink('');
@@ -173,10 +113,8 @@ const MarkdownEditor: React.FC<{
 
           const content = preprocessMarkdown(contentPre);
           setCont(content);
-          initializeEditor(content);
+          // initializeEditor(content);
         }
-
-        return;
       } catch (error) {
         console.error('Error fetching document:', error);
       } finally {
@@ -185,196 +123,213 @@ const MarkdownEditor: React.FC<{
     };
 
     fetchDocument();
-
-    return () => {
-      if (viewRef.current) viewRef.current.destroy();
-    };
   }, [documentId, folder]);
 
-  const handleSave = async () => {
-    console.log('link, cont, title>>>> ', link, cont, title);
+  const handleSave = async (donde: string) => {
+    console.log('donde ', donde);
+    console.log('link, cont, title ', link, cont, title);
 
-    if (
-      typeof link !== 'undefined' ||
-      cont.trim() !== '' ||
-      title.trim() !== ''
-    ) {
-      console.log('saving!');
+    let save = false;
 
-      let newTitle = title.trim();
-      let newCont = cont.trim();
-
-      if (newTitle === '') {
-        newTitle = 'Untitled';
-      }
-
-      if (newCont.trim() === '') {
-        newCont = ' ';
-      }
-
-      console.log('>>>> ', link.trim(), newCont, newTitle);
-
-      setIsSaving(true);
-      try {
-        const pathName =
-          documentId === '0'
-            ? `/${folder}/${new Date().getTime().toString()}`
-            : `/${folder}/${documentId}`;
-
-        await upsertDocument(
-          pathName,
-          newCont,
-          newTitle,
-          link,
-          priority,
-          project,
-          tags,
-          collabs,
-        );
-
-        afterSave();
-        return;
-      } catch (error) {
-        console.error('Error saving document:', error);
-      } finally {
-        setIsSaving(false);
-      }
+    if (!link || link.trim() !== '') {
+      console.log('link:', link);
+      save = true;
     }
-    console.log('not saving !');
-    afterSave();
-    return;
+
+    if (!cont || cont.trim() !== '') {
+      console.log('cont:', cont);
+      save = true;
+    }
+    if (!title || title.trim() !== '') {
+      console.log('title:', title);
+      save = true;
+    }
+
+    const save2 = ![link, cont, title].every(
+      item => item || item.trim() !== '',
+    );
+
+    console.log('donde,save,save2 ', donde, save, save2);
+
+    if (!save) {
+      console.log('not saving: no link, cont, nor title');
+      return;
+    }
+    console.log('saving! ', typeof link, cont.trim(), title.trim());
+
+    let newTitle = title.trim();
+    let newCont = cont.trim();
+
+    if (newTitle === '') {
+      newTitle = 'Untitled';
+    }
+
+    if (newCont.trim() === '') {
+      newCont = ' ';
+    }
+
+    setIsSaving(true);
+
+    try {
+      const pathName = `/${folder}/${docName}`;
+
+      // const pathName =
+      //   documentId === '0' ? `/${folder}/${dn}` : `/${folder}/${documentId}`;
+
+      // FIXME
+      // const escapedContent = escapeMD(newCont);
+      // let newCont = cont.trim();
+
+      let escapedContent;
+      // const escapedContent = escapeMD(newCont);
+
+      // Asegúrate de que el contenido no esté escapado antes de aplicar escapeMD
+      if (!isAlreadyEscaped(newCont)) {
+        escapedContent = escapeMD(newCont);
+      } else {
+        escapedContent = newCont;
+      }
+
+      // console.log('escapedContent ', escapedContent);
+      // return;
+      await upsertDocument(
+        pathName,
+        escapedContent,
+        newTitle,
+        link,
+        priority,
+        project,
+        tags,
+        collabs,
+      );
+
+      setDocName(dn);
+    } catch (error) {
+      console.error('Error saving document:', error);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleClose = async () => {
-    afterSave();
-    setCont('');
-    setTitle('');
-    setLink('');
-    setIsSaving(false);
+    try {
+      await handleSave('handleclose');
+      setCont('');
+      setTitle('');
+      setLink('');
+      setIsSaving(false);
+      if (backToProposals) {
+        setShowBack(true);
+        afterSave2();
+      } else {
+        setShowBack(false);
+        afterSave();
+      }
+    } catch (error) {
+      console.error('Error saving document:', error);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
+  // const handleClose2 = async () => {
+  //   try {
+  //     await handleSave('handleclose');
+  //     setCont('');
+  //     setTitle('');
+  //     setLink('');
+  //     setIsSaving(false);
+  //   } catch (error) {
+  //     console.error('Error saving document:', error);
+  //   } finally {
+  //     setIsSaving(false);
+  //   }
+  // };
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      handleClose();
+      e.preventDefault();
+    };
+
+    const handleVisibilityChange = async () => {
+      if (document.visibilityState === 'hidden') {
+        await handleSave('hiddensave');
+      }
+    };
+
+    const saveInterval = setInterval(async () => {
+      await handleSave('autosave');
+    }, 30000);
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      clearInterval(saveInterval);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [cont, title, link, priority, project, tags, collabs]);
+
   return (
-    <div className="w-full">
-      <div className="text-xs gap-y-2 flex flex-col ">
-        <div className="flex py-2 items-center justify-between">
-          <span className="text-base  ">New draft</span>
-          {isSaving ? (
-            <Loader />
-          ) : (
-            <div className="flex gap-2">
-              {/* <Button variant="ghost" size={'sm'} onClick={handleSave}>
-                Save
-              </Button>
+    <div id="main" className="w-full my-4 flex flex-grow  overflow-y-auto">
+      {/* editor  */}
+      {/* HACK button to close editor */}
+      {/* { 
+        backToProposals ? (      <button
+          style={{ top: '10px' }}
+          className="text-xl absolute z-40 opacity-40"
+          onClick={handleClose2}>
+                         <ArrowLeftIcon width={16} height={16} />
 
-              <Button variant="ghost" size={'sm'} onClick={handleClose}>
-                Close
-              </Button> */}
-
-              <button
-                onClick={handleSave}
-                className="text-xs rounded-md px-3 py-2
-                             dark:hover:bg-stone-700
-                             hover:bg-stone-200
-                             dark:text-stone-400 text-stone-900">
-                Save
-              </button>
-
-              <button
-                onClick={handleClose}
-                className="text-xs rounded-md px-3 py-2
-                             dark:hover:bg-stone-700
-                             hover:bg-stone-200
-                             dark:text-stone-400 text-stone-900">
-                Close
-              </button>
-            </div>
-          )}
-        </div>
-        <div className="flex items-baseline">
-          <div className="w-1/12">Title</div>
-          <input
-            onChange={e => setTitle(e.target.value)}
-            value={title}
-            className="w-8/12 py-2 px-3 mr-2 
+        </button>) 
+        : 
+         (      */}
+      <button
+        style={{ top: '16px' }}
+        className="text-xl px-2 absolute z-40 opacity-50"
+        onClick={handleClose}>
+        <ArrowLeftIcon width={16} height={16} />
+      </button>
+      {/*   )
+      } */}
+      <div
+        className="w-9/12 p-4 relative mb-2
+          dark:bg-stone-700 rounded-md shadow-md flex flex-col flex-grow overflow-auto
+          bg-white border-stone-200 dark:border-stone-700">
+        <input
+          onChange={e => setTitle(e.target.value)}
+          value={title}
+          className="text-2xl w-full 
             placeholder:dark:text-stone-600 
             placeholder:text-stone-300
-            bg-white dark:bg-stone-700
-            outline-none rounded-sm"
-            placeholder="Enter a name..."
-            type="text"
-          />
-          <div className="w-1/12">Priority</div>
-          <select
-            disabled
-            className="w-2/12 py-2 px-3 mr-2 
-            placeholder:dark:text-stone-600 
-            placeholder:text-stone-300
-            bg-white dark:bg-stone-700
-            outline-none rounded-sm  opacity-50  ">
-            <option value={'medium'}></option>
-          </select>
-        </div>
-        <div className="flex items-baseline">
-          <div className="w-1/12">Link</div>
-          <input
-            onChange={e => setLink(e.target.value)}
-            value={link}
-            className="w-8/12 py-2 px-3 mr-2 
-            placeholder:dark:text-stone-600 
-            placeholder:text-stone-300
-            bg-white dark:bg-stone-700
-            outline-none rounded-sm"
-            placeholder="Enter an url..."
-            type="text"
-          />
-          <div className="w-1/12">Tags</div>
-          <select
-            className="w-2/12 py-2 px-3 mr-2 
-            placeholder:dark:text-stone-800 
-            placeholder:text-stone-300
-            bg-white dark:bg-stone-700
-            outline-none opacity-50  rounded-sm"></select>
-        </div>
-        <div className="flex items-baseline w-full">
-          <span className="w-1/12">Project</span>
-          <select
-            value={documentId === '0' ? projectName : project}
-            onChange={e => setProject(e.target.value)}
-            className="w-5/12 py-2 px-3 mr-2 
-            placeholder:dark:text-stone-800 
-            placeholder:text-stone-300
-            bg-white dark:bg-stone-700
-            outline-none rounded-sm">
-            {projects.map((i: any, k: number) => (
-              <option key={k} value={i.project}>
-                {i.project}
-              </option>
-            ))}
-          </select>
+            bg-transparent 
+            outline-none"
+          placeholder="Draft title..."
+          type="text"
+        />
 
-          <span
-            className="w-1/12 py-2 px-3 mr-2 text-right
-          ">
-            Collabs
-          </span>
-          <select
-            disabled
-            className="w-5/12 py-2 px-3 mr-2 
-            placeholder:dark:text-stone-800 
-            placeholder:text-stone-300
-            bg-white dark:bg-stone-700
-            outline-none rounded-sm">
-            <option value={'critical'}> </option>
-            <option value={'high'}> </option>
-            <option defaultValue={''} value={''}></option>
-            <option value={'low'}> </option>
-          </select>
-        </div>
+        <ForwardRefEditor
+          onChange={(e: any) => {
+            console.log('onchange ', e);
+            setCont(e);
+          }}
+          markdown={cont}
+          ref={ref}
+        />
       </div>
 
-      <div className="flex mt-2 w-full justify-between"></div>
-
-      <div className="mt-3" ref={editorRef} />
+      {/* metadata  */}
+      <MetadataBar
+        documentId={documentId}
+        link={link}
+        setLink={setLink}
+        projectName={projectName}
+        projects={projects}
+        project={project}
+        setProject={setProject}
+      />
     </div>
   );
 };

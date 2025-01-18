@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 
-import blockies from 'ethereum-blockies';
+import { setBlockie } from '../../../lib/utils';
 
 interface ChipsProps {
   text: string;
@@ -12,26 +12,7 @@ const Chip: React.FC<ChipsProps> = ({ text }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    if (canvasRef.current && text) {
-      const cleanedText = text.trim().toLowerCase();
-      const blockie = blockies.create({
-        seed: cleanedText,
-        color: '#006300',
-        bgcolor: '#ffffff',
-        size: 8,
-        scale: 4,
-      });
-      const context = canvasRef.current.getContext('2d');
-      if (context) {
-        context.clearRect(
-          0,
-          0,
-          canvasRef.current.width,
-          canvasRef.current.height,
-        ); // cleans
-        context.drawImage(blockie, 0, 0, 26, 26);
-      }
-    }
+    setBlockie(canvasRef, text);
   }, [text]);
 
   return (

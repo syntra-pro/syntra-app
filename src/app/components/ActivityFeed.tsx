@@ -44,7 +44,7 @@ export default function ActivityFeed() {
         </div>
 
         {showVotes ? (
-          <div className="space-y-4">
+          <div className="space-y-4 ">
             <FeedItem
               avatar="AC"
               title="Upgrade Proposal #10: Network Upgrade"

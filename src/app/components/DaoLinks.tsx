@@ -16,13 +16,13 @@ interface DaoLinkProps {
 
 const arr: React.FC<any> = ({ arrayLinks }: DaoLinkProps) => {
   return (
-    <div className=" w-full grid grid-cols-2 gap-4">
+    <div className="w-full grid grid-cols-2 pb-2 gap-4">
       {arrayLinks?.map((link: any, key: number) => (
         <Link key={key} target="_blank" href={link.url}>
           <div
             key={key}
             className="flex justify-between px-4 h-28  bg-stone-100 dark:bg-stone-700
-            dark:hover:bg-rose-900 
+            dark:hover:bg-stone-600 
             hover:bg-rose-100 shadow-md rounded-lg">
             <div className="rounded-lg p-4 text-black dark:text-stone-300 transition-colors flex  justify-center flex-col">
               <div className="flex items-center justify-between">

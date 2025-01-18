@@ -2,10 +2,16 @@
 
 import DaoCard from '../components/DaoCard';
 import PlatformLayout from '../layouts/platformLayout';
-import { getDocument } from '../../lib/firestore';
-import { useEffect } from 'react';
+import { useMixpanel } from '../components/contexts/mixpanelContext';
+import { usePrivy } from '@privy-io/react-auth';
+// import { getDocument } from '../../lib/firestore';
+// import { useEffect } from 'react';
 
 export default function DaoManager() {
+  const { trackEvent } = useMixpanel();
+  const { user } = usePrivy();
+  trackEvent('dao-manager', { user: user?.wallet?.address });
+
   // useEffect(() => {
   //   async function fetchDAOLinks() {
   //     try {

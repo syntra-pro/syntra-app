@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "version": "0.1",
+      "date": "2024-09-16",
+      "title": "Initial MVP Release",
+      "description": "The first version of our app, featuring the core functionality.",
+      "changes": [
+        "Intuitive user interface",
+        "Comprehensive drafting + projects",
+        "Basic Resources + Calendar"
+      ]
+    },
+    {
+      "version": "0.2",
+      "date": "2024-12-18",
+      "title": "December update",
+      "description": "Drafts, feed and profile infrastructure.",
+      "changes": [
+        "Drafts full view",
+        "Text Editor: Introduced a new text editor for enhanced drafting.",
+        "Autosave: Implemented autosave functionality to prevent data loss.",
+        "New Options: Added options for 'Pin', 'Delete', 'Duplicate', and 'Open in New Tab'.",
+        "Bug Fixes: Resolved various bugs to improve overall stability.",
+        "Profile Settings: Launched a new Profile Settings page, laying the groundwork for future features.",
+        "Rearrangement: Activity Feed is now divided into ‘Proposals’ and ‘Discussions’.",
+        "Proposals Integration: Full integration of Snapshot and Tally proposals for Arbitrum. Agora for Optimism.",
+        "Proposal Filter: Added a new filter feature for easier proposal management."
+      ]
+    }
+  ]
+}

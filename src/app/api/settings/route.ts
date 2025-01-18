@@ -1,3 +1,4 @@
+'use server';
 // import { db, firebaseConfig } from '../../../lib/firebaseConfig';
 // import { doc, setDoc } from 'firebase/firestore';
 // import { get, getDatabase, push, ref, set } from 'firebase/database';
