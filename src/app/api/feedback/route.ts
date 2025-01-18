@@ -1,15 +1,10 @@
+'use server';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { addDoc, collection } from 'firebase/firestore';
 
 import { adminAuth } from '../../../lib/firebaseAdmin';
 import { db } from '../../../lib/firebaseConfig';
-
-interface FeedbackRequest {
-  type: string;
-  contents: string;
-  timestamp: Date;
-  user: string;
-}
 
 export async function POST(req: NextRequest) {
   try {

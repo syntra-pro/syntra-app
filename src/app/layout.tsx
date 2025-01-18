@@ -1,5 +1,6 @@
 import { AuthProvider } from './components/contexts/AuthContext';
 import { DAOProvider } from './components/contexts/DAOContext';
+import { MixpanelProvider } from './components/contexts/mixpanelContext';
 import { NetworkProvider } from './components/contexts/NetworkContext';
 import Providers from './providers';
 import { ThemeProvider } from 'next-themes';
@@ -19,15 +20,17 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-white dark:bg-stone-800">
         <ThemeProvider attribute="class" defaultTheme="system">
-          <Providers>
-            <NetworkProvider>
-              <VerificationProvider>
-                <AuthProvider>
-                  <DAOProvider>{children}</DAOProvider>
-                </AuthProvider>
-              </VerificationProvider>
-            </NetworkProvider>
-          </Providers>
+          <MixpanelProvider>
+            <Providers>
+              <NetworkProvider>
+                <VerificationProvider>
+                  <AuthProvider>
+                    <DAOProvider>{children}</DAOProvider>
+                  </AuthProvider>
+                </VerificationProvider>
+              </NetworkProvider>
+            </Providers>
+          </MixpanelProvider>
         </ThemeProvider>
       </body>
     </html>

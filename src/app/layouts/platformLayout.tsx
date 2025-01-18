@@ -10,7 +10,6 @@ import {
   GlobeIcon,
   HomeIcon,
   QuestionMarkCircledIcon,
-  TwitterLogoIcon,
 } from '@radix-ui/react-icons';
 import { ThemeProvider, useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
@@ -22,8 +21,6 @@ import { HeadBar } from '../components/ui/HeadBar';
 import Link from 'next/link';
 import Loader from '../components/ui/Loader';
 import { LoginButton } from '../components/ui/LoginButton';
-import { initMixpanel } from '../../lib/mixpanel';
-import { useAuth } from '../components/contexts/AuthContext';
 import { useDAO } from '../components/contexts/DAOContext';
 import { usePrivy } from '@privy-io/react-auth';
 
@@ -32,28 +29,6 @@ function MainContent({ children }: { children: React.ReactNode }) {
   const { authenticated, user, ready } = usePrivy();
 
   return (
-    // <>
-    //   {!ready ? (
-    //     <div className="flex h-screen w-full items-center justify-center bg-transparent">
-    //       <div className="animate-spin rounded-full h-8 w-8 border-b-4 border-rose-400"></div>
-    //     </div>
-    //   ) : authenticated ? (
-    //     <>{children}</>
-    //   ) : (
-    //     <div className="flex h-screen w-full items-center justify-center bg-transparent">
-    //       <div className="text-center">
-    //         <h1 className="text-5xl font-thin text-stone-800 dark:text-stone-300 mb-4">
-    //           Welcome Back!
-    //         </h1>
-    //         <p className="text-stone-600 dark:text-stone-400 mb-6">
-    //           Please log in to continue using our platform
-    //         </p>
-    //         <LoginButton />
-    //       </div>
-    //     </div>
-    //   )}
-    // </>
-
     <>
       {authenticated ? (
         <>{children}</>
@@ -85,32 +60,28 @@ export default function PlatformLayout({
   const { color, logo, colorDark } = useDAO();
   const { theme, setTheme, systemTheme } = useTheme();
 
-  useEffect(() => {
-    initMixpanel();
-  }, []);
-
   const isDarkMode = systemTheme !== 'light';
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system">
       <>
         <div>
-          <title>Welcome to Syntra</title>
+          <title>Syntra</title>
           <meta name="description" content="Seed" />
         </div>
-        <div className=" xxxx">
+        <div className="  ">
           <HeadBar />
           {/* content screen */}
-          <div className="flex min-h-screen">
+          <div className="flex h-screen">
             {/* main content */}
-            <main className="ml-44 mt-12 w-full flex  overflow-clip scroll-auto">
+            <main className="ml-44 mt-12 w-full flex flex-grow overflow-auto ">
               {/* if not authenticated, nag screen */}
               <MainContent>{children}</MainContent>
             </main>
 
             {/* sidebar */}
             <div
-              className="fixed left-0 h-full justify-between z-30 flex w-44 flex-col p-3"
+              className="fixed left-0 h-full justify-between flex w-44 flex-col flex-grow overflow-auto p-3"
               style={{
                 backgroundColor:
                   typeof systemTheme === 'undefined'
@@ -238,7 +209,15 @@ export default function PlatformLayout({
                         className="w-6 h-6 p-0.5 dark:bg-transparent rounded 
                         sidebarSocials
                           flex-col justify-center items-center gap-2.5 inline-flex">
-                        <TwitterLogoIcon className="dark:invert" />
+                        {/* <TwitterLogoIcon  /> */}
+                        <svg
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                          className="dark:invert r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-lrsllp r-1nao33i r-16y2uox r-8kz0gk">
+                          <g>
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                          </g>
+                        </svg>
                       </Link>
                     </div>
                   </div>

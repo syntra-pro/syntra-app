@@ -30,7 +30,7 @@ export const DraftList = ({
     {},
   );
   const menuRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const { name } = useDAO();
+  const { name, setShowLoader } = useDAO();
   const { user } = useAuth();
 
   const toggleMenuVisibility = (id: string) => {
@@ -56,26 +56,30 @@ export const DraftList = ({
     });
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string, event: React.MouseEvent) => {
+    toggleMenuVisibility(id);
+    event.stopPropagation();
+    setShowLoader(true);
     const pathName = `${name}/${user?.wallet?.address}/${id}`;
     const response = await removeDocument(pathName);
-    console.log('response ', response);
     if (!response) {
+      setShowLoader(false);
       throw new Error('Error deleting document');
     }
-    toggleMenuVisibility(id);
+    setShowLoader(false);
     afterOperation();
   };
 
-  const handleDuplicate = async (id: string) => {
+  const handleDuplicate = async (id: string, event: React.MouseEvent) => {
+    toggleMenuVisibility(id);
+    event.stopPropagation();
+    setShowLoader(true);
     const data = await readDocument(`/${name}/${user?.wallet?.address}/${id}`);
-    console.log('data ', data);
-    const P = `/${name}/${user?.wallet?.address}/${new Date()
+    const newPathName = `/${name}/${user?.wallet?.address}/${new Date()
       .getTime()
       .toString()}`;
-    console.log('P ', P);
     await upsertDocument(
-      P,
+      newPathName,
       data.content,
       data.title,
       data.link || '',
@@ -84,7 +88,7 @@ export const DraftList = ({
       data.tags || [],
       data.collabs || [],
     );
-    toggleMenuVisibility(id);
+    setShowLoader(false);
     afterOperation();
   };
 
@@ -132,8 +136,8 @@ export const DraftList = ({
     .map((i, k) => (
       <div
         className="w-full flex gap-3 rounded-md cursor-pointer items-center pl-4 pr-2
-           hover:bg-stone-100 dark:hover:bg-stone-500 hover:dark:text-stone-900 relative"
-        key={k}>
+           hover:bg-stone-100 dark:hover:bg-stone-500 hover:dark:text-stone-900 relatives "
+        key={i.id}>
         <button
           className="w-full text-left"
           onClick={() => handleOpenDraft(i.id)}>
@@ -167,62 +171,67 @@ export const DraftList = ({
         <button
           id={`submenu-${i.id}`}
           onClick={() => toggleMenuVisibility(i.id)}
-          className="px-2 py-2 rounded-full hover:bg-stone-200 dark:hover:bg-stone-600 
+          className="px-2 py-2 rounded-full hover:bg-stone-200 dark:hover:bg-stone-600 z-1
             hover:dark:text-stone-300 outline-none relative">
           <DotsVerticalIcon />
-        </button>
-
-        {/* submenu */}
-        {visibleMenus[i.id] && (
-          <div
-            id="submenu-content"
-            ref={el => {
-              menuRefs.current[i.id] = el;
-            }}
-            className="absolute z-50 bg-stone-100 dark:bg-stone-500 dark:text-stone-900 
+          {/* submenu */}
+          {visibleMenus[i.id] && (
+            <div
+              id="submenu-content"
+              ref={el => {
+                menuRefs.current[i.id] = el;
+              }}
+              className="absolute z-10 bg-stone-100 dark:bg-stone-500 dark:text-stone-900 
               shadow-md flex flex-col rounded-sm"
-            style={{
-              top: '100%',
-              right: 0,
-              minWidth: '150px',
-            }}>
-            <button onClick={() => handlePin(i.id)} className="text-xs">
-              <div
-                className="flex gap-2 p-4 hover:bg-stone-200 dark:hover:bg-stone-600 rounded-sm
+              style={{
+                top: '100%',
+                right: 0,
+                minWidth: '150px',
+              }}>
+              <button onClick={() => handlePin(i.id)} className="text-xs">
+                <div
+                  className="flex gap-2 p-4 hover:bg-stone-200 dark:hover:bg-stone-600 rounded-sm
                hover:dark:text-stone-300 items-center">
-                <DrawingPinIcon />
-                Pin draft <small>(Soon™)</small>
-              </div>
-            </button>
+                  <DrawingPinIcon />
+                  Pin <small>(Soon™)</small>
+                </div>
+              </button>
 
-            <button onClick={() => handleDelete(i.id)} className="text-xs">
-              <div
-                className="flex gap-2 p-4 hover:bg-stone-200 dark:hover:bg-stone-600 rounded-sm
+              <button onClick={e => handleDelete(i.id, e)} className="text-xs">
+                <div
+                  className="flex gap-2 p-4 hover:bg-stone-200 dark:hover:bg-stone-600 rounded-sm
                hover:dark:text-stone-300 items-center">
-                <TrashIcon />
-                Delete
-              </div>
-            </button>
+                  <TrashIcon />
+                  Delete
+                </div>
+              </button>
 
-            <button onClick={() => handleDuplicate(i.id)} className="text-xs">
-              <div
-                className="flex gap-2 p-4 hover:bg-stone-200 dark:hover:bg-stone-600 rounded-sm
+              <button
+                onClick={e => handleDuplicate(i.id, e)}
+                className="text-xs">
+                <div
+                  className="flex gap-2 p-4 hover:bg-stone-200 dark:hover:bg-stone-600 rounded-sm
                hover:dark:text-stone-300 items-center">
-                <CopyIcon />
-                Duplicate
-              </div>
-            </button>
+                  <CopyIcon />
+                  Duplicate
+                </div>
+              </button>
 
-            <button className="text-xs">
-              <div
-                className="flex gap-2 p-4 hover:bg-stone-200 dark:hover:bg-stone-600 rounded-sm
+              <Link
+                target="_blank"
+                href={`/daos/${name}/${i.id}?selectedProject=${i.project}`}
+                className="text-xs"
+                rel="noopener noreferrer">
+                <div
+                  className="flex gap-2 p-4 hover:bg-stone-200 dark:hover:bg-stone-600 rounded-sm
                hover:dark:text-stone-300 items-center">
-                <ExternalLinkIcon />
-                Open in new tab <small>(Soon™)</small>
-              </div>
-            </button>
-          </div>
-        )}
+                  <ExternalLinkIcon />
+                  Open in new tab
+                </div>
+              </Link>
+            </div>
+          )}
+        </button>
       </div>
     ));
 };

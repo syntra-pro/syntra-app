@@ -10,7 +10,6 @@ interface ProjectListProps {
 
 export const ProjectList = ({ projects, handleSelect }: ProjectListProps) => {
   const [selectedP, setSelectedP] = useState(ALL_DOCS_FOLDER);
-  console.log('projects ', projects);
   const handleClick = (project: string) => {
     setSelectedP(project);
     handleSelect(project);

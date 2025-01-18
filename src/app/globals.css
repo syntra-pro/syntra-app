@@ -127,20 +127,6 @@
   }
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #03081192; /* Color más oscuro */
-  border-radius: 0px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: #e2e8f07b; /* Color de la pista */
-}
-
 @keyframes scroll {
   0% {
     transform: translateX(100%);
@@ -154,9 +140,30 @@
   animation: scroll 10s linear infinite;
 }
 
-/* Estilos generales para el contenedor */
 .editor-container {
   font-family: Arial, sans-serif;
   /* line-height: 1.6; */
   padding: 20px;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.hover\:animate-marquee:hover {
+  animation: marquee 5s linear infinite;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: clip;
+  text-overflow: unset;
+}
+
+.relative {
+  max-width: 100%;
+  display: inline-block;
 }

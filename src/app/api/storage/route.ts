@@ -1,3 +1,5 @@
+'use server';
+
 import { get, getDatabase, push, ref, remove, set } from 'firebase/database';
 
 import { NextResponse } from 'next/server';
@@ -72,6 +74,7 @@ export async function POST(req: Request) {
       );
     }
 
+    console.log('CONTENT ', content);
     if (isNew) {
       const incompletePath = `documents/${pathName}`;
       console.log('incompletePath ', incompletePath);
